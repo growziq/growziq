@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Growziq | Our Portfolio</title>
+    <meta name="description" content="Explore real websites built by Growziq for local businesses. See our work and get inspired for your own professional web presence.">
+    <link rel="canonical" href="https://growziq.com/portfolio.html">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Growziq | Portfolio">
+    <meta property="og:description" content="View our recent web projects for local businesses. High-quality work at honest prices.">
+    <meta property="og:url" content="https://growziq.com/portfolio.html">
+    <meta property="og:type" content="website">
+
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="tailwind.config.js"></script>
+
+    <link rel="stylesheet" href="./assets/css/styles.css">
+    <script src="./assets/js/main.js" defer></script>
+</head>
+<body class="bg-brand-white text-gray-600 font-poppins text-base">
+
+    <header id="navbar" class="fixed top-0 left-0 w-full z-50 border-b border-white/70 bg-white/85 backdrop-blur-xl shadow-[0_12px_32px_-20px_rgba(15,23,42,0.35)] transition-all duration-300">
+        <div class="max-w-container mx-auto px-5">
+            <div class="flex h-20 items-center justify-between gap-4">
+                <a href="index.html" class="nav-link nav-logo flex items-center gap-3" data-target="home">
+                    <img src="assets/img/logo.webp" alt="Growziq" class="h-9 sm:h-10 hover:scale-105 transition-transform duration-300">
+                </a>
+                <nav class="hidden lg:flex items-center gap-2">
+                    <a href="index.html" class="nav-link px-4 py-2 text-sm font-semibold text-gray-600 hover:text-brand-dark" data-target="home">Home</a>
+                    <a href="services.html" class="nav-link px-4 py-2 text-sm font-semibold text-gray-600 hover:text-brand-dark" data-target="services">Services</a>
+                    <a href="portfolio.html" class="nav-link px-4 py-2 text-sm font-semibold text-gray-600 hover:text-brand-dark active" data-target="portfolio">Work</a>
+                    <a href="about.html" class="nav-link px-4 py-2 text-sm font-semibold text-gray-600 hover:text-brand-dark" data-target="about">About</a>
+                    <a href="contact.html" class="nav-link cta-premium ml-2" data-target="contact">
+                        <span>Get Started <i class="fa-solid fa-arrow-right text-xs"></i></span>
+                    </a>
+                </nav>
+                <button id="mobile-menu-btn" class="lg:hidden inline-flex h-11 w-11 items-center justify-center rounded-xl border border-gray-200 bg-white text-brand-dark shadow-sm hover:border-brand-purple transition-colors duration-300" aria-expanded="false" aria-controls="mobile-menu" aria-label="Toggle menu">
+                    <i class="fa-solid fa-bars-staggered"></i>
+                </button>
+            </div>
+            <div id="mobile-menu" class="hidden lg:hidden pb-5">
+                <div class="rounded-2xl border border-gray-100 bg-white/95 backdrop-blur-lg p-3 shadow-xl">
+                    <div class="grid gap-2 text-center">
+                        <a href="index.html" class="nav-link rounded-xl px-4 py-3 font-semibold text-gray-600 hover:bg-gray-50 hover:text-brand-dark" data-target="home">Home</a>
+                        <a href="services.html" class="nav-link rounded-xl px-4 py-3 font-semibold text-gray-600 hover:bg-gray-50 hover:text-brand-dark" data-target="services">Services</a>
+                        <a href="portfolio.html" class="nav-link rounded-xl px-4 py-3 font-semibold text-gray-600 hover:bg-gray-50 hover:text-brand-dark active" data-target="portfolio">Work</a>
+                        <a href="about.html" class="nav-link rounded-xl px-4 py-3 font-semibold text-gray-600 hover:bg-gray-50 hover:text-brand-dark" data-target="about">About</a>
+                        <a href="contact.html" class="nav-link cta-premium mt-1 flex items-center justify-center" data-target="contact">
+                            <span>Get Started <i class="fa-solid fa-arrow-right text-xs ml-1"></i></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main id="app-container" class="pt-20">
+        <div id="view-portfolio" class="view-section">
+
+            <!-- Hero -->
+            <section class="py-12 sm:py-16 md:py-24 bg-white relative overflow-hidden">
+                <div class="parallax-orb parallax-orb--purple w-[300px] h-[300px] -top-16 -right-20 float-anim"></div>
+                <div class="max-w-container mx-auto px-5 text-center relative z-10">
+                    <h1 class="hero-headline text-3xl sm:text-4xl md:text-[56px] leading-[1.25] md:leading-[1.2] text-brand-dark mb-4 sm:mb-6">Real Businesses. Real Websites. <span class="text-brand-action">Real Projects.</span></h1>
+                    <p class="text-base sm:text-lg text-gray-600 mb-8 sm:mb-12 max-w-xl mx-auto">No fake agency mockups. Just honest, delivered work for actual clients.</p>
+
+                    <!-- Filter Bar -->
+                    <div class="flex flex-wrap justify-center gap-2 sm:gap-3 mb-10 sm:mb-16">
+                        <button data-filter="all" class="px-4 sm:px-5 py-2 rounded-full bg-brand-dark text-white font-medium text-sm">All</button>
+                        <button data-filter="starter" class="px-4 sm:px-5 py-2 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium text-sm transition">Starter</button>
+                        <button data-filter="growth" class="px-4 sm:px-5 py-2 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium text-sm transition">Growth</button>
+                        <button data-filter="business" class="px-4 sm:px-5 py-2 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium text-sm transition">Business</button>
+                    </div>
+
+                    <!-- Projects Grid -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 text-left mb-10 sm:mb-16">
+
+                        <!-- Project 1: Kaushal Uphaar -->
+                        <div data-plan="starter" class="portfolio-card card-3d group border border-gray-200 bg-white flex flex-col">
+                            <div class="card-image bg-gray-100 h-48 sm:h-56 w-full border-b border-gray-200 flex items-center justify-center">
+                                <div class="text-center p-6">
+                                    <div class="w-16 h-16 bg-pink-100 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                                        <i class="fa-solid fa-gift text-2xl text-pink-400"></i>
+                                    </div>
+                                    <p class="text-sm font-semibold text-gray-500">Gift Shop Landing Page</p>
+                                </div>
+                            </div>
+                            <div class="p-5 sm:p-6 bg-white flex-1 flex flex-col">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="font-bold text-lg sm:text-xl text-brand-dark">Kaushal Uphaar</h3>
+                                    <span class="text-[10px] font-bold uppercase tracking-wider bg-gray-100 text-gray-600 px-2 py-1 rounded">Starter</span>
+                                </div>
+                                <p class="text-sm text-gray-500 mb-4 sm:mb-6">Local Gift Shop</p>
+                                <div class="mt-auto flex flex-col gap-2">
+                                    <a href="https://kaushaluphaar.pages.dev" target="_blank" rel="noopener noreferrer" class="cta-premium w-full text-center text-sm"><span>View Live Site <i class="fa-solid fa-arrow-up-right-from-square text-xs ml-1"></i></span></a>
+                                    <a href="contact.html" class="nav-link cta-premium-outline w-full text-center text-sm" data-target="contact"><span>Get a similar site →</span></a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Project 2: Simran Printers -->
+                        <div data-plan="growth" class="portfolio-card card-3d group border border-gray-200 bg-white flex flex-col">
+                            <div class="card-image bg-gray-100 h-48 sm:h-56 w-full border-b border-gray-200 flex items-center justify-center">
+                                <div class="text-center p-6">
+                                    <div class="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                                        <i class="fa-solid fa-print text-2xl text-blue-400"></i>
+                                    </div>
+                                    <p class="text-sm font-semibold text-gray-500">Multi-page Business Site</p>
+                                </div>
+                            </div>
+                            <div class="p-5 sm:p-6 bg-white flex-1 flex flex-col">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="font-bold text-lg sm:text-xl text-brand-dark">Simran Printers</h3>
+                                    <span class="text-[10px] font-bold uppercase tracking-wider bg-amber-100 text-amber-800 px-2 py-1 rounded">Growth</span>
+                                </div>
+                                <p class="text-sm text-gray-500 mb-4 sm:mb-6">Commercial Printing</p>
+                                <div class="mt-auto flex flex-col gap-2">
+                                    <a href="#" class="cta-premium w-full text-center text-sm"><span>View Live Site <i class="fa-solid fa-arrow-up-right-from-square text-xs ml-1"></i></span></a>
+                                    <a href="contact.html" class="nav-link cta-premium-outline w-full text-center text-sm" data-target="contact"><span>Get a similar site →</span></a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Project 3: Rohit Garments -->
+                        <div data-plan="starter" class="portfolio-card card-3d group border border-gray-200 bg-white flex flex-col">
+                            <div class="card-image bg-gray-100 h-48 sm:h-56 w-full border-b border-gray-200 flex items-center justify-center">
+                                <div class="text-center p-6">
+                                    <div class="w-16 h-16 bg-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                                        <i class="fa-solid fa-shirt text-2xl text-purple-400"></i>
+                                    </div>
+                                    <p class="text-sm font-semibold text-gray-500">Retail Landing Page</p>
+                                </div>
+                            </div>
+                            <div class="p-5 sm:p-6 bg-white flex-1 flex flex-col">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="font-bold text-lg sm:text-xl text-brand-dark">Rohit Garments</h3>
+                                    <span class="text-[10px] font-bold uppercase tracking-wider bg-gray-100 text-gray-600 px-2 py-1 rounded">Starter</span>
+                                </div>
+                                <p class="text-sm text-gray-500 mb-4 sm:mb-6">Retail Clothing</p>
+                                <div class="mt-auto flex flex-col gap-2">
+                                    <a href="#" class="cta-premium w-full text-center text-sm"><span>View Live Site <i class="fa-solid fa-arrow-up-right-from-square text-xs ml-1"></i></span></a>
+                                    <a href="contact.html" class="nav-link cta-premium-outline w-full text-center text-sm" data-target="contact"><span>Get a similar site →</span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="text-gray-500 font-medium text-sm sm:text-base">More projects launching soon.</p>
+                </div>
+            </section>
+
+            <!-- Social Proof Ticker -->
+            <div class="ticker-wrap">
+                <div class="ticker font-semibold text-gray-500 text-sm">
+                    <span class="mx-6"><i class="fa-solid fa-circle-check text-brand-cyan mr-1"></i> Local Businesses</span>
+                    <span class="mx-6"><i class="fa-solid fa-circle-check text-brand-cyan mr-1"></i> Instagram Sellers</span>
+                    <span class="mx-6"><i class="fa-solid fa-circle-check text-brand-cyan mr-1"></i> Creators</span>
+                    <span class="mx-6"><i class="fa-solid fa-circle-check text-brand-cyan mr-1"></i> Shop Owners</span>
+                    <span class="mx-6"><i class="fa-solid fa-circle-check text-brand-cyan mr-1"></i> Personal Brands</span>
+                    <span class="mx-6"><i class="fa-solid fa-circle-check text-brand-cyan mr-1"></i> Local Businesses</span>
+                    <span class="mx-6"><i class="fa-solid fa-circle-check text-brand-cyan mr-1"></i> Instagram Sellers</span>
+                    <span class="mx-6"><i class="fa-solid fa-circle-check text-brand-cyan mr-1"></i> Creators</span>
+                    <span class="mx-6"><i class="fa-solid fa-circle-check text-brand-cyan mr-1"></i> Shop Owners</span>
+                </div>
+            </div>
+
+            <!-- Sticky Notes Reviews -->
+            <section class="py-20 bg-[#fafafa] overflow-hidden">
+                <div class="max-w-container mx-auto px-5 text-center mb-12">
+                    <h2 class="section-headline text-3xl md:text-4xl text-brand-dark mb-4">What our clients say</h2>
+                    <p class="text-gray-600">Honest feedback from local business owners.</p>
+                </div>
+                
+                <div class="max-w-container mx-auto px-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 items-start">
+                    <!-- Note 1 -->
+                    <div class="relative bg-[#fff9c4] p-6 shadow-md -rotate-2 hover:rotate-0 transition-transform duration-300 border-l-4 border-yellow-400 min-h-[220px] flex flex-col justify-between">
+                        <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-12 h-6 bg-white/40 backdrop-blur-sm shadow-sm rotate-2"></div>
+                        <p class="text-gray-800 text-sm leading-relaxed italic">"Growziq saved me so much time. I didn't have to learn any tech. I just shared my menu and pictures, and they built it!"</p>
+                        <div class="mt-4 pt-4 border-t border-yellow-200/50">
+                            <p class="font-bold text-xs text-brand-dark">Sanjay, Sweet Corner</p>
+                            <p class="text-[10px] text-gray-500 uppercase tracking-wider">Ludhiana</p>
+                        </div>
+                    </div>
+
+                    <!-- Note 2 -->
+                    <div class="relative bg-[#e3f2fd] p-6 shadow-md rotate-3 hover:rotate-0 transition-transform duration-300 border-l-4 border-blue-400 min-h-[220px] flex flex-col justify-between">
+                        <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-12 h-6 bg-white/40 backdrop-blur-sm shadow-sm -rotate-1"></div>
+                        <p class="text-gray-800 text-sm leading-relaxed italic">"Most professional team I've worked with. No hidden fees. The fixed price for my boutique's site was perfect for my budget."</p>
+                        <div class="mt-4 pt-4 border-t border-blue-200/50">
+                            <p class="font-bold text-xs text-brand-dark">Priya K., Ethnic Wear</p>
+                            <p class="text-[10px] text-gray-500 uppercase tracking-wider">Amritsar</p>
+                        </div>
+                    </div>
+
+                    <!-- Note 3 -->
+                    <div class="relative bg-[#f1f8e9] p-6 shadow-md -rotate-1 hover:rotate-0 transition-transform duration-300 border-l-4 border-green-400 min-h-[220px] flex flex-col justify-between lg:mt-4">
+                        <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-12 h-6 bg-white/40 backdrop-blur-sm shadow-sm rotate-3"></div>
+                        <p class="text-gray-800 text-sm leading-relaxed italic">"I own a small gym and didn't think I needed a site. But now clients find me on Google! Very happy with Growziq's support."</p>
+                        <div class="mt-4 pt-4 border-t border-green-200/50">
+                            <p class="font-bold text-xs text-brand-dark">Vikram S., Power Gym</p>
+                            <p class="text-[10px] text-gray-500 uppercase tracking-wider">Jalandhar</p>
+                        </div>
+                    </div>
+
+                    <!-- Note 4 -->
+                    <div class="relative bg-[#fce4ec] p-6 shadow-md rotate-2 hover:rotate-0 transition-transform duration-300 border-l-4 border-pink-400 min-h-[220px] flex flex-col justify-between">
+                        <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-12 h-6 bg-white/40 backdrop-blur-sm shadow-sm -rotate-2"></div>
+                        <p class="text-gray-800 text-sm leading-relaxed italic">"They explained everything so simply. I own my site 100% now. No forced monthly fees like other agencies."</p>
+                        <div class="mt-4 pt-4 border-t border-pink-200/50">
+                            <p class="font-bold text-xs text-brand-dark">Rahul, Local Startup</p>
+                            <p class="text-[10px] text-gray-500 uppercase tracking-wider">Delhi</p>
+                        </div>
+                    </div>
+
+                    <!-- Note 5 -->
+                    <div class="relative bg-[#f3e5f5] p-6 shadow-md -rotate-3 hover:rotate-0 transition-transform duration-300 border-l-4 border-purple-400 min-h-[220px] flex flex-col justify-between lg:mt-2">
+                        <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-12 h-6 bg-white/40 backdrop-blur-sm shadow-sm rotate-1"></div>
+                        <p class="text-gray-800 text-sm leading-relaxed italic">"The presentation of the site is ethereal! Supportive team and quick delivery. Best decision for my dental clinic."</p>
+                        <div class="mt-4 pt-4 border-t border-purple-200/50">
+                            <p class="font-bold text-xs text-brand-dark">Dr. Mehta, Smile Care</p>
+                            <p class="text-[10px] text-gray-500 uppercase tracking-wider">Chandigarh</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Closing CTA -->
+            <section class="py-12 sm:py-16 md:py-24 bg-white text-center">
+                <div class="max-w-container mx-auto px-5">
+                    <div class="bg-brand-dark rounded-2xl py-12 sm:py-16 px-5 sm:px-10 shadow-sm relative overflow-hidden">
+                        <div class="parallax-orb parallax-orb--purple w-[150px] h-[150px] top-0 right-0 opacity-15"></div>
+                        <div class="relative z-10">
+                            <h2 class="hero-headline text-2xl sm:text-3xl md:text-5xl text-white mb-6 sm:mb-10">Your business could be next.</h2>
+                            <a href="contact.html" class="nav-link cta-premium py-4 px-8 sm:px-10 text-base sm:text-lg" data-target="contact">
+                                <span>Get Started <i class="fa-solid fa-arrow-right"></i></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="growziq-footer">
+        <div class="footer-growziq-content">
+            <div class="footer-section">
+                <h4>Growziq</h4>
+                <p>Grow with us</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <a href="services.html">Services &amp; Plans</a>
+                <a href="about.html">About Us</a>
+                <a href="portfolio.html">Our Work</a>
+            </div>
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <a href="tos.html">Terms of Service</a>
+                <a href="privacy.html">Privacy Policy</a>
+            </div>
+            <div class="footer-section">
+                <h4>Follow</h4>
+                <a href="https://www.instagram.com/growziq/" target="_blank" rel="noopener noreferrer">Instagram</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Growziq&trade; | All rights reserved</p>
+        </div>
+    </footer>
+
+</body>
+</html>

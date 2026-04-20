@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing & Plans - Growziq | Affordable Websites for Local Businesses</title>
+    <meta name="description" content="Transparent, fixed pricing for professional websites. Starting at ₹599, one-time payment, no monthly fees. Choose the plan that fits your business.">
+    <meta property="og:title" content="Pricing & Plans - Growziq">
+    <meta property="og:description" content="Professional websites starting at ₹599. One-time payment, full ownership.">
+    <meta property="og:type" content="website">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="tailwind.config.js"></script>
+
+    <link rel="stylesheet" href="./assets/css/styles.css">
+    <script src="./assets/js/main.js" defer></script>
+</head>
+<body class="bg-brand-white text-gray-600 font-poppins text-base">
+
+    <header id="navbar" class="fixed top-0 left-0 w-full z-50 border-b border-white/70 bg-white/85 backdrop-blur-xl shadow-[0_12px_32px_-20px_rgba(15,23,42,0.35)] transition-all duration-300">
+        <div class="max-w-container mx-auto px-5">
+            <div class="flex h-20 items-center justify-between gap-4">
+                <a href="index.html" class="nav-link nav-logo flex items-center gap-3" data-target="home">
+                    <img src="assets/img/logo.webp" alt="Growziq" class="h-9 sm:h-10 hover:scale-105 transition-transform duration-300">
+                </a>
+                <nav class="hidden lg:flex items-center gap-2">
+                    <a href="index.html" class="nav-link px-4 py-2 text-sm font-semibold text-gray-600 hover:text-brand-dark" data-target="home">Home</a>
+                    <a href="services.html" class="nav-link px-4 py-2 text-sm font-semibold text-gray-600 hover:text-brand-dark active" data-target="services">Services</a>
+                    <a href="portfolio.html" class="nav-link px-4 py-2 text-sm font-semibold text-gray-600 hover:text-brand-dark" data-target="portfolio">Work</a>
+                    <a href="about.html" class="nav-link px-4 py-2 text-sm font-semibold text-gray-600 hover:text-brand-dark" data-target="about">About</a>
+                    <a href="contact.html" class="nav-link cta-premium ml-2" data-target="contact">
+                        <span>Get Started <i class="fa-solid fa-arrow-right text-xs"></i></span>
+                    </a>
+                </nav>
+                <button id="mobile-menu-btn" class="lg:hidden inline-flex h-11 w-11 items-center justify-center rounded-xl border border-gray-200 bg-white text-brand-dark shadow-sm hover:border-brand-purple transition-colors duration-300" aria-expanded="false" aria-controls="mobile-menu" aria-label="Toggle menu">
+                    <i class="fa-solid fa-bars-staggered"></i>
+                </button>
+            </div>
+            <div id="mobile-menu" class="hidden lg:hidden pb-5">
+                <div class="rounded-2xl border border-gray-100 bg-white/95 backdrop-blur-lg p-3 shadow-xl">
+                    <div class="grid gap-2 text-center">
+                        <a href="index.html" class="nav-link rounded-xl px-4 py-3 font-semibold text-gray-600 hover:bg-gray-50 hover:text-brand-dark" data-target="home">Home</a>
+                        <a href="services.html" class="nav-link rounded-xl px-4 py-3 font-semibold text-gray-600 hover:bg-gray-50 hover:text-brand-dark active" data-target="services">Services</a>
+                        <a href="portfolio.html" class="nav-link rounded-xl px-4 py-3 font-semibold text-gray-600 hover:bg-gray-50 hover:text-brand-dark" data-target="portfolio">Work</a>
+                        <a href="about.html" class="nav-link rounded-xl px-4 py-3 font-semibold text-gray-600 hover:bg-gray-50 hover:text-brand-dark" data-target="about">About</a>
+                        <a href="contact.html" class="nav-link cta-premium mt-1 flex items-center justify-center" data-target="contact">
+                            <span>Get Started <i class="fa-solid fa-arrow-right text-xs ml-1"></i></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main id="app-container" class="pt-20">
+        <div id="view-services" class="view-section">
+
+            <!-- Hero Section -->
+            <section class="py-16 sm:py-20 md:py-24 bg-brand-white relative overflow-hidden">
+                <div class="parallax-orb parallax-orb--purple w-[350px] h-[350px] -top-16 -right-24 float-anim"></div>
+                <div class="parallax-orb parallax-orb--cyan w-[250px] h-[250px] bottom-10 -left-16 pulse-anim"></div>
+                <div class="max-w-container mx-auto px-5 grid md:grid-cols-2 gap-12 items-center relative z-10">
+                    <div class="max-w-xl">
+                        <h1 class="hero-headline text-3xl sm:text-4xl md:text-5xl text-brand-dark mb-6">
+                            Transparent pricing. <span class="text-brand-action block">No surprises. Ever.</span>
+                        </h1>
+                        <p class="text-lg text-gray-600 mb-8 leading-relaxed">
+                            One-time payment. You own everything. Pick the plan that matches your business right now - upgrade anytime.
+                        </p>
+                        <div class="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm font-semibold text-gray-500">
+                            <div class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-action"></i> Fixed Price</div>
+                            <div class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-action"></i> No Monthly Fees</div>
+                            <div class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-action"></i> 100% Ownership</div>
+                        </div>
+                    </div>
+                    <!-- Abstract Tech Visual -->
+                    <!-- WhatsApp-style Chat Visual -->
+                    <div class="flex justify-center md:justify-end">
+                        <div class="whatsapp-mockup card-3d shadow-2xl rounded-2xl overflow-hidden w-full max-w-[340px] bg-[#E5DDD5] border border-gray-200">
+                            <!-- WA Header -->
+                            <div class="bg-[#075E54] p-3 flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white">
+                                    <i class="fa-solid fa-user-tie text-sm"></i>
+                                </div>
+                                <div>
+                                    <div class="text-white text-xs font-bold">Growziq Support</div>
+                                    <div class="text-white/70 text-[9px]">Online</div>
+                                </div>
+                                <div class="ml-auto flex gap-3 text-white/80 text-xs">
+                                    <i class="fa-solid fa-video"></i>
+                                    <i class="fa-solid fa-phone"></i>
+                                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                                </div>
+                            </div>
+                            
+                            <!-- WA Chat Body -->
+                            <div class="wa-chat-body p-4 pb-12 space-y-3 h-[400px] overflow-hidden relative">
+                                <!-- Message 1 -->
+                                <div class="wa-bubble incoming opacity-0 translate-y-2">
+                                    <div class="bg-white p-2.5 rounded-lg rounded-tl-none shadow-sm text-[11px] text-gray-800 max-w-[85%] relative">
+                                        Hi! I need a website for my business. What are the plans?
+                                        <div class="text-[8px] text-gray-400 text-right mt-1">10:42 AM</div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Message 2 -->
+                                <div class="wa-bubble outgoing opacity-0 translate-y-2 flex justify-end">
+                                    <div class="bg-[#DCF8C6] p-2.5 rounded-lg rounded-tr-none shadow-sm text-[11px] text-gray-800 max-w-[85%] relative">
+                                        We have plans starting at just ₹599! 🚀
+                                        <div class="text-[8px] text-gray-500 text-right mt-1">10:42 AM <i class="fa-solid fa-check-double text-blue-400 ml-1"></i></div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Message 3 -->
+                                <div class="wa-bubble incoming opacity-0 translate-y-2">
+                                    <div class="bg-white p-2.5 rounded-lg rounded-tl-none shadow-sm text-[11px] text-gray-800 max-w-[85%] relative">
+                                        Is it a one-time payment or monthly?
+                                        <div class="text-[8px] text-gray-400 text-right mt-1">10:43 AM</div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Message 4 -->
+                                <div class="wa-bubble outgoing opacity-0 translate-y-2 flex justify-end">
+                                    <div class="bg-[#DCF8C6] p-2.5 rounded-lg rounded-tr-none shadow-sm text-[11px] text-gray-800 max-w-[85%] relative">
+                                        100% One-time. You own it forever. No hidden fees. ✅
+                                        <div class="text-[8px] text-gray-500 text-right mt-1">10:43 AM <i class="fa-solid fa-check-double text-blue-400 ml-1"></i></div>
+                                    </div>
+                                </div>
+
+                                <!-- Message 5: Price Highlight -->
+                                <div class="wa-bubble outgoing opacity-0 translate-y-2 flex justify-end">
+                                    <div class="bg-[#DCF8C6] p-2.5 rounded-lg rounded-tr-none shadow-sm text-[11px] font-bold text-brand-action max-w-[85%] relative">
+                                        Starts at just ₹599! 💎
+                                        <div class="text-[8px] text-gray-500 text-right mt-1">10:43 AM <i class="fa-solid fa-check-double text-blue-400 ml-1"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Scope Confirmed Overlay -->
+                            <div class="wa-scope-overlay absolute inset-0 z-20 flex items-center justify-center opacity-0 pointer-events-none transition-all duration-500">
+                                <div class="bg-white/90 backdrop-blur-sm shadow-2xl rounded-2xl p-6 border border-brand-purple/20 text-center scale-75 transition-transform duration-500">
+                                    <div class="w-12 h-12 bg-brand-action rounded-full flex items-center justify-center text-white mx-auto mb-3 shadow-lg">
+                                        <i class="fa-solid fa-check text-xl"></i>
+                                    </div>
+                                    <div class="text-brand-purple font-extrabold text-sm uppercase tracking-wider">Scope Confirmed</div>
+                                    <div class="text-[10px] text-gray-400 mt-1">Ready to Build</div>
+                                </div>
+                            </div>
+
+                            <!-- WA Input Area -->
+                            <div class="bg-gray-50 p-2 flex items-center gap-2">
+                                <div class="flex-1 bg-white rounded-full h-8 flex items-center px-3 border border-gray-200">
+                                    <div class="text-[10px] text-gray-400 italic">Type a message...</div>
+                                </div>
+                                <div class="w-8 h-8 rounded-full bg-[#075E54] flex items-center justify-center text-white text-xs">
+                                    <i class="fa-solid fa-paper-plane"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Social Proof Ticker -->
+            <div class="ticker-wrap border-y border-gray-100">
+                <div class="ticker font-semibold text-gray-500 text-sm">
+                    <span class="mx-6"><i class="fa-solid fa-circle-check text-brand-cyan mr-1"></i> Local Businesses</span>
+                    <span class="mx-6"><i class="fa-solid fa-circle-check text-brand-cyan mr-1"></i> Instagram Sellers</span>
+                    <span class="mx-6"><i class="fa-solid fa-circle-check text-brand-cyan mr-1"></i> Creators</span>
+                    <span class="mx-6"><i class="fa-solid fa-circle-check text-brand-cyan mr-1"></i> Shop Owners</span>
+                    <span class="mx-6"><i class="fa-solid fa-circle-check text-brand-cyan mr-1"></i> Personal Brands</span>
+                    <span class="mx-6"><i class="fa-solid fa-circle-check text-brand-cyan mr-1"></i> Local Businesses</span>
+                    <span class="mx-6"><i class="fa-solid fa-circle-check text-brand-cyan mr-1"></i> Instagram Sellers</span>
+                    <span class="mx-6"><i class="fa-solid fa-circle-check text-brand-cyan mr-1"></i> Creators</span>
+                    <span class="mx-6"><i class="fa-solid fa-circle-check text-brand-cyan mr-1"></i> Shop Owners</span>
+                </div>
+            </div>
+
+            <!-- Pricing Cards -->
+            <section id="pricing-section" class="pricing-showcase py-16 sm:py-20 md:py-24 bg-brand-accent">
+                <div class="max-w-container mx-auto px-5">
+                    <div class="text-center max-w-2xl mx-auto mb-16">
+                        <h2 class="section-headline text-3xl md:text-4xl text-brand-dark mb-4">Choose your plan</h2>
+                        <p class="text-gray-700">Every plan includes 100% ownership, mobile responsiveness, and a professional build.</p>
+                    </div>
+
+                    <div class="pricing-cards-shell">
+                        <div id="pricing-cards-track" class="flex flex-col md:flex-row gap-8 md:gap-6 pt-4 pb-6 px-4 md:px-0">
+
+                        <!-- Starter -->
+                        <div class="pricing-card card-3d bg-white rounded-2xl p-6 sm:p-7 w-full max-w-md mx-auto md:max-w-none md:flex-1 border border-gray-100 shadow-sm flex flex-col relative">
+                            <h3 class="font-bold text-xl text-brand-dark">Starter</h3>
+                            <div class="text-3xl font-extrabold text-brand-action my-4">&#8377;599 <span class="text-sm text-gray-400 font-normal">one time</span></div>
+                            <ul class="text-sm space-y-3 mb-8 flex-1 text-gray-600">
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-green-500 mt-1"></i> 1 Simple Page</li>
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-green-500 mt-1"></i> Mobile Responsive</li>
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-green-500 mt-1"></i> Quick Action Button</li>
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-shield-halved text-brand-action mt-1"></i> 100% Ownership</li>
+                            </ul>
+                            <a href="contact.html" class="nav-link cta-premium w-full" data-target="contact"><span>Get Started</span></a>
+                        </div>
+
+                        <!-- Growth (Most Popular) -->
+                        <div class="pricing-card card-3d pricing-card-popular bg-white rounded-2xl p-6 sm:p-7 w-full max-w-md mx-auto md:max-w-none md:flex-1 flex flex-col relative">
+                            <div class="flex justify-center mb-5">
+                                <span class="inline-flex items-center gap-1.5 bg-black text-[#FFD700] border border-[#FFD700]/50 text-[10px] font-bold px-4 py-1.5 rounded-full uppercase tracking-widest shadow-lg">
+                                    <i class="fa-solid fa-star text-[9px]"></i> Most Popular
+                                </span>
+                            </div>
+                            <h3 class="font-bold text-xl text-brand-dark">Growth</h3>
+                            <div class="text-4xl font-extrabold text-brand-action my-4">&#8377;999 <span class="text-sm text-gray-400 font-normal">one time</span></div>
+                            <ul class="text-sm space-y-3 mb-8 flex-1 text-gray-600">
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-green-500 mt-1"></i> Up to 4 Pages (4 URLs)</li>
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-green-500 mt-1"></i> Basic SEO Setup</li>
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-green-500 mt-1"></i> Lead Capture Section</li>
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-green-500 mt-1"></i> XML Sitemap &amp; Robots.txt</li>
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-shield-halved text-brand-action mt-1"></i> 100% Ownership</li>
+                            </ul>
+                            <a href="contact.html" class="nav-link cta-premium w-full" data-target="contact"><span>Get Started</span></a>
+                        </div>
+
+                        <!-- Business -->
+                        <div class="pricing-card card-3d bg-white rounded-2xl p-6 sm:p-7 w-full max-w-md mx-auto md:max-w-none md:flex-1 border border-gray-100 shadow-sm flex flex-col relative">
+                            <h3 class="font-bold text-xl text-brand-dark">Business</h3>
+                            <div class="text-3xl font-extrabold text-brand-action my-4">&#8377;2,499 <span class="text-sm text-gray-400 font-normal">one time</span></div>
+                            <ul class="text-sm space-y-3 mb-8 flex-1 text-gray-600">
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-green-500 mt-1"></i> Up to 6 Pages (6 URLs)</li>
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-green-500 mt-1"></i> Full On-Page SEO</li>
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-green-500 mt-1"></i> Google Search Console</li>
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-green-500 mt-1"></i> Google Analytics 4 Setup</li>
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-shield-halved text-brand-action mt-1"></i> 100% Ownership</li>
+                            </ul>
+                            <a href="contact.html" class="nav-link cta-premium w-full" data-target="contact"><span>Get Started</span></a>
+                        </div>
+
+                        <!-- Premium -->
+                        <div class="pricing-card card-3d bg-white rounded-2xl p-6 sm:p-7 min-w-[285px] sm:min-w-[300px] md:min-w-0 md:flex-1 snap-center shrink-0 border border-gray-100 shadow-sm flex flex-col relative">
+                            <h3 class="font-bold text-xl text-brand-dark">Premium</h3>
+                            <div class="text-3xl font-extrabold text-brand-action my-4">&#8377;4,499 <span class="text-sm text-gray-400 font-normal">one time</span></div>
+                            <ul class="text-sm space-y-3 mb-8 flex-1 text-gray-600">
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-green-500 mt-1"></i> Up to 10 Pages (10 URLs)</li>
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-green-500 mt-1"></i> Premium Design Layout</li>
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-check text-green-500 mt-1"></i> Full On-Page SEO</li>
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-star text-amber-400 mt-1"></i> 5 Free Content Edits</li>
+                                <li class="flex items-start gap-2"><i class="fa-solid fa-shield-halved text-brand-action mt-1"></i> 100% Ownership</li>
+                            </ul>
+                            <a href="contact.html" class="nav-link cta-premium w-full" data-target="contact"><span>Get Started</span></a>
+                        </div>
+                    </div>
+                    </div>
+
+                    <div class="text-center mt-10">
+                        <p class="max-w-2xl mx-auto text-sm text-gray-500">
+                            We start work as soon as your content is ready and payment is received. Because we reserve dedicated time for your project, we don't offer refunds once work begins, and we don't guarantee specific Google rankings-just a professional, high-performance site that's 100% yours.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Testimonial (Social Proof - placed above Add-Ons for trust) -->
+            <section class="py-16 sm:py-20 md:py-24 bg-brand-white border-b border-gray-200">
+                <div class="max-w-container mx-auto px-5">
+                    <div class="bg-gray-50 rounded-2xl p-8 md:p-12 border border-gray-100 max-w-4xl mx-auto relative card-3d">
+                        <i class="fa-solid fa-quote-left absolute top-4 left-4 sm:top-8 sm:left-8 text-4xl text-brand-accent opacity-50"></i>
+                        <div class="relative z-10 md:pl-10">
+                            <div class="flex gap-1 text-amber-400 mb-4 text-sm">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                            <p class="text-xl md:text-2xl font-medium text-gray-800 leading-relaxed italic mb-6">
+                                "I have received the website and it's working pretty well and properly organised and well structured. The presentation is ethereal. The team was so supportive and understanding. All the technical work was explained to me simply. Trusting you was a right choice."
+                            </p>
+                            <div>
+                                <h4 class="font-bold text-gray-900">Owner, Kaushal Uphaar</h4>
+                                <p class="text-sm text-gray-500">Local Gift Shop &bull; Starter Plan</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Add-Ons Table -->
+            <section class="py-16 sm:py-20 md:py-24 bg-white border-b border-gray-200">
+                <div class="max-w-container mx-auto px-5">
+                    <div class="text-center max-w-2xl mx-auto mb-12">
+                        <h2 class="section-headline text-3xl md:text-4xl text-brand-dark mb-4">Need something extra?</h2>
+                        <p class="text-gray-600">Optional add-ons you can bundle with any plan. All prices are one-time.</p>
+                    </div>
+
+                    <div class="max-w-3xl mx-auto bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
+                        <table class="addons-table">
+                            <thead>
+                                <tr>
+                                    <th>Add-On</th>
+                                    <th>Description</th>
+                                    <th>Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="font-semibold text-brand-dark">Extra Page</td>
+                                    <td>1 HTML file / URL. Design + layout + content placement.</td>
+                                    <td class="font-bold text-brand-action whitespace-nowrap">&#8377;300/page</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold text-brand-dark">Admin Panel - Simple</td>
+                                    <td>Client-editable text/images.</td>
+                                    <td class="font-bold text-brand-action whitespace-nowrap">&#8377;800</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold text-brand-dark">Admin Panel - Product</td>
+                                    <td>Product/dashboard management.</td>
+                                    <td class="font-bold text-brand-action whitespace-nowrap">&#8377;1,500</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold text-brand-dark">Product Upload</td>
+                                    <td>Upload and organize client product data.</td>
+                                    <td class="font-bold text-brand-action whitespace-nowrap">&#8377;20/product (min &#8377;300)</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold text-brand-dark">Domain Setup</td>
+                                    <td>Connect domain to hosting via DNS. Does not include domain purchase.</td>
+                                    <td class="font-bold text-brand-action whitespace-nowrap">&#8377;200</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold text-brand-dark">Speed Optimisation - Basic</td>
+                                    <td>Image compression, basic caching.</td>
+                                    <td class="font-bold text-brand-action whitespace-nowrap">&#8377;300</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold text-brand-dark">Speed Optimisation - Advanced</td>
+                                    <td>Full performance audit + implementation.</td>
+                                    <td class="font-bold text-brand-action whitespace-nowrap">&#8377;700</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold text-brand-dark">SEO Report + Fix</td>
+                                    <td>One-time SEO audit + on-page improvements.</td>
+                                    <td class="font-bold text-brand-action whitespace-nowrap">&#8377;500</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold text-brand-dark">Additional Edits (post-support)</td>
+                                    <td>Changes after 7-day support period.</td>
+                                    <td class="font-bold text-brand-action whitespace-nowrap">&#8377;100–&#8377;300/change</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold text-brand-dark">Custom Features</td>
+                                    <td>Any functionality outside standard scope. Quoted individually.</td>
+                                    <td class="font-bold text-brand-action whitespace-nowrap">&#8377;500–&#8377;3,000+</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Why Growziq? (Problem/Solution Reinforcement for hesitating users) -->
+            <section class="py-16 sm:py-20 md:py-24 bg-brand-dark text-white border-b border-gray-700">
+                <div class="max-w-container mx-auto px-5">
+                    <div class="text-center max-w-2xl mx-auto mb-16">
+                        <h2 class="section-headline text-3xl md:text-4xl text-white mb-4">Why Growziq?</h2>
+                        <p class="text-gray-400">Still deciding? Here's why local businesses trust us.</p>
+                    </div>
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <div class="rounded-2xl bg-gray-800 border border-gray-700 text-center p-8 transition-all duration-400 hover:-translate-y-1 hover:border-brand-action/30">
+                            <div class="bg-brand-action/20 text-brand-action w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-5 text-xl">
+                                <i class="fa-solid fa-tag"></i>
+                            </div>
+                            <h3 class="font-bold text-lg text-white mb-3">Fixed Price, No Tricks</h3>
+                            <p class="text-gray-300 text-sm">What you see on our pricing page is exactly what you pay. No hidden fees, no surprises after you commit.</p>
+                        </div>
+                        <div class="rounded-2xl bg-gray-800 border border-gray-700 text-center p-8 transition-all duration-400 hover:-translate-y-1 hover:border-brand-cyan/30">
+                            <div class="bg-brand-cyan/20 text-brand-cyan w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-5 text-xl">
+                                <i class="fa-solid fa-key"></i>
+                            </div>
+                            <h3 class="font-bold text-lg text-white mb-3">You Own Everything</h3>
+                            <p class="text-gray-300 text-sm">Full source code, all files, complete ownership. Host it wherever you want. No vendor lock-in.</p>
+                        </div>
+                        <div class="rounded-2xl bg-gray-800 border border-gray-700 text-center p-8 transition-all duration-400 hover:-translate-y-1 hover:border-amber-400/30">
+                            <div class="bg-amber-400/20 text-amber-400 w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-5 text-xl">
+                                <i class="fa-solid fa-bolt"></i>
+                            </div>
+                            <h3 class="font-bold text-lg text-white mb-3">Fast & Hassle-Free</h3>
+                            <p class="text-gray-300 text-sm">Average 7-day delivery. You share the essentials, we handle everything else. No tech knowledge needed.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Closing CTA -->
+            <section class="py-16 sm:py-20 md:py-24 bg-brand-white">
+                <div class="max-w-container mx-auto px-5">
+                    <div class="bg-brand-dark text-center rounded-2xl py-16 md:py-20 px-6 md:px-12 relative overflow-hidden">
+                        <div class="parallax-orb parallax-orb--purple w-[200px] h-[200px] top-0 right-0 opacity-20"></div>
+                        <div class="parallax-orb parallax-orb--cyan w-[150px] h-[150px] bottom-0 left-0 opacity-20"></div>
+                        <div class="relative z-10">
+                            <h2 class="hero-headline text-3xl md:text-5xl text-white mb-6">Ready to get started?</h2>
+                            <p class="text-gray-400 mb-10 max-w-lg mx-auto">Pick a plan, share your brief, and we'll build a site that works for your business.</p>
+                            <a href="contact.html" class="nav-link cta-premium px-10 text-lg" data-target="contact">
+                                <span>Get Started <i class="fa-solid fa-arrow-right"></i></span>
+                            </a>
+                            <p class="text-sm text-gray-500 mt-4">We respond within 24 hours. No sales pitch.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="growziq-footer">
+        <div class="footer-growziq-content">
+            <div class="footer-section">
+                <h4>Growziq</h4>
+                <p>Grow with us</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <a href="services.html">Services &amp; Plans</a>
+                <a href="about.html">About Us</a>
+                <a href="portfolio.html">Our Work</a>
+            </div>
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <a href="tos.html">Terms of Service</a>
+                <a href="privacy.html">Privacy Policy</a>
+            </div>
+            <div class="footer-section">
+                <h4>Follow</h4>
+                <a href="https://www.instagram.com/growziq/" target="_blank" rel="noopener noreferrer">Instagram</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Growziq&trade; | All rights reserved</p>
+        </div>
+    </footer>
+
+    <!-- Mobile Sticky CTA (Services) -->
+    <div id="sticky-services-cta" class="mobile-sticky-services lg:hidden">
+        <a href="contact.html" class="nav-link cta-premium w-full shadow-2xl" data-target="contact">
+            <span>Get Started Now <i class="fa-solid fa-arrow-right ml-2"></i></span>
+        </a>
+    </div>
+
+</body>
+</html>

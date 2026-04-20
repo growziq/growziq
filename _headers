@@ -1,0 +1,17 @@
+# Global Caching and Security Headers
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Permitted-Cross-Domain-Policies: none
+  Content-Security-Policy: upgrade-insecure-requests;
+  Permissions-Policy: geolocation=(), microphone=(), camera=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+
+# Cache static assets for 1 year
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Cache HTML for short duration (allow for updates)
+/*.html
+  Cache-Control: public, max-age=3600, must-revalidate

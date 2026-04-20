@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Growziq | About Us</title>
+    <meta name="description" content="Learn about Growziq's mission to empower local businesses in India with affordable, high-quality websites. Discover our story and values.">
+    <link rel="canonical" href="https://growziq.com/about.html">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Growziq | About Our Mission">
+    <meta property="og:description" content="Empowering local businesses with professional web solutions. Full ownership, fixed pricing.">
+    <meta property="og:url" content="https://growziq.com/about.html">
+    <meta property="og:type" content="website">
+
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="tailwind.config.js"></script>
+
+    <link rel="stylesheet" href="./assets/css/styles.css">
+    <script src="./assets/js/main.js" defer></script>
+</head>
+<body class="bg-brand-white text-gray-600 font-poppins text-base">
+
+    <header id="navbar" class="fixed top-0 left-0 w-full z-50 border-b border-white/70 bg-white/85 backdrop-blur-xl shadow-[0_12px_32px_-20px_rgba(15,23,42,0.35)] transition-all duration-300">
+        <div class="max-w-container mx-auto px-5">
+            <div class="flex h-20 items-center justify-between gap-4">
+                <a href="index.html" class="nav-link nav-logo flex items-center gap-3" data-target="home">
+                    <img src="assets/img/logo.webp" alt="Growziq" class="h-9 sm:h-10 hover:scale-105 transition-transform duration-300">
+                </a>
+                <nav class="hidden lg:flex items-center gap-2">
+                    <a href="index.html" class="nav-link px-4 py-2 text-sm font-semibold text-gray-600 hover:text-brand-dark" data-target="home">Home</a>
+                    <a href="services.html" class="nav-link px-4 py-2 text-sm font-semibold text-gray-600 hover:text-brand-dark" data-target="services">Services</a>
+                    <a href="portfolio.html" class="nav-link px-4 py-2 text-sm font-semibold text-gray-600 hover:text-brand-dark" data-target="portfolio">Work</a>
+                    <a href="about.html" class="nav-link px-4 py-2 text-sm font-semibold text-gray-600 hover:text-brand-dark active" data-target="about">About</a>
+                    <a href="contact.html" class="nav-link cta-premium ml-2" data-target="contact">
+                        <span>Get Started <i class="fa-solid fa-arrow-right text-xs"></i></span>
+                    </a>
+                </nav>
+                <button id="mobile-menu-btn" class="lg:hidden inline-flex h-11 w-11 items-center justify-center rounded-xl border border-gray-200 bg-white text-brand-dark shadow-sm hover:border-brand-purple transition-colors duration-300" aria-expanded="false" aria-controls="mobile-menu" aria-label="Toggle menu">
+                    <i class="fa-solid fa-bars-staggered"></i>
+                </button>
+            </div>
+            <div id="mobile-menu" class="hidden lg:hidden pb-5">
+                <div class="rounded-2xl border border-gray-100 bg-white/95 backdrop-blur-lg p-3 shadow-xl">
+                    <div class="grid gap-2 text-center">
+                        <a href="index.html" class="nav-link rounded-xl px-4 py-3 font-semibold text-gray-600 hover:bg-gray-50 hover:text-brand-dark" data-target="home">Home</a>
+                        <a href="services.html" class="nav-link rounded-xl px-4 py-3 font-semibold text-gray-600 hover:bg-gray-50 hover:text-brand-dark" data-target="services">Services</a>
+                        <a href="portfolio.html" class="nav-link rounded-xl px-4 py-3 font-semibold text-gray-600 hover:bg-gray-50 hover:text-brand-dark" data-target="portfolio">Work</a>
+                        <a href="about.html" class="nav-link rounded-xl px-4 py-3 font-semibold text-gray-600 hover:bg-gray-50 hover:text-brand-dark active" data-target="about">About</a>
+                        <a href="contact.html" class="nav-link cta-premium mt-1 flex items-center justify-center" data-target="contact">
+                            <span>Get Started <i class="fa-solid fa-arrow-right text-xs ml-1"></i></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main id="app-container" class="pt-20">
+        <div id="view-about" class="view-section">
+
+            <!-- Hero -->
+            <section class="py-12 sm:py-16 md:py-24 bg-white relative overflow-hidden">
+                <div class="parallax-orb parallax-orb--cyan w-[300px] h-[300px] -top-20 -left-20 float-anim"></div>
+                <div class="max-w-container mx-auto px-5 grid md:grid-cols-2 gap-8 sm:gap-12 items-center relative z-10">
+                    <div>
+                        <h1 class="hero-headline text-3xl sm:text-4xl md:text-5xl text-brand-dark mb-4 sm:mb-6 leading-tight">We got tired of watching good businesses stay invisible online.</h1>
+                        <p class="text-base sm:text-lg text-gray-600">Local businesses shouldn't need a massive budget or a computer science degree to have a professional website.</p>
+                    </div>
+                    <div class="flex justify-center md:justify-end">
+                        <!-- Abstract Tech Visual -->
+                        <div class="abstract-tech-visual card-3d shadow-lg w-full max-w-[360px] sm:max-w-[400px]">
+                            <div class="absolute inset-0 flex items-center justify-center z-10">
+                                <div class="flex gap-3 sm:gap-4 items-end">
+                                    <div class="bg-brand-action/80 w-16 sm:w-20 h-24 sm:h-32 rounded-t-full shadow-lg border-4 border-white/50 flex items-end justify-center pb-2">
+                                        <i class="fa-solid fa-code text-white text-lg sm:text-xl opacity-70"></i>
+                                    </div>
+                                    <div class="bg-brand-cyan/80 w-20 sm:w-24 h-32 sm:h-40 rounded-t-full shadow-lg border-4 border-white/50 flex items-end justify-center pb-2">
+                                        <i class="fa-solid fa-pen-nib text-white text-xl sm:text-2xl opacity-70"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="border-b border-gray-200"></div>
+
+            <!-- Story -->
+            <section class="py-12 sm:py-16 md:py-24 bg-white">
+                <div class="max-w-container mx-auto px-5 max-w-3xl">
+                    <div class="bg-brand-accent p-6 sm:p-8 md:p-12 rounded-2xl shadow-sm text-gray-700 text-base sm:text-lg space-y-5 sm:space-y-6 leading-relaxed card-3d">
+                        <p>
+                            We started Growziq because we noticed a massive gap in the market. On one side, you have expensive agencies quoting &#8377;20,000+ for basic landing pages and trapping owners in monthly "maintenance" retainers. On the other side, you have DIY builders like Wix or WordPress that claim to be easy, but end up taking weeks to configure and often look unpolished.
+                        </p>
+                        <p>
+                            Most small business owners in India don't want a complicated tech project. They just want a digital storefront that looks trustworthy, loads fast, and tells customers what they do.
+                        </p>
+                        <p class="font-bold text-brand-dark">
+                            So we built a fixed-price solution. No corporate jargon. No hidden fees. We build your site, hand over the keys, and let you get back to running your business.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Team -->
+            <section class="py-12 sm:py-16 md:py-24 bg-white">
+                <div class="max-w-container mx-auto px-5">
+                    <div class="text-center mb-10 sm:mb-16">
+                        <h2 class="section-headline text-2xl sm:text-3xl text-brand-dark">The Team</h2>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 max-w-3xl mx-auto">
+                        <div class="card-3d border border-gray-200 rounded-2xl p-6 sm:p-8 flex items-start gap-4 sm:gap-6 hover:border-brand-action transition">
+                            <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gray-100 rounded-full flex items-center justify-center shrink-0 text-brand-action text-xl sm:text-2xl">
+                                <i class="fa-solid fa-code"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg sm:text-xl text-brand-dark">Lead Developer</h3>
+                                <p class="text-sm text-brand-action font-semibold mb-2 sm:mb-3">Founder</p>
+                                <p class="text-gray-600 text-sm">Ensures every website is built with clean, fast-loading code. No bloatware, just exactly what the business needs to perform.</p>
+                            </div>
+                        </div>
+                        <div class="card-3d border border-gray-200 rounded-2xl p-6 sm:p-8 flex items-start gap-4 sm:gap-6 hover:border-brand-action transition">
+                            <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gray-100 rounded-full flex items-center justify-center shrink-0 text-brand-cyan text-xl sm:text-2xl">
+                                <i class="fa-solid fa-pen-nib"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg sm:text-xl text-brand-dark">Client Strategy</h3>
+                                <p class="text-sm text-brand-cyan font-semibold mb-2 sm:mb-3">Co-Founder</p>
+                                <p class="text-gray-600 text-sm">Translates your business goals into the actual content and layout. Ensures the site converts visitors into real customers.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Stats with Counter Animation -->
+            <section class="py-12 sm:py-16 md:py-24 bg-brand-dark text-white border-b border-gray-800">
+                <div class="max-w-container mx-auto px-5 grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 text-center">
+                    <div>
+                        <div class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-action to-brand-cyan mb-2" data-count="25" data-suffix="+">0</div>
+                        <div class="text-gray-400 font-medium text-xs sm:text-sm uppercase tracking-wide">Websites Delivered</div>
+                    </div>
+                    <div>
+                        <div class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-action to-brand-cyan mb-2" data-count="20" data-suffix="+">0</div>
+                        <div class="text-gray-400 font-medium text-xs sm:text-sm uppercase tracking-wide">Happy Clients</div>
+                    </div>
+                    <div>
+                        <div class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-action to-brand-cyan mb-2" data-count="4">0</div>
+                        <div class="text-gray-400 font-medium text-xs sm:text-sm uppercase tracking-wide">Fixed Plans</div>
+                    </div>
+                    <div>
+                        <div class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-action to-brand-cyan mb-2" data-count="7" data-prefix="<" data-suffix="d">0</div>
+                        <div class="text-gray-400 font-medium text-xs sm:text-sm uppercase tracking-wide">Avg Delivery Time</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Closing CTA -->
+            <section class="py-12 sm:py-16 md:py-24 bg-white text-center">
+                <div class="max-w-container mx-auto px-5">
+                    <div class="bg-brand-dark rounded-2xl py-12 sm:py-16 px-5 sm:px-10 shadow-sm relative overflow-hidden">
+                        <div class="parallax-orb parallax-orb--purple w-[150px] h-[150px] top-0 right-0 opacity-15"></div>
+                        <div class="relative z-10">
+                            <h2 class="hero-headline text-2xl sm:text-3xl md:text-5xl text-white mb-6 sm:mb-10">Let's build something that works for your business.</h2>
+                            <div class="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
+                                <a href="contact.html" class="nav-link cta-premium py-4 px-8 sm:px-10 text-base sm:text-lg" data-target="contact">
+                                    <span>Get Started <i class="fa-solid fa-arrow-right"></i></span>
+                                </a>
+                                <a href="portfolio.html" class="nav-link cta-premium-outline py-4 px-8 text-base sm:text-lg border-gray-500 text-gray-300 hover:text-white hover:bg-brand-action hover:border-brand-action" data-target="portfolio">
+                                    <span>See Our Work</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="growziq-footer">
+        <div class="footer-growziq-content">
+            <div class="footer-section">
+                <h4>Growziq</h4>
+                <p>Grow with us</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <a href="services.html">Services &amp; Plans</a>
+                <a href="about.html">About Us</a>
+                <a href="portfolio.html">Our Work</a>
+            </div>
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <a href="tos.html">Terms of Service</a>
+                <a href="privacy.html">Privacy Policy</a>
+            </div>
+            <div class="footer-section">
+                <h4>Follow</h4>
+                <a href="https://www.instagram.com/growziq/" target="_blank" rel="noopener noreferrer">Instagram</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Growziq&trade; | All rights reserved</p>
+        </div>
+    </footer>
+
+</body>
+</html>

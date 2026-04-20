@@ -1,0 +1,6 @@
+# Redirects for clean URLs
+# Cloudflare Pages automatically handles .html extensions, but these can be useful for legacy paths or specific routing
+/home    /index.html    301
+/pricing /services.html 301
+/work    /portfolio.html 301
+/contact /contact.html   301
