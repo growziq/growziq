@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             const target = link.getAttribute('data-target');
             if (!target) return;
-
+            window.scrollTo({ top: 0, behavior: 'auto' });
             const localView = document.getElementById(`view-${target}`);
             if (localView) {
                 switchView(target);
