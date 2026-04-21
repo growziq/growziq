@@ -59,30 +59,48 @@ if (targetView) {
 
     // ─── Nav Link Click Handler ───────────────────────────────────────────────
     navLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const target = link.getAttribute('data-target');
-            if (!target) return;
-            
-            const localView = document.getElementById(`view-${target}`);
-            if (localView) {
-                switchView(target);
-                return;
-            }
+    link.addEventListener('click', (e) => {
+        const target = link.getAttribute('data-target');
+        const href = link.getAttribute('href');
 
-            if (routes[target]) {
-                syncActiveNav(target);
-                if (mobileMenu) {
-                    mobileMenu.classList.add('hidden');
-                }
-                document.body.classList.remove('overflow-hidden');
-                window.location.href = routes[target];
-                return;
-            }
+        // ✅ allow real page links (prevents double handling)
+        if (href && href.includes('.html') && !target) {
+            return; // let browser handle normally
+        }
 
+        e.preventDefault();
+
+        if (!target) return;
+
+        const localView = document.getElementById(`view-${target}`);
+
+        // internal SPA view
+        if (localView) {
             switchView(target);
-        });
+            return;
+        }
+
+        // page navigation
+        if (routes[target]) {
+            syncActiveNav(target);
+
+            if (mobileMenu) {
+                mobileMenu.classList.add('hidden');
+            }
+
+            document.body.classList.remove('overflow-hidden');
+
+            // ✅ prevent double execution issues
+            setTimeout(() => {
+                window.location.href = routes[target];
+            }, 0);
+
+            return;
+        }
+
+        switchView(target);
     });
+});
 
     // ─── Initial View Detection ───────────────────────────────────────────────
     const params      = new URLSearchParams(window.location.search);
