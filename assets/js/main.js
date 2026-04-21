@@ -92,13 +92,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // Case 2: Link is to a different page - let browser handle it naturally
+            // Case 2: Link is to a different page - handle redirect for buttons and anchors
             if (mobileMenu) {
                 mobileMenu.classList.add('hidden');
             }
             document.body.classList.remove('overflow-hidden');
             
-            // We DON'T preventDefault here, allowing standard navigation
+            const route = routes[target];
+            if (route) {
+                e.preventDefault();
+                window.location.href = route;
+            }
         });
     });
 
