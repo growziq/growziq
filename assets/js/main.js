@@ -36,23 +36,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ─── View Switcher ────────────────────────────────────────────────────────
     function switchView(targetId, skipScroll = false) {
-        const targetView = document.getElementById(`view-${targetId}`);
-
-// Hide others
-views.forEach(view => {
-    if (view !== targetView) {
-        view.classList.remove('active');
-        view.style.display = 'none';
-    }
+        views.forEach(view => {
+    view.classList.remove('active');
+    view.style.display = 'none';
 });
 
-// Show target FIRST (important for mobile repaint)
+const targetView = document.getElementById(`view-${targetId}`);
 if (targetView) {
     targetView.style.display = 'block';
-
-    requestAnimationFrame(() => {
-        targetView.classList.add('active');
-    });
+    setTimeout(() => targetView.classList.add('active'), 10);
 }
 
         if (mobileMenu) {
