@@ -157,7 +157,7 @@ h3, .sub-headline { font-weight: var(--heading-weight-h3); color: var(--heading-
 }
 
 /* Dashboard removal (cleaned up) */
-.dashboard-line, .dashboard-arrow-head, .dashboard-grid, .abstract-tech-visual {
+.dashboard-line, .dashboard-arrow-head, .dashboard-grid {
     display: none;
 }
 

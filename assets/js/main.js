@@ -9,49 +9,69 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ─── Routing Map ─────────────────────────────────────────────────────────
     const routes = {
-        home:      'index.html',
-        services:  'services.html',
-        portfolio: 'portfolio.html',
-        about:     'about.html',
-        contact:   'contact.html'
+        home:      '/index.html',
+        services:  '/services.html',
+        portfolio: '/portfolio.html',
+        about:     '/about.html',
+        contact:   '/contact.html'
     };
 
     const pageToView = {
         'index.html':     'home',
+        '':               'home',
         'services.html':  'services',
+        'services':       'services',
         'portfolio.html': 'portfolio',
+        'portfolio':      'portfolio',
         'about.html':     'about',
+        'about':          'about',
         'contact.html':   'contact',
-        'privacy.html':   null,
-        'tos.html':       null
+        'contact':        'contact'
     };
 
     // ─── Active Nav Highlight ─────────────────────────────────────────────────
     function syncActiveNav(targetId) {
         navbarNavLinks.forEach((link) => {
             const linkTarget = link.getAttribute('data-target');
-            link.classList.toggle('is-active', linkTarget === targetId);
+            link.classList.toggle('active', linkTarget === targetId);
         });
     }
 
     // ─── View Switcher ────────────────────────────────────────────────────────
     function switchView(targetId, skipScroll = false) {
-        views.forEach(view => {
-    view.classList.remove('active');
-    view.style.display = 'none';
-});
+        const targetView = document.getElementById(`view-${targetId}`);
+        
+        // Safety: If view doesn't exist on this page, don't hide current content
+        if (!targetView) {
+            console.debug(`[Growziq] View section "view-${targetId}" not found on this page.`);
+            return;
+        }
 
-const targetView = document.getElementById(`view-${targetId}`);
-if (targetView) {
-    targetView.style.display = 'block';
-    setTimeout(() => targetView.classList.add('active'), 10);
-}
+        // If already active, just sync UI and return
+        if (targetView.classList.contains('active') && targetView.style.display === 'block') {
+            if (mobileMenu) mobileMenu.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+            syncActiveNav(targetId);
+            return;
+        }
+
+        views.forEach(view => {
+            view.classList.remove('active');
+            view.style.display = 'none';
+        });
+
+        targetView.style.display = 'block';
+        // Use requestAnimationFrame for smoother class application
+        requestAnimationFrame(() => {
+            targetView.classList.add('active');
+        });
 
         if (mobileMenu) {
             mobileMenu.classList.add('hidden');
         }
         document.body.classList.remove('overflow-hidden');
         syncActiveNav(targetId);
+        
         if (!skipScroll) {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -60,42 +80,46 @@ if (targetView) {
     // ─── Nav Link Click Handler ───────────────────────────────────────────────
     navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
-            e.preventDefault();
             const target = link.getAttribute('data-target');
             if (!target) return;
             
             const localView = document.getElementById(`view-${target}`);
+            
+            // Case 1: We have the view section on the current page (SPA mode)
             if (localView) {
+                e.preventDefault();
                 switchView(target);
                 return;
             }
 
-            if (routes[target]) {
-                syncActiveNav(target);
-                if (mobileMenu) {
-                    mobileMenu.classList.add('hidden');
-                }
-                document.body.classList.remove('overflow-hidden');
-                window.location.href = routes[target];
-                return;
+            // Case 2: Link is to a different page - let browser handle it naturally
+            if (mobileMenu) {
+                mobileMenu.classList.add('hidden');
             }
-
-            switchView(target);
+            document.body.classList.remove('overflow-hidden');
+            
+            // We DON'T preventDefault here, allowing standard navigation
         });
     });
 
     // ─── Initial View Detection ───────────────────────────────────────────────
     const params      = new URLSearchParams(window.location.search);
     const requestedView = params.get('view');
-    const currentPage = (window.location.pathname.split('/').pop() || 'index.html').toLowerCase();
+    
+    // Improved detection that works with clean URLs
+    const pathParts = window.location.pathname.split('/');
+    const lastPart = pathParts.pop() || '';
+    const currentPage = lastPart.toLowerCase();
+    
     const initialView = requestedView || pageToView[currentPage] || 'home';
+    const staticPages = new Set(['contact.html', 'privacy.html', 'tos.html', 'contact', 'privacy', 'tos']);
 
-    const staticPages = new Set(['contact.html', 'privacy.html', 'tos.html']);
-
-    if (!staticPages.has(currentPage) && initialView) {
+    if (!staticPages.has(currentPage)) {
         switchView(initialView, true);
-    } else if (currentPage === 'contact.html') {
-        syncActiveNav('contact');
+    } else {
+        // For static pages, just sync the nav state
+        const targetNavId = pageToView[currentPage] || currentPage.split('.')[0];
+        syncActiveNav(targetNavId);
     }
 
     // ─── Enhanced Scroll Reveal + 3D Tilt ─────────────────────────────────────
