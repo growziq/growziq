@@ -36,16 +36,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ─── View Switcher ────────────────────────────────────────────────────────
     function switchView(targetId, skipScroll = false) {
-        views.forEach(view => {
-            view.classList.remove('active');
-            view.style.display = 'none';
-        });
-
         const targetView = document.getElementById(`view-${targetId}`);
-        if (targetView) {
-            targetView.style.display = 'block';
-            setTimeout(() => targetView.classList.add('active'), 10);
-        }
+
+// Hide others
+views.forEach(view => {
+    if (view !== targetView) {
+        view.classList.remove('active');
+        view.style.display = 'none';
+    }
+});
+
+// Show target FIRST (important for mobile repaint)
+if (targetView) {
+    targetView.style.display = 'block';
+
+    requestAnimationFrame(() => {
+        targetView.classList.add('active');
+    });
+}
 
         if (mobileMenu) {
             mobileMenu.classList.add('hidden');
@@ -63,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             const target = link.getAttribute('data-target');
             if (!target) return;
-            window.scrollTo({ top: 0, behavior: 'auto' });
+            
             const localView = document.getElementById(`view-${target}`);
             if (localView) {
                 switchView(target);
