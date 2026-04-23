@@ -1141,7 +1141,7 @@ main {
 }
 
 .addons-table td {
-    padding: 1rem 1.25rem;
+    padding: 1rem 0.5rem;
     border-bottom: 1px solid #f1f5f9;
     color: #475569;
 }
