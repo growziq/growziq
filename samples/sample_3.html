@@ -1,22 +1,1562 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sample Template 3</title>
-    <!-- Use inline Tailwind for the placeholder -->
-    <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sweet Treats | Artisan Local Confectionery</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cellipse cx='32' cy='32' rx='30' ry='30' fill='%23c9a84c'/%3E%3Ctext x='32' y='44' font-size='32' text-anchor='middle' fill='%23120b07' font-family='Playfair Display, Arial, sans-serif' font-weight='bold'%3E%F0%9F%8D%AC%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ============================================================
+       TOKENS
+    ============================================================ */
+    :root {
+      --choc:      #120b07;
+      --dark:      #1c1008;
+      --rich:      #2a1a0e;
+      --panel:     #221408;
+      --card:      #2e1d10;
+      --border:    rgba(201,168,76,.15);
+      --gold:      #c9a84c;
+      --gold-dim:  rgba(201,168,76,.18);
+      --gold-glow: rgba(201,168,76,.4);
+      --cream:     #f5ead8;
+      --blush:     #e8b4a0;
+      --muted:     #7a5f4e;
+      --font-serif: 'Playfair Display', serif;
+      --font-fine:  'Cormorant Garamond', serif;
+      --font-body:  'DM Sans', sans-serif;
+    
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--choc);
+      color: var(--cream);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+      cursor: none;
+    }
+    body::-webkit-scrollbar { display: none; }
+    body { -ms-overflow-style: none; scrollbar-width: none; }
+    }
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+    img { display: block; max-width: 100%; }
+
+    /* ============================================================
+      CUSTOM CURSOR : petal shape
+    ============================================================ */
+    #cur-dot, #cur-petal {
+      position: fixed; pointer-events: none; z-index: 9999;
+      transform: translate(-50%,-50%); border-radius: 50%;
+    }
+    #cur-dot { width: 8px; height: 8px; background: var(--gold); transition: opacity .3s; }
+    #cur-petal {
+      width: 44px; height: 44px;
+      border: 1px solid var(--gold); opacity: .5;
+      transition: width .25s, height .25s, opacity .3s, border-radius .3s;
+    }
+    body:hover #cur-dot, body:hover #cur-petal { opacity: 1; }
+
+    /* ============================================================
+       SCROLL PROGRESS
+    ============================================================ */
+    #prog { position:fixed; top:0; left:0; height:2px; width:0%; z-index:9998;
+      background: linear-gradient(90deg, var(--gold), var(--blush));
+      box-shadow: 0 0 12px var(--gold-glow); transition: width .05s linear; }
+
+    /* ============================================================
+       PRELOADER
+    ============================================================ */
+    #preloader {
+      position: fixed; inset: 0; background: var(--choc);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 9997; flex-direction: column; gap: 24px;
+    }
+    .pl-icon {
+      font-size: 56px; animation: bounce 1s ease-in-out infinite alternate;
+    }
+    @keyframes bounce { from {transform:translateY(0)} to {transform:translateY(-14px)} }
+    .pl-brand {
+      font-family: var(--font-serif); font-size: clamp(22px,4vw,38px);
+      letter-spacing: .06em; color: var(--cream);
+    }
+    .pl-brand em { font-style: italic; color: var(--gold); }
+    .pl-bar-wrap { width: 200px; height: 1px; background: rgba(255,255,255,.1); }
+    .pl-bar {
+      height: 100%; width: 0%;
+      background: linear-gradient(90deg, var(--gold), var(--blush));
+      animation: loadBar 1.8s ease-out forwards;
+      box-shadow: 0 0 10px var(--gold-glow);
+    }
+    @keyframes loadBar { to { width: 100%; } }
+    .pl-tagline {
+      font-family: var(--font-fine); font-style: italic;
+      font-size: 14px; color: var(--muted); letter-spacing: .2em;
+    }
+    #preloader.gone { opacity: 0; pointer-events: none; transition: opacity .7s .2s; }
+
+    /* ============================================================
+       SUGAR PARTICLES (canvas bg)
+    ============================================================ */
+    #sugar-canvas {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: .5;
+    }
+
+    /* ============================================================
+       NAVBAR
+    ============================================================ */
+    #nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+      height: 76px; padding: 0 clamp(20px,5vw,72px);
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(18,11,7,0);
+      backdrop-filter: blur(0px);
+      border-bottom: 1px solid transparent;
+      transition: background .5s, backdrop-filter .5s, border-color .5s;
+    }
+    #nav.scrolled {
+      background: rgba(18,11,7,.92);
+      backdrop-filter: blur(24px) saturate(1.5);
+      border-color: var(--border);
+    }
+    .nav-logo {
+      font-family: var(--font-serif); font-size: 22px; font-weight: 700;
+      display: flex; align-items: center; gap: 10px; letter-spacing: .03em;
+    }
+    .nav-logo .logo-icon {
+      font-size: 28px; filter: drop-shadow(0 0 8px var(--gold-glow));
+    }
+    .nav-logo .gold { color: var(--gold); font-style: italic; }
+    .nav-items {
+      display: flex; align-items: center; gap: 40px;
+    }
+    .nav-items a {
+      font-family: var(--font-fine); font-size: 15px; letter-spacing: .08em;
+      color: rgba(245,234,216,.65); transition: color .3s;
+      font-style: italic;
+    }
+    .nav-items a:hover { color: var(--cream); }
+    .nav-order {
+      background: var(--gold); color: var(--choc);
+      padding: 9px 26px; border-radius: 40px;
+      font-family: var(--font-body); font-size: 13px; font-weight: 500;
+      letter-spacing: .06em; font-style: normal !important;
+      transition: background .3s, box-shadow .3s;
+    }
+    .nav-order:hover { background: var(--cream); box-shadow: 0 0 24px var(--gold-glow); }
+    #ham { display: none; flex-direction: column; gap: 6px; background: none; border: none; cursor: none; }
+    #ham span { display: block; width: 24px; height: 1.5px; background: var(--cream); transition: .3s; }
+    #mob-nav {
+      display: none; position: fixed; top: 76px; left: 0; right: 0; bottom: 0;
+      background: rgba(18,11,7,.98); backdrop-filter: blur(30px); z-index: 499;
+      flex-direction: column; align-items: center; justify-content: center; gap: 36px;
+    }
+    #mob-nav.open { display: flex; }
+    #mob-nav a {
+      font-family: var(--font-serif); font-size: 30px; font-style: italic; color: var(--muted);
+      transition: color .3s;
+    }
+    #mob-nav a:hover { color: var(--gold); }
+
+    /* ============================================================
+       SHARED
+    ============================================================ */
+    .reveal {
+      opacity: 0; transform: translateY(48px);
+      transition: opacity .8s cubic-bezier(.4,0,.2,1), transform .8s cubic-bezier(.4,0,.2,1);
+    }
+    .reveal.in { opacity: 1; transform: none; }
+    .rl { opacity:0; transform:translateX(-48px); transition: opacity .8s, transform .8s; }
+    .rr { opacity:0; transform:translateX(48px);  transition: opacity .8s, transform .8s; }
+    .rl.in, .rr.in { opacity: 1; transform: none; }
+
+    .eyebrow {
+      font-family: var(--font-fine); font-style: italic;
+      font-size: 14px; letter-spacing: .2em; color: var(--gold);
+      display: flex; align-items: center; gap: 14px; margin-bottom: 14px;
+    }
+    .eyebrow::before, .eyebrow::after {
+      content: ''; display: block; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold));
+      width: 36px;
+    }
+    .eyebrow::after { background: linear-gradient(90deg, var(--gold), transparent); }
+    .big-title {
+      font-family: var(--font-serif); font-weight: 900;
+      font-size: clamp(38px,5.5vw,82px); line-height: .95;
+      letter-spacing: -.02em; color: var(--cream);
+    }
+    .big-title em { font-style: italic; color: var(--gold); display: block; }
+    .big-title .outline {
+      -webkit-text-stroke: 1.5px rgba(245,234,216,.25);
+      color: transparent; display: block;
+    }
+    .body-text {
+      font-family: var(--font-body); font-size: 15px;
+      line-height: 1.75; color: var(--muted);
+    }
+    .btn-gold {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--gold); color: var(--choc);
+      font-family: var(--font-body); font-weight: 500; font-size: 13px;
+      letter-spacing: .1em; text-transform: uppercase;
+      padding: 14px 32px; border-radius: 40px; border: none; cursor: none;
+      transition: background .3s, box-shadow .3s, transform .3s;
+    }
+    .btn-gold:hover { background: var(--cream); box-shadow: 0 8px 40px var(--gold-glow); transform: translateY(-2px); }
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: transparent; color: var(--cream);
+      font-family: var(--font-body); font-weight: 400; font-size: 13px;
+      letter-spacing: .1em; text-transform: uppercase;
+      padding: 13px 30px; border-radius: 40px; border: 1px solid rgba(245,234,216,.25);
+      cursor: none; transition: border-color .3s, color .3s;
+    }
+    .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* ============================================================
+       1. HERO
+    ============================================================ */
+    #hero {
+      min-height: 100vh; position: relative;
+      display: flex; align-items: center;
+      overflow: hidden;
+    }
+    .hero-bg-img {
+      position: absolute; inset: 0; z-index: 0;
+      background: url('https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=1800&q=85') center/cover no-repeat;
+    }
+    .hero-bg-img::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(110deg, rgba(18,11,7,.95) 45%, rgba(18,11,7,.55) 100%);
+    }
+    /* Warm grain overlay */
+    .hero-bg-img::before {
+      content: ''; position: absolute; inset: 0; z-index: 1;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      opacity: .5; mix-blend-mode: overlay;
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      padding: 0 clamp(24px,8vw,128px); padding-top: 76px;
+      max-width: 760px;
+    }
+    .hero-stamp {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: rgba(201,168,76,.12); border: 1px solid var(--border);
+      padding: 8px 20px; border-radius: 40px;
+      font-family: var(--font-fine); font-style: italic;
+      font-size: 13px; letter-spacing: .12em; color: var(--gold);
+      margin-bottom: 32px;
+      opacity: 0; animation: fadeUp .8s .5s forwards;
+    }
+    .hero-stamp .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--gold); animation: blink 1.5s infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
+    .hero-hl {
+      opacity: 0; animation: fadeUp .9s .7s forwards;
+    }
+    .hero-script {
+      font-family: var(--font-fine); font-style: italic; font-weight: 300;
+      font-size: clamp(20px,3.5vw,40px); color: var(--gold); letter-spacing: .04em;
+      display: block; margin-bottom: 4px;
+    }
+    .hero-h1 {
+      font-family: var(--font-serif); font-weight: 900;
+      font-size: clamp(52px,9vw,130px); line-height: .88;
+      letter-spacing: -.04em; color: var(--cream); display: block;
+    }
+    .hero-h1-outline {
+      display: block;
+      font-family: var(--font-serif); font-weight: 900;
+      font-size: clamp(52px,9vw,130px); line-height: .88;
+      letter-spacing: -.04em;
+      -webkit-text-stroke: 1.5px rgba(245,234,216,.2); color: transparent;
+    }
+    .hero-sub {
+      font-family: var(--font-fine); font-style: italic;
+      font-size: clamp(16px,2vw,20px); color: var(--muted);
+      line-height: 1.6; max-width: 460px;
+      margin: 28px 0 40px;
+      opacity: 0; animation: fadeUp .8s .9s forwards;
+    }
+    .hero-ctas {
+      display: flex; gap: 16px; flex-wrap: wrap;
+      opacity: 0; animation: fadeUp .8s 1.1s forwards;
+    }
+    .hero-scroll {
+      position: absolute; bottom: 40px; left: 50%;
+      transform: translateX(-50%); z-index: 2; text-align: center;
+      animation: fadeUp .7s 1.5s both;
+    }
+    .hero-scroll-line {
+      width: 1px; height: 52px; background: linear-gradient(180deg, var(--gold), transparent);
+      margin: 10px auto 0; animation: scrollDrop 1.8s ease-in-out infinite;
+    }
+    @keyframes scrollDrop { 0%,100%{transform:scaleY(0);transform-origin:top} 50%{transform:scaleY(1)} }
+    .hero-scroll-label {
+      font-family: var(--font-fine); font-style: italic;
+      font-size: 11px; letter-spacing: .25em; color: var(--muted);
+    }
+    /* Floating product circles : decorative */
+    .hero-float {
+      position: absolute; right: 5%; top: 50%; transform: translateY(-50%);
+      width: clamp(260px,32vw,500px); height: clamp(260px,32vw,500px);
+      border-radius: 50%; overflow: hidden; z-index: 2;
+      border: 1px solid var(--border);
+      box-shadow: 0 0 80px rgba(201,168,76,.15), inset 0 0 60px rgba(0,0,0,.4);
+      opacity: 0; animation: fadeUp 1.2s 1s forwards;
+    }
+    .hero-float img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.9); }
+    .hero-float-ring {
+      position: absolute; right: calc(5% - 20px); top: calc(50% - 20px);
+      transform: translateY(-50%);
+      width: calc(clamp(260px,32vw,500px) + 40px);
+      height: calc(clamp(260px,32vw,500px) + 40px);
+      border-radius: 50%; border: 1px dashed rgba(201,168,76,.2);
+      z-index: 1; animation: spin 30s linear infinite;
+      pointer-events: none;
+    }
+    @keyframes spin { to { transform: translateY(-50%) rotate(360deg); } }
+    @keyframes fadeUp { to { opacity: 1; transform: none; } }
+
+    /* ============================================================
+       RIBBON
+    ============================================================ */
+    .ribbon {
+      background: var(--gold); overflow: hidden; padding: 11px 0; position: relative; z-index: 10;
+    }
+    .ribbon-inner {
+      display: flex; white-space: nowrap;
+      animation: ribbonScroll 20s linear infinite;
+    }
+    @keyframes ribbonScroll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+    .ribbon-item {
+      display: inline-flex; align-items: center; gap: 16px; flex-shrink: 0;
+      padding: 0 28px;
+      font-family: var(--font-fine); font-style: italic; font-size: 14px;
+      letter-spacing: .1em; color: var(--choc); font-weight: 600;
+    }
+    .ribbon-sep { opacity: .4; font-size: 20px; }
+
+    /* ============================================================
+       2. SIGNATURE COLLECTION
+    ============================================================ */
+    #collection {
+      padding: 120px clamp(20px,6vw,100px);
+      background: var(--dark); position: relative; overflow: hidden;
+    }
+    #collection::before {
+      content: 'SWEETS'; position: absolute; left: -40px; top: 50%;
+      transform: translateY(-50%) rotate(-90deg);
+      font-family: var(--font-serif); font-weight: 900; font-size: 180px;
+      color: rgba(201,168,76,.03); pointer-events: none; white-space: nowrap;
+    }
+    .collection-header {
+      display: grid; grid-template-columns: 1fr auto; align-items: end;
+      gap: 24px; margin-bottom: 64px;
+    }
+    .collection-grid {
+      display: grid; grid-template-columns: repeat(4,1fr);
+      gap: 3px; background: var(--border);
+    }
+    .sweet-card {
+      background: var(--panel); position: relative; overflow: hidden;
+      cursor: none;
+    }
+    .sweet-card-img {
+      width: 100%; aspect-ratio: 3/4; overflow: hidden; position: relative;
+    }
+    .sweet-card-img img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform .7s cubic-bezier(.25,.8,.25,1), filter .5s;
+      filter: saturate(.8) brightness(.9);
+    }
+    .sweet-card:hover .sweet-card-img img { transform: scale(1.1); filter: saturate(1.1) brightness(1); }
+    .sweet-card-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(18,11,7,.9) 0%, transparent 55%);
+      opacity: 0; transition: opacity .5s;
+      display: flex; align-items: flex-end; padding: 24px;
+    }
+    .sweet-card:hover .sweet-card-overlay { opacity: 1; }
+    .sweet-card-body { padding: 20px 18px 22px; border-top: 1px solid var(--border); }
+    .sweet-card-tag {
+      font-family: var(--font-fine); font-style: italic;
+      font-size: 11px; letter-spacing: .18em; color: var(--gold);
+      display: block; margin-bottom: 6px;
+    }
+    .sweet-card-name {
+      font-family: var(--font-serif); font-weight: 700;
+      font-size: 19px; color: var(--cream); margin-bottom: 6px;
+    }
+    .sweet-card-desc { font-size: 12px; color: var(--muted); line-height: 1.5; margin-bottom: 14px; }
+    .sweet-card-price { font-family: var(--font-fine); font-size: 16px; color: var(--gold); letter-spacing: .06em; }
+    .sweet-card-quick {
+      position: absolute; top: 16px; right: 16px;
+      background: var(--gold); color: var(--choc);
+      width: 36px; height: 36px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; opacity: 0; transform: scale(.7);
+      transition: opacity .4s, transform .4s;
+    }
+    .sweet-card:hover .sweet-card-quick { opacity: 1; transform: scale(1); }
+    .sweet-card-badge {
+      position: absolute; top: 16px; left: 16px;
+      background: var(--blush); color: var(--choc);
+      font-family: var(--font-fine); font-style: italic; font-size: 11px;
+      letter-spacing: .12em; padding: 4px 12px; border-radius: 40px;
+    }
+
+    /* ============================================================
+       3. OUR STORY
+    ============================================================ */
+    #story {
+      padding: 120px clamp(20px,6vw,100px);
+      background: var(--choc); position: relative; overflow: hidden;
+    }
+    .story-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+    }
+    .story-img-stack { position: relative; }
+    .story-img-main {
+      width: 80%; aspect-ratio: 3/4; object-fit: cover;
+      border: 1px solid var(--border);
+      filter: saturate(.85);
+      position: relative; z-index: 2;
+    }
+    .story-img-accent {
+      position: absolute; bottom: -32px; right: 0;
+      width: 55%; aspect-ratio: 1/1; object-fit: cover;
+      border: 4px solid var(--choc);
+      filter: saturate(.85);
+      z-index: 3; box-shadow: 0 16px 60px rgba(0,0,0,.5);
+    }
+    .story-badge-wrap {
+      position: absolute; top: 32px; right: 0;
+      z-index: 4;
+    }
+    .story-badge {
+      width: 110px; height: 110px;
+      background: var(--gold); border-radius: 50%;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 10px;
+      box-shadow: 0 0 40px var(--gold-glow);
+    }
+    .story-badge-num { font-family: var(--font-serif); font-weight: 900; font-size: 34px; color: var(--choc); line-height: 1; }
+    .story-badge-text { font-family: var(--font-fine); font-style: italic; font-size: 10px; color: var(--choc); letter-spacing: .1em; margin-top: 2px; }
+
+    .story-pull-quote {
+      font-family: var(--font-fine); font-style: italic;
+      font-size: clamp(20px,2.5vw,28px); line-height: 1.5;
+      color: var(--cream); border-left: 2px solid var(--gold);
+      padding-left: 24px; margin: 32px 0;
+    }
+    .story-values {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 2px;
+      background: var(--border); margin-top: 40px;
+    }
+    .story-val {
+      background: var(--panel); padding: 22px 20px;
+      display: flex; gap: 14px; align-items: flex-start;
+      transition: background .3s; border-top: 2px solid transparent;
+    }
+    .story-val:hover { background: var(--card); border-color: var(--gold); }
+    .story-val-icon { font-size: 22px; flex-shrink: 0; margin-top: 2px; }
+    .story-val-title { font-family: var(--font-serif); font-size: 15px; font-weight: 700; margin-bottom: 4px; color: var(--cream); }
+    .story-val-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+    /* ============================================================
+       4. PROCESS
+    ============================================================ */
+    #process {
+      padding: 120px clamp(20px,6vw,100px);
+      background: var(--rich);
+      position: relative; overflow: hidden;
+    }
+    .process-bg-text {
+      position: absolute; left: 50%; top: 50%;
+      transform: translate(-50%,-50%);
+      font-family: var(--font-serif); font-weight: 900; font-size: 240px;
+      color: rgba(201,168,76,.025); pointer-events: none; white-space: nowrap;
+    }
+    .process-header { text-align: center; margin-bottom: 72px; }
+    .process-header .eyebrow { justify-content: center; }
+    .process-steps {
+      display: grid; grid-template-columns: repeat(4,1fr);
+      gap: 0; position: relative;
+    }
+    /* flowing connector */
+    .process-steps::before {
+      content: ''; position: absolute;
+      top: 44px; left: calc(12.5%); right: calc(12.5%);
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), var(--blush), var(--gold), transparent);
+      opacity: .3;
+    }
+    .proc-step { padding: 0 20px 32px; text-align: center; position: relative; }
+    .proc-node {
+      width: 90px; height: 90px; margin: 0 auto 28px;
+      border-radius: 50%;
+      background: var(--panel); border: 1px solid var(--border);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      position: relative; z-index: 2;
+      transition: background .4s, box-shadow .4s, border-color .4s;
+      font-size: 30px;
+    }
+    .proc-step:hover .proc-node {
+      background: var(--gold-dim); border-color: var(--gold);
+      box-shadow: 0 0 40px var(--gold-glow);
+    }
+    .proc-num {
+      position: absolute; top: -8px; right: -4px;
+      width: 26px; height: 26px; border-radius: 50%;
+      background: var(--gold); color: var(--choc);
+      font-family: var(--font-body); font-weight: 700; font-size: 11px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .proc-title {
+      font-family: var(--font-serif); font-weight: 700;
+      font-size: 18px; color: var(--cream); margin-bottom: 10px;
+    }
+    .proc-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+    /* ============================================================
+      5. GALLERY : Bento Grid
+    ============================================================ */
+    #gallery {
+      padding: 120px clamp(20px,6vw,100px);
+      background: var(--choc); position: relative;
+    }
+    .gallery-header { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 48px; flex-wrap: wrap; }
+    .bento {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-auto-rows: 80px;
+      gap: 4px;
+    }
+    .bento-item {
+      overflow: hidden; position: relative; cursor: none;
+      background: var(--panel);
+    }
+    .bento-item:nth-child(1)  { grid-column: span 5; grid-row: span 5; }
+    .bento-item:nth-child(2)  { grid-column: span 4; grid-row: span 3; }
+    .bento-item:nth-child(3)  { grid-column: span 3; grid-row: span 3; }
+    .bento-item:nth-child(4)  { grid-column: span 4; grid-row: span 2; }
+    .bento-item:nth-child(5)  { grid-column: span 3; grid-row: span 2; }
+    .bento-item:nth-child(6)  { grid-column: span 4; grid-row: span 3; }
+    .bento-item:nth-child(7)  { grid-column: span 3; grid-row: span 3; }
+    .bento-item:nth-child(8)  { grid-column: span 5; grid-row: span 3; }
+    .bento-item img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform .8s cubic-bezier(.25,.8,.25,1), filter .6s;
+      filter: saturate(.75) brightness(.85);
+    }
+    .bento-item:hover img { transform: scale(1.1); filter: saturate(1.1) brightness(.95); }
+    .bento-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(201,168,76,.7) 0%, transparent 50%);
+      opacity: 0; transition: opacity .5s;
+      display: flex; align-items: flex-end; padding: 18px;
+    }
+    .bento-item:hover .bento-overlay { opacity: 1; }
+    .bento-label {
+      font-family: var(--font-serif); font-style: italic;
+      font-size: 15px; color: var(--choc); font-weight: 700;
+    }
+
+    /* ============================================================
+       6. REVIEWS
+    ============================================================ */
+    #reviews {
+      padding: 120px clamp(20px,6vw,100px);
+      background: var(--dark); position: relative; overflow: hidden;
+    }
+    .reviews-bg-quote {
+      position: absolute; font-family: var(--font-serif);
+      font-size: 500px; line-height: .8; color: rgba(201,168,76,.025);
+      top: 0; right: 0; pointer-events: none; font-style: italic;
+    }
+    .reviews-header { text-align: center; margin-bottom: 64px; }
+    .reviews-header .eyebrow { justify-content: center; }
+    .reviews-grid {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 3px; background: var(--border);
+    }
+    .rev-card {
+      background: var(--panel); padding: 36px 28px;
+      position: relative; overflow: hidden;
+      transition: background .3s; border-bottom: 2px solid transparent;
+    }
+    .rev-card:hover { background: var(--card); border-color: var(--gold); }
+    .rev-stars { font-size: 14px; letter-spacing: 3px; color: var(--gold); margin-bottom: 20px; }
+    .rev-text {
+      font-family: var(--font-fine); font-style: italic;
+      font-size: 16px; line-height: 1.8; color: rgba(245,234,216,.8);
+      margin-bottom: 28px;
+    }
+    .rev-author { display: flex; align-items: center; gap: 14px; }
+    .rev-ava {
+      width: 46px; height: 46px; border-radius: 50%;
+      background: var(--gold-dim); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-serif); font-size: 18px; color: var(--gold); font-weight: 700;
+      flex-shrink: 0;
+    }
+    .rev-name { font-family: var(--font-serif); font-size: 16px; color: var(--cream); }
+    .rev-role { font-family: var(--font-fine); font-style: italic; font-size: 12px; color: var(--muted); }
+    .rev-ornament {
+      position: absolute; bottom: 16px; right: 16px;
+      font-family: var(--font-fine); font-size: 80px; font-style: italic;
+      color: rgba(201,168,76,.06); line-height: 1; pointer-events: none;
+    }
+    /* Trust bar */
+    .trust-bar {
+      display: flex; align-items: center; justify-content: center;
+      gap: 60px; margin-top: 64px; flex-wrap: wrap; padding-top: 48px;
+      border-top: 1px solid var(--border);
+    }
+    .trust-item { text-align: center; }
+    .trust-num { font-family: var(--font-serif); font-weight: 900; font-size: 52px; color: var(--gold); line-height: 1; }
+    .trust-label { font-family: var(--font-fine); font-style: italic; font-size: 13px; color: var(--muted); margin-top: 4px; letter-spacing: .1em; }
+
+    /* ============================================================
+       7. ORDER / CONTACT
+    ============================================================ */
+    #order {
+      padding: 120px clamp(20px,6vw,100px);
+      background: var(--choc); position: relative; overflow: hidden;
+    }
+    .order-grid {
+      display: grid; grid-template-columns: 1fr 1.1fr; gap: 80px; align-items: start;
+    }
+
+    .order-highlight {
+      margin-top: 32px; padding: 32px;
+      background: var(--panel); border: 1px solid var(--border);
+      position: relative;
+    }
+    .order-highlight::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--gold), var(--blush), transparent);
+    }
+    .oh-title {
+      font-family: var(--font-fine); font-style: italic; font-size: 13px;
+      letter-spacing: .18em; color: var(--gold); margin-bottom: 16px;
+    }
+    .oh-items { display: flex; flex-direction: column; gap: 14px; }
+    .oh-item { display: flex; gap: 14px; align-items: flex-start; }
+    .oh-icon {
+      width: 38px; height: 38px; background: var(--gold-dim);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 16px; flex-shrink: 0;
+    }
+    .oh-label { font-size: 10px; letter-spacing: .15em; color: var(--muted); margin-bottom: 2px; }
+    .oh-value { font-family: var(--font-serif); font-size: 15px; color: var(--cream); }
+
+    /* Form */
+    .sweet-form {
+      background: var(--panel); border: 1px solid var(--border); padding: 40px;
+      position: relative;
+    }
+    .sweet-form::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--gold), var(--blush), transparent);
+    }
+    .sf-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 28px; padding-bottom: 18px; border-bottom: 1px solid var(--border);
+    }
+    .sf-title { font-family: var(--font-fine); font-style: italic; font-size: 13px; letter-spacing: .2em; color: var(--gold); }
+    .sf-avail { display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--muted); font-family: var(--font-fine); font-style: italic; }
+    .sf-avail-dot { width: 6px; height: 6px; border-radius: 50%; background: #86efac; animation: blink 2s infinite; }
+    .sf-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .sf-group { display: flex; flex-direction: column; gap: 8px; }
+    .sf-group.full { grid-column: span 2; }
+    .sf-label { font-family: var(--font-fine); font-style: italic; font-size: 12px; letter-spacing: .15em; color: var(--muted); }
+    .sf-input {
+      background: var(--dark); border: 1px solid var(--border);
+      color: var(--cream); font-family: var(--font-body); font-size: 14px;
+      padding: 12px 16px; outline: none; border-radius: 2px; width: 100%;
+      transition: border-color .3s, box-shadow .3s; cursor: none;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+    .sf-input:focus { border-color: var(--gold); box-shadow: 0 0 0 2px var(--gold-dim); }
+    .sf-input option { background: var(--dark); }
+    textarea.sf-input { resize: vertical; min-height: 90px; }
+    .sf-submit { margin-top: 24px; display: flex; align-items: center; gap: 16px; }
+    .sf-note { font-family: var(--font-fine); font-style: italic; font-size: 12px; color: var(--muted); }
+    #order-success {
+      display: none; margin-top: 16px; padding: 14px 20px;
+      background: rgba(134,239,172,.08); border: 1px solid rgba(134,239,172,.25);
+      font-family: var(--font-fine); font-style: italic; font-size: 13px;
+      color: #86efac; letter-spacing: .1em; text-align: center; border-radius: 2px;
+    }
+
+    /* ============================================================
+       8. FOOTER
+    ============================================================ */
+    #footer {
+      background: var(--dark); border-top: 1px solid var(--border);
+      padding: 64px clamp(20px,6vw,100px) 0;
+    }
+    .footer-wrap {
+      display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr;
+      gap: 48px; padding-bottom: 48px; border-bottom: 1px solid var(--border);
+    }
+    .footer-brand { font-family: var(--font-serif); font-size: 26px; font-weight: 900; margin-bottom: 12px; }
+    .footer-brand em { color: var(--gold); font-style: italic; }
+    .footer-brand-sub {
+      font-family: var(--font-fine); font-style: italic;
+      font-size: 13px; color: var(--muted); margin-bottom: 22px; line-height: 1.6;
+    }
+    .footer-socials { display: flex; gap: 10px; }
+    .fsoc {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: var(--panel); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px; transition: background .3s, border-color .3s, box-shadow .3s;
+      cursor: none;
+    }
+    .fsoc:hover { background: var(--gold); border-color: var(--gold); box-shadow: 0 0 18px var(--gold-glow); }
+    .f-col-title {
+      font-family: var(--font-fine); font-style: italic;
+      font-size: 12px; letter-spacing: .2em; color: var(--gold); margin-bottom: 18px;
+    }
+    .f-links { display: flex; flex-direction: column; gap: 10px; }
+    .f-links a {
+      font-family: var(--font-fine); font-style: italic;
+      font-size: 14px; color: var(--muted); transition: color .3s;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .f-links a::before { content: '✦'; font-size: 8px; color: var(--gold); opacity: .5; font-style: normal; }
+    .f-links a:hover { color: var(--cream); }
+    .f-hours { display: flex; flex-direction: column; gap: 10px; }
+    .f-hr { display: flex; justify-content: space-between; font-size: 13px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+    .f-hr-day { color: var(--muted); font-family: var(--font-fine); font-style: italic; }
+    .f-hr-time { font-family: var(--font-fine); font-style: italic; color: var(--gold); font-size: 12px; }
+    .footer-bottom {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 20px 0; flex-wrap: wrap; gap: 12px;
+    }
+    .f-copy { font-family: var(--font-fine); font-style: italic; font-size: 12px; color: var(--muted); letter-spacing: .05em; }
+    .f-copy em { color: var(--gold); }
+    .f-legal { display: flex; gap: 24px; }
+    .f-legal a { font-family: var(--font-fine); font-style: italic; font-size: 12px; color: var(--muted); transition: color .3s; }
+    .f-legal a:hover { color: var(--cream); }
+
+    /* CTA BANNER */
+    .cta-banner {
+      margin: 0 clamp(20px,6vw,100px) 60px;
+      padding: 48px; background: var(--gold);
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 24px;
+      position: relative; overflow: hidden;
+    }
+    .cta-banner::before {
+      content: '🍫'; position: absolute; right: 180px; top: -20px;
+      font-size: 120px; opacity: .12; pointer-events: none;
+    }
+    .cta-banner-text {
+      font-family: var(--font-serif); font-weight: 900;
+      font-size: clamp(22px,3.5vw,42px); color: var(--choc);
+      letter-spacing: -.02em; line-height: 1.1;
+    }
+    .cta-banner-text span { display: block; font-style: italic; font-weight: 400; font-size: .65em; opacity: .7; }
+    .btn-dark-round {
+      background: var(--choc); color: var(--cream);
+      padding: 14px 32px; border-radius: 40px;
+      font-family: var(--font-body); font-weight: 500; font-size: 13px;
+      letter-spacing: .08em; text-transform: uppercase; border: none; cursor: none;
+      transition: background .3s, color .3s; display: inline-block;
+    }
+    .btn-dark-round:hover { background: var(--rich); color: var(--gold); }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 1100px) {
+      .collection-grid { grid-template-columns: repeat(2,1fr); }
+      .story-grid { grid-template-columns: 1fr; gap: 60px; }
+      .story-img-stack { max-width: 500px; }
+      .order-grid { grid-template-columns: 1fr; }
+      .bento { grid-auto-rows: 60px; }
+    }
+    @media (max-width: 768px) {
+      .nav-items { display: none; }
+      #ham { display: flex; }
+      .hero-float, .hero-float-ring { display: none; }
+      .process-steps { grid-template-columns: 1fr 1fr; }
+      .process-steps::before { display: none; }
+      .reviews-grid { grid-template-columns: 1fr; }
+      .sf-grid { grid-template-columns: 1fr; }
+      .sf-group.full { grid-column: span 1; }
+      .footer-wrap { grid-template-columns: 1fr 1fr; }
+      .trust-bar { gap: 32px; }
+      .bento { grid-auto-rows: 50px; }
+      .collection-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 540px) {
+      .collection-grid { grid-template-columns: 1fr; }
+      .story-values { grid-template-columns: 1fr; }
+      .process-steps { grid-template-columns: 1fr; }
+      .bento-item:nth-child(n) { grid-column: span 12; grid-row: span 4; }
+      .footer-wrap { grid-template-columns: 1fr; }
+      .cta-banner { padding: 32px 24px; }
+    }
+  </style>
 </head>
-<body class="bg-gray-50 flex items-center justify-center min-h-screen font-sans">
-    <div class="text-center p-8 bg-white rounded-2xl shadow-sm border border-gray-100">
-        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4 text-blue-500 text-2xl font-bold">
-            3
-        </div>
-        <h1 class="text-2xl font-bold text-gray-800 mb-2">Sample Template 3</h1>
-        <p class="text-gray-500 mb-8 max-w-sm">This is a placeholder page for sample design number 3. The final design will be implemented here.</p>
-        <a href="../portfolio.html" class="inline-block px-6 py-3 bg-gray-900 text-white rounded-xl font-medium hover:bg-gray-800 transition-colors shadow-sm">
-            ← Back to Portfolio
-        </a>
+<body>
+
+<!-- CURSOR -->
+<div id="cur-dot"></div>
+<div id="cur-petal"></div>
+
+<!-- PROGRESS -->
+<div id="prog"></div>
+
+<!-- SUGAR PARTICLE CANVAS -->
+<canvas id="sugar-canvas"></canvas>
+
+<!-- PRELOADER -->
+<div id="preloader">
+  <div class="pl-icon">🍰</div>
+  <div class="pl-brand">Sweet <em>Treats</em></div>
+  <div class="pl-bar-wrap"><div class="pl-bar"></div></div>
+  <div class="pl-tagline">handcrafted with love · locally made</div>
+</div>
+
+<!-- NAVBAR -->
+<nav id="nav">
+  <a href="#hero" class="nav-logo">
+    <span class="logo-icon">🍬</span>
+    <span style="color:#c9a84c;font-family:var(--font-serif);font-weight:900;">Sweet <span class="gold">Treats</span></span>
+  </a>
+  <ul class="nav-items">
+    <li><a href="#collection">Collection</a></li>
+    <li><a href="#story">Our Story</a></li>
+    <li><a href="#process">Craft</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+    <li><a href="#order" class="nav-order" style="color:#120b07;">Order Now</a></li>
+  </ul>
+  <button id="ham" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- MOBILE NAV -->
+<div id="mob-nav">
+  <a href="#collection" onclick="closeMenu()">Collection</a>
+  <a href="#story" onclick="closeMenu()">Our Story</a>
+  <a href="#process" onclick="closeMenu()">Craft</a>
+  <a href="#gallery" onclick="closeMenu()">Gallery</a>
+  <a href="#reviews" onclick="closeMenu()">Reviews</a>
+  <a href="#order" onclick="closeMenu()">Order Now</a>
+</div>
+
+<!-- ============================================================
+     1. HERO
+============================================================ -->
+<section id="hero">
+  <div class="hero-bg-img"></div>
+
+  <div class="hero-float-ring"></div>
+  <div class="hero-float">
+    <img src="https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=700&q=85" alt="Artisan chocolates" />
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-stamp">
+      <div class="dot"></div>
+      Est. 2012 · Handcrafted Daily · Local Ingredients
     </div>
+
+    <div class="hero-hl">
+      <span class="hero-script">made with love, shared with joy</span>
+      <span class="hero-h1">SWEET</span>
+      <span class="hero-h1">TREATS</span>
+      <span class="hero-h1-outline">CONFECTIONERY</span>
+    </div>
+
+    <p class="hero-sub">
+      Artisan sweets and confections crafted from local ingredients, family recipes, and a whole lot of heart. Every bite, a memory.
+    </p>
+
+    <div class="hero-ctas">
+      <a href="#collection" class="btn-gold">✦ Explore Collection</a>
+      <a href="#order" class="btn-ghost">Order Custom →</a>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="hero-scroll-label">Scroll to taste</div>
+    <div class="hero-scroll-line"></div>
+  </div>
+</section>
+
+<!-- RIBBON -->
+<div class="ribbon">
+  <div class="ribbon-inner" id="ribbon"></div>
+</div>
+
+<!-- ============================================================
+     2. SIGNATURE COLLECTION
+============================================================ -->
+<section id="collection">
+  <div class="collection-header">
+    <div class="reveal">
+      <div class="eyebrow">Signature Collection</div>
+      <h2 class="big-title">OUR <em>FINEST</em><span class="outline">CONFECTIONS</span></h2>
+    </div>
+    <a href="#order" class="btn-ghost reveal" style="transition-delay:.2s">View All →</a>
+  </div>
+
+  <div class="collection-grid">
+    <div class="sweet-card reveal" style="transition-delay:.05s">
+      <div class="sweet-card-img">
+        <img src="https://images.unsplash.com/photo-1548907040-4baa42d10919?w=600&q=80" alt="Belgian Truffles" loading="lazy" />
+        <div class="sweet-card-badge">Best Seller</div>
+        <div class="sweet-card-quick">🛒</div>
+        <div class="sweet-card-overlay">
+          <a href="#order" class="btn-gold" style="font-size:12px;padding:10px 22px;">Order Now</a>
+        </div>
+      </div>
+      <div class="sweet-card-body">
+        <span class="sweet-card-tag">Dark Chocolate</span>
+        <div class="sweet-card-name">Belgian Truffles</div>
+        <div class="sweet-card-desc">Intense 70% cacao ganache, hand-rolled, dusted with Dutch cocoa.</div>
+        <div class="sweet-card-price">₹299 / box of 6</div>
+      </div>
+    </div>
+
+    <div class="sweet-card reveal" style="transition-delay:.1s">
+      <div class="sweet-card-img">
+        <img src="https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=600&q=80" alt="French Macarons" loading="lazy" />
+        <div class="sweet-card-quick">🛒</div>
+        <div class="sweet-card-overlay">
+          <a href="#order" class="btn-gold" style="font-size:12px;padding:10px 22px;">Order Now</a>
+        </div>
+      </div>
+      <div class="sweet-card-body">
+        <span class="sweet-card-tag">Patisserie</span>
+        <div class="sweet-card-name">French Macarons</div>
+        <div class="sweet-card-desc">Almond meringue shells filled with seasonal flavoured buttercream.</div>
+        <div class="sweet-card-price">₹249 / pack of 8</div>
+      </div>
+    </div>
+
+    <div class="sweet-card reveal" style="transition-delay:.15s">
+      <div class="sweet-card-img">
+        <img src="https://images.unsplash.com/photo-1587668178277-295251f900ce?w=600&q=80" alt="Artisan Fudge" loading="lazy" />
+        <div class="sweet-card-badge">New</div>
+        <div class="sweet-card-quick">🛒</div>
+        <div class="sweet-card-overlay">
+          <a href="#order" class="btn-gold" style="font-size:12px;padding:10px 22px;">Order Now</a>
+        </div>
+      </div>
+      <div class="sweet-card-body">
+        <span class="sweet-card-tag">Classic</span>
+        <div class="sweet-card-name">Artisan Fudge</div>
+        <div class="sweet-card-desc">Slow-cooked, creamy fudge in vanilla, walnut, and salted caramel.</div>
+        <div class="sweet-card-price">₹179 / 200g slab</div>
+      </div>
+    </div>
+
+    <div class="sweet-card reveal" style="transition-delay:.2s">
+      <div class="sweet-card-img">
+        <img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=600&q=80" alt="Gift Hampers" loading="lazy" />
+        <div class="sweet-card-quick">🛒</div>
+        <div class="sweet-card-overlay">
+          <a href="#order" class="btn-gold" style="font-size:12px;padding:10px 22px;">Order Now</a>
+        </div>
+      </div>
+      <div class="sweet-card-body">
+        <span class="sweet-card-tag">Gifting</span>
+        <div class="sweet-card-name">Curated Gift Hampers</div>
+        <div class="sweet-card-desc">Handpicked assortments in luxury packaging: perfect for any occasion.</div>
+        <div class="sweet-card-price">From ₹799 / hamper</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     3. OUR STORY
+============================================================ -->
+<section id="story">
+  <div class="story-grid">
+    <div class="story-img-stack rl">
+      <img class="story-img-main"
+        src="https://images.unsplash.com/photo-1574085733277-851d9d856a3a?w=700&q=80"
+        alt="Confectionery making" loading="lazy" />
+      <img class="story-img-accent"
+        src="https://images.unsplash.com/photo-1621939514649-280e2ee25f60?w=400&q=80"
+        alt="Artisan sweets" loading="lazy" />
+      <div class="story-badge-wrap">
+        <div class="story-badge">
+          <div class="story-badge-num">12</div>
+          <div class="story-badge-text">Years of Craft</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rr">
+      <div class="eyebrow">Our Story</div>
+      <h2 class="big-title">MADE FROM <em>SCRATCH,</em><span class="outline">EVERY DAY</span></h2>
+
+      <blockquote class="story-pull-quote">
+        "My grandmother's recipe book is still the most valuable thing in our kitchen."
+        <cite style="display:block;font-size:13px;margin-top:8px;color:var(--muted)">Priya Nair, Founder</cite>
+      </blockquote>
+
+      <p class="body-text">
+        Sweet Treats began in a small home kitchen in 2012. What started as weekend batches for family gatherings grew into a beloved local institution, built on one simple belief: real ingredients, real craft, and real care.
+      </p>
+      <p class="body-text" style="margin-top:14px;">
+        Every confection is made fresh daily. No preservatives, no shortcuts. Just seasonal fruits, locally sourced dairy, single-origin chocolate, and recipes that have been passed down for generations.
+      </p>
+
+      <div class="story-values">
+        <div class="story-val">
+          <div class="story-val-icon">🌿</div>
+          <div>
+            <div class="story-val-title">Local Ingredients</div>
+            <div class="story-val-desc">Sourced from farmers we know by name, within 100 km of our kitchen.</div>
+          </div>
+        </div>
+        <div class="story-val">
+          <div class="story-val-icon">🤲</div>
+          <div>
+            <div class="story-val-title">Handcrafted Always</div>
+            <div class="story-val-desc">No machines doing what hands do better. Every piece, made one at a time.</div>
+          </div>
+        </div>
+        <div class="story-val">
+          <div class="story-val-icon">🚫</div>
+          <div>
+            <div class="story-val-title">No Preservatives</div>
+            <div class="story-val-desc">Fresh daily. Consumed fresh. That's the only way we know how to do it.</div>
+          </div>
+        </div>
+        <div class="story-val">
+          <div class="story-val-icon">🎁</div>
+          <div>
+            <div class="story-val-title">Custom Orders</div>
+            <div class="story-val-desc">Weddings, festivals, corporate gifting: we tailor everything to your occasion.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     4. PROCESS
+============================================================ -->
+<section id="process">
+  <div class="process-bg-text">CRAFT</div>
+  <div class="process-header">
+    <div class="eyebrow reveal">The Craft</div>
+    <h2 class="big-title reveal" style="text-align:center">HOW WE <em>MAKE IT</em></h2>
+  </div>
+
+  <div class="process-steps">
+    <div class="proc-step reveal" style="transition-delay:.05s">
+      <div class="proc-node">🌾<div class="proc-num">01</div></div>
+      <div class="proc-title">Source</div>
+      <div class="proc-desc">We select the finest local ingredients: seasonal fruits, pure dairy, single-origin cacao.</div>
+    </div>
+    <div class="proc-step reveal" style="transition-delay:.1s">
+      <div class="proc-node">⚖️<div class="proc-num">02</div></div>
+      <div class="proc-title">Measure</div>
+      <div class="proc-desc">Precision matters in confectionery. We weigh and prepare each ingredient to the gram.</div>
+    </div>
+    <div class="proc-step reveal" style="transition-delay:.15s">
+      <div class="proc-node">🔥<div class="proc-num">03</div></div>
+      <div class="proc-title">Craft</div>
+      <div class="proc-desc">Hand-poured, slow-cooked, tempered and shaped. No shortcuts. Just technique and patience.</div>
+    </div>
+    <div class="proc-step reveal" style="transition-delay:.2s">
+      <div class="proc-node">🎁<div class="proc-num">04</div></div>
+      <div class="proc-title">Package</div>
+      <div class="proc-desc">Wrapped in beautiful, sustainable packaging: ready to gift, share, or savour alone.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+    5. GALLERY : Bento
+============================================================ -->
+<section id="gallery">
+  <div class="gallery-header">
+    <div class="reveal">
+      <div class="eyebrow">Gallery</div>
+      <h2 class="big-title">FROM OUR <em>KITCHEN</em></h2>
+    </div>
+    <a href="#order" class="btn-ghost reveal" style="transition-delay:.2s">Order Yours →</a>
+  </div>
+
+  <div class="bento">
+    <div class="bento-item reveal">
+      <img src="https://images.unsplash.com/photo-1541599468348-e96984315921?w=900&q=80" alt="Chocolates" loading="lazy" />
+      <div class="bento-overlay"><div class="bento-label">Artisan Chocolates</div></div>
+    </div>
+    <div class="bento-item reveal" style="transition-delay:.05s">
+      <img src="https://images.unsplash.com/photo-1587668178277-295251f900ce?w=600&q=80" alt="Fudge" loading="lazy" />
+      <div class="bento-overlay"><div class="bento-label">Homemade Fudge</div></div>
+    </div>
+    <div class="bento-item reveal" style="transition-delay:.1s">
+      <img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=500&q=80" alt="Candy" loading="lazy" />
+      <div class="bento-overlay"><div class="bento-label">Seasonal Sweets</div></div>
+    </div>
+    <div class="bento-item reveal" style="transition-delay:.15s">
+      <img src="https://images.unsplash.com/photo-1621939514649-280e2ee25f60?w=600&q=80" alt="Candy jar" loading="lazy" />
+      <div class="bento-overlay"><div class="bento-label">Sugar Confections</div></div>
+    </div>
+    <div class="bento-item reveal" style="transition-delay:.2s">
+      <img src="https://images.unsplash.com/photo-1562440499-64c9a111f713?w=500&q=80" alt="Macarons" loading="lazy" />
+      <div class="bento-overlay"><div class="bento-label">French Macarons</div></div>
+    </div>
+    <div class="bento-item reveal" style="transition-delay:.25s">
+      <img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=700&q=80" alt="Gift box" loading="lazy" />
+      <div class="bento-overlay"><div class="bento-label">Gift Hampers</div></div>
+    </div>
+    <div class="bento-item reveal" style="transition-delay:.3s">
+      <img src="https://images.unsplash.com/photo-1548907040-4baa42d10919?w=500&q=80" alt="Truffles" loading="lazy" />
+      <div class="bento-overlay"><div class="bento-label">Chocolate Truffles</div></div>
+    </div>
+    <div class="bento-item reveal" style="transition-delay:.35s">
+      <img src="https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=800&q=80" alt="Macarons spread" loading="lazy" />
+      <div class="bento-overlay"><div class="bento-label">Fresh Daily</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     6. REVIEWS
+============================================================ -->
+<section id="reviews">
+  <div class="reviews-bg-quote">❛</div>
+  <div class="reviews-header">
+    <div class="eyebrow reveal">Testimonials</div>
+    <h2 class="big-title reveal" style="text-align:center">WORDS FROM <em>OUR PEOPLE</em></h2>
+  </div>
+
+  <div class="reviews-grid">
+    <div class="rev-card reveal" style="transition-delay:.05s">
+      <div class="rev-ornament">❝</div>
+      <div class="rev-stars">★★★★★</div>
+      <div class="rev-text">"Ordered a custom hamper for Diwali gifting. The presentation was exquisite; clients couldn't stop talking about it. The salted caramel truffles disappeared in minutes."</div>
+      <div class="rev-author">
+        <div class="rev-ava">M</div>
+        <div>
+          <div class="rev-name">Meena Chadha</div>
+          <div class="rev-role">Corporate Client · Delhi</div>
+        </div>
+      </div>
+    </div>
+    <div class="rev-card reveal" style="transition-delay:.1s">
+      <div class="rev-ornament">❝</div>
+      <div class="rev-stars">★★★★★</div>
+      <div class="rev-text">"The macarons are genuinely the best I've had outside of Paris. Light, perfectly flavoured, and they arrived beautifully packaged. I order every week without fail."</div>
+      <div class="rev-author">
+        <div class="rev-ava">S</div>
+        <div>
+          <div class="rev-name">Simran Batra</div>
+          <div class="rev-role">Regular Customer · Ludhiana</div>
+        </div>
+      </div>
+    </div>
+    <div class="rev-card reveal" style="transition-delay:.15s">
+      <div class="rev-ornament">❝</div>
+      <div class="rev-stars">★★★★★</div>
+      <div class="rev-text">"We used Sweet Treats for our wedding favours: 200 custom boxes. Every single box was perfect. Guests asked for the card. Highly recommend for large events."</div>
+      <div class="rev-author">
+        <div class="rev-ava">A</div>
+        <div>
+          <div class="rev-name">Arjun & Neha Kapoor</div>
+          <div class="rev-role">Wedding Clients · Chandigarh</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="trust-bar">
+    <div class="trust-item reveal">
+      <div class="trust-num"><span class="count" data-target="4800">0</span>+</div>
+      <div class="trust-label">Happy Customers</div>
+    </div>
+    <div style="width:1px;height:60px;background:var(--border)"></div>
+    <div class="trust-item reveal" style="transition-delay:.1s">
+      <div class="trust-num">4.9<span style="font-size:.5em;color:var(--gold)">★</span></div>
+      <div class="trust-label">Average Rating</div>
+    </div>
+    <div style="width:1px;height:60px;background:var(--border)"></div>
+    <div class="trust-item reveal" style="transition-delay:.2s">
+      <div class="trust-num"><span class="count" data-target="12">0</span></div>
+      <div class="trust-label">Years of Craft</div>
+    </div>
+    <div style="width:1px;height:60px;background:var(--border)"></div>
+    <div class="trust-item reveal" style="transition-delay:.3s">
+      <div class="trust-num"><span class="count" data-target="40">0</span>+</div>
+      <div class="trust-label">Varieties Made Daily</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<div class="cta-banner reveal">
+  <div class="cta-banner-text">
+    Celebrate something sweet.
+    <span>Custom orders for weddings, festivals &amp; corporate gifting</span>
+  </div>
+  <a href="#order" class="btn-dark-round">Get a Custom Quote →</a>
+</div>
+
+<!-- ============================================================
+     7. ORDER
+============================================================ -->
+<section id="order">
+  <div class="order-grid">
+    <div class="order-info-wrap">
+      <div class="eyebrow reveal">Get in Touch</div>
+      <h2 class="big-title reveal">PLACE YOUR <em>ORDER</em></h2>
+      <p class="body-text reveal" style="margin-top:16px;max-width:400px;transition-delay:.1s">
+        Tell us what you're looking for: custom boxes, event orders, or a regular weekly delivery. We'll get back to you within a few hours.
+      </p>
+
+      <div class="order-highlight reveal" style="transition-delay:.2s">
+        <div class="oh-title">// CONTACT & HOURS</div>
+        <div class="oh-items">
+          <div class="oh-item">
+            <div class="oh-icon">📍</div>
+            <div>
+              <div class="oh-label">FIND US</div>
+              <div class="oh-value">14, Model Town Market, Ludhiana, Punjab 141002</div>
+            </div>
+          </div>
+          <div class="oh-item">
+            <div class="oh-icon">📞</div>
+            <div>
+              <div class="oh-label">CALL / WHATSAPP</div>
+              <div class="oh-value">+91 94170 12345</div>
+            </div>
+          </div>
+          <div class="oh-item">
+            <div class="oh-icon">✉️</div>
+            <div>
+              <div class="oh-label">EMAIL</div>
+              <div class="oh-value">hello@sweettreats.in</div>
+            </div>
+          </div>
+          <div class="oh-item">
+            <div class="oh-icon">🕐</div>
+            <div>
+              <div class="oh-label">SHOP HOURS</div>
+              <div class="oh-value">Tue–Sun: 9AM–8PM</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sweet-form rr">
+      <div class="sf-header">
+        <div class="sf-title">// ORDER REQUEST</div>
+        <div class="sf-avail"><div class="sf-avail-dot"></div> Taking orders</div>
+      </div>
+      <form id="order-form" onsubmit="handleOrder(event)">
+        <div class="sf-grid">
+          <div class="sf-group">
+            <label class="sf-label">Your Name</label>
+            <input type="text" class="sf-input" placeholder="Full name" required />
+          </div>
+          <div class="sf-group">
+            <label class="sf-label">Phone / WhatsApp</label>
+            <input type="tel" class="sf-input" placeholder="+91 00000 00000" required />
+          </div>
+          <div class="sf-group">
+            <label class="sf-label">Email</label>
+            <input type="email" class="sf-input" placeholder="you@email.com" />
+          </div>
+          <div class="sf-group">
+            <label class="sf-label">Occasion</label>
+            <select class="sf-input">
+              <option value="" disabled selected>Select occasion...</option>
+              <option>Personal / Gift</option>
+              <option>Wedding Favours</option>
+              <option>Festival / Diwali</option>
+              <option>Corporate Gifting</option>
+              <option>Birthday Celebration</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="sf-group">
+            <label class="sf-label">Product Interest</label>
+            <select class="sf-input">
+              <option value="" disabled selected>Choose product...</option>
+              <option>Belgian Truffles</option>
+              <option>French Macarons</option>
+              <option>Artisan Fudge</option>
+              <option>Gift Hamper</option>
+              <option>Custom Assortment</option>
+              <option>Seasonal Special</option>
+            </select>
+          </div>
+          <div class="sf-group">
+            <label class="sf-label">Required By (Date)</label>
+            <input type="date" class="sf-input" />
+          </div>
+          <div class="sf-group full">
+            <label class="sf-label">Tell us more</label>
+            <textarea class="sf-input" placeholder="Quantity, dietary requirements, custom flavours, packaging preferences..."></textarea>
+          </div>
+        </div>
+        <div class="sf-submit">
+          <button type="submit" class="btn-gold">✦ Send Enquiry</button>
+          <div class="sf-note">We reply within a few hours</div>
+        </div>
+        <div id="order-success">✦ &nbsp; Thank you! We'll be in touch very soon.</div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     8. FOOTER
+============================================================ -->
+<footer id="footer">
+  <div class="footer-wrap">
+    <div>
+      <div class="footer-brand">Sweet <em>Treats</em></div>
+      <div class="footer-brand-sub">Artisan confectionery made daily in Ludhiana. Local ingredients, family recipes, handcrafted with love since 2012.</div>
+      <div class="footer-socials">
+        <a class="fsoc" href="#" aria-label="Instagram">📸</a>
+        <a class="fsoc" href="#" aria-label="Facebook">f</a>
+        <a class="fsoc" href="#" aria-label="WhatsApp">💬</a>
+        <a class="fsoc" href="#" aria-label="Pinterest">📌</a>
+      </div>
+    </div>
+
+    <div>
+      <div class="f-col-title">Collection</div>
+      <ul class="f-links">
+        <li><a href="#collection">Belgian Truffles</a></li>
+        <li><a href="#collection">French Macarons</a></li>
+        <li><a href="#collection">Artisan Fudge</a></li>
+        <li><a href="#collection">Gift Hampers</a></li>
+        <li><a href="#collection">Seasonal Specials</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="f-col-title">Information</div>
+      <ul class="f-links">
+        <li><a href="#story">Our Story</a></li>
+        <li><a href="#process">Craft Process</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#reviews">Reviews</a></li>
+        <li><a href="#order">Custom Orders</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="f-col-title">Shop Hours</div>
+      <div class="f-hours">
+        <div class="f-hr"><span class="f-hr-day">Monday</span><span class="f-hr-time" style="color:var(--red,#e87)">Closed</span></div>
+        <div class="f-hr"><span class="f-hr-day">Tue – Fri</span><span class="f-hr-time">9AM – 8PM</span></div>
+        <div class="f-hr"><span class="f-hr-day">Saturday</span><span class="f-hr-time">9AM – 9PM</span></div>
+        <div class="f-hr"><span class="f-hr-day">Sunday</span><span class="f-hr-time">10AM – 6PM</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="f-copy">© 2024 <em>Sweet Treats Confectionery</em>. All rights reserved. Made with ♥ in Ludhiana.</div>
+    <div class="f-legal">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Allergen Info</a>
+      <a href="#">Sitemap</a>
+    </div>
+  </div>
+</footer>
+
+<!-- GROWZIQ FOOTER -->
+<footer id="growziq-footer" style="background: var(--panel); border-top: 1px solid var(--border); padding: 24px 0 20px 0; text-align: center; position: relative; z-index: 100;">
+  <span style="font-family: var(--font-fine); font-size: 13px; color: var(--muted); letter-spacing: .12em;">
+    © 2026 <a href="https://growziq.in" target="_blank" style="color: var(--gold); text-decoration: underline; font-weight: 700;">Growziq™</a> | All rights reserved.<br>
+    All designs, layouts, and code are intellectual property of <a href="https://growziq.in" target="_blank" style="color: var(--gold); text-decoration: underline; font-weight: 700;">Growziq</a> and protected under applicable laws
+  </span>
+</footer>
+
+<!-- GROWZIQ BADGE (Redesigned) -->
+<a href="https://growziq.in" target="_blank" id="growziq-badge" style="position:fixed;right:24px;bottom:24px;z-index:99999;text-decoration:none;">
+  <div style="display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.95);color:#c9a84c;font-family:var(--font-body);font-weight:700;font-size:15px;padding:12px 22px 12px 16px;border-radius:18px 32px 18px 32px;box-shadow:0 4px 24px 0 rgba(201,168,76,0.18);border:2px solid #c9a84c;transition:box-shadow .3s;align-items:center;">
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;"><circle cx="11" cy="11" r="11" fill="#c9a84c"/><text x="11" y="16" text-anchor="middle" font-size="13" font-family="Arial, sans-serif" fill="#fff">&lt;/&gt;</text></svg>
+    <span style="letter-spacing:.08em;">Built by <span style="color:#b48a1e;font-weight:900;">Growziq</span></span>
+  </div>
+</a>
+
+<!-- ============================================================
+     JAVASCRIPT
+============================================================ -->
+<script>
+/* ---- PRELOADER ---- */
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    const pl = document.getElementById('preloader');
+    pl.classList.add('gone');
+    setTimeout(() => pl.remove(), 900);
+  }, 2000);
+});
+
+/* ---- CURSOR ---- */
+const dot   = document.getElementById('cur-dot');
+const petal = document.getElementById('cur-petal');
+let mx = 0, my = 0, px = 0, py = 0;
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+});
+(function loop() {
+  px += (mx - px) * .1; py += (my - py) * .1;
+  petal.style.left = px + 'px'; petal.style.top = py + 'px';
+  requestAnimationFrame(loop);
+})();
+document.querySelectorAll('a,button,.sweet-card,.bento-item,.rev-card,.story-val').forEach(el => {
+  el.addEventListener('mouseenter', () => { petal.style.width='56px'; petal.style.height='56px'; petal.style.borderRadius='30% 70% 70% 30% / 30% 30% 70% 70%'; petal.style.opacity='.8'; });
+  el.addEventListener('mouseleave', () => { petal.style.width='44px'; petal.style.height='44px'; petal.style.borderRadius='50%'; petal.style.opacity='.5'; });
+});
+
+/* ---- SCROLL PROGRESS ---- */
+window.addEventListener('scroll', () => {
+  const s = window.scrollY, t = document.documentElement.scrollHeight - innerHeight;
+  document.getElementById('prog').style.width = (s/t*100) + '%';
+  document.getElementById('nav').classList.toggle('scrolled', s > 50);
+});
+
+/* ---- SUGAR PARTICLES ---- */
+const canvas = document.getElementById('sugar-canvas');
+const ctx    = canvas.getContext('2d');
+let W, H;
+function resize() { W = canvas.width = innerWidth; H = canvas.height = innerHeight; }
+resize(); window.addEventListener('resize', resize);
+const SHAPES = ['✦','·','◇','✿','♡'];
+const particles = Array.from({length: 55}, () => ({
+  x: Math.random() * 3000,
+  y: Math.random() * 2000,
+  s: Math.random() * 12 + 6,
+  a: Math.random() * .25 + .06,
+  sp: Math.random() * .3 + .12,
+  drift: Math.random() * .4 - .2,
+  ch: SHAPES[Math.floor(Math.random() * SHAPES.length)],
+  rot: Math.random() * Math.PI * 2,
+  rotSp: (Math.random() - .5) * .01
+}));
+function drawParticles() {
+  ctx.clearRect(0, 0, W, H);
+  particles.forEach(p => {
+    p.y -= p.sp; p.x += p.drift; p.rot += p.rotSp;
+    if (p.y + p.s < 0) { p.y = H + 20; p.x = Math.random() * W; }
+    if (p.x > W + 20)  p.x = -20;
+    if (p.x < -20)     p.x = W + 20;
+    ctx.save();
+    ctx.translate(p.x, p.y);
+    ctx.rotate(p.rot);
+    ctx.globalAlpha = p.a;
+    ctx.fillStyle = '#c9a84c';
+    ctx.font = `${p.s}px serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(p.ch, 0, 0);
+    ctx.restore();
+  });
+  requestAnimationFrame(drawParticles);
+}
+drawParticles();
+
+/* ---- RIBBON ---- */
+const ribbonItems = ['🍫 Belgian Chocolate','🍬 Artisan Sweets','🎁 Gift Hampers','🍪 Freshly Baked','🌿 Local Ingredients','💛 Made with Love','✦ No Preservatives','🍰 Custom Orders'];
+const doubled = [...ribbonItems,...ribbonItems];
+document.getElementById('ribbon').innerHTML = doubled.map(t => `<span class="ribbon-item">${t}<span class="ribbon-sep">·</span></span>`).join('');
+
+/* ---- REVEAL ---- */
+const reveals = document.querySelectorAll('.reveal,.rl,.rr');
+const rio = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('in'); rio.unobserve(e.target); } });
+}, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+reveals.forEach(el => rio.observe(el));
+
+/* ---- COUNTERS ---- */
+let cDone = false;
+const cIO = new IntersectionObserver(entries => {
+  if(entries[0].isIntersecting && !cDone) {
+    cDone = true;
+    document.querySelectorAll('.count').forEach(el => {
+      const tgt = +el.dataset.target;
+      let cur = 0; const step = tgt / (1600/16);
+      const t = setInterval(() => {
+        cur += step;
+        if(cur >= tgt) { el.textContent = tgt.toLocaleString(); clearInterval(t); }
+        else el.textContent = Math.floor(cur).toLocaleString();
+      }, 16);
+    });
+    cIO.disconnect();
+  }
+}, {threshold:.3});
+cIO.observe(document.getElementById('reviews'));
+
+/* ---- MOBILE MENU ---- */
+const ham = document.getElementById('ham');
+const mob = document.getElementById('mob-nav');
+let open = false;
+ham.addEventListener('click', () => {
+  open = !open; mob.classList.toggle('open', open);
+  const s = ham.querySelectorAll('span');
+  if(open){ s[0].style.transform='rotate(45deg) translate(5px,5px)'; s[1].style.opacity='0'; s[2].style.transform='rotate(-45deg) translate(5px,-5px)'; }
+  else s.forEach(x=>{x.style.transform='';x.style.opacity='';});
+});
+function closeMenu(){ open=false; mob.classList.remove('open'); ham.querySelectorAll('span').forEach(x=>{x.style.transform='';x.style.opacity='';}); }
+
+/* ---- FORM ---- */
+function handleOrder(e) {
+  e.preventDefault();
+  const btn = e.target.querySelector('[type="submit"]');
+  btn.textContent = 'Sending...'; btn.disabled = true;
+  setTimeout(() => {
+    document.getElementById('order-success').style.display = 'block';
+    btn.textContent = '✦ Send Enquiry'; btn.disabled = false;
+    e.target.reset();
+    setTimeout(()=>{ document.getElementById('order-success').style.display='none'; }, 5000);
+  }, 1200);
+}
+
+/* ---- MIN DATE ---- */
+const di = document.querySelector('input[type="date"]');
+if(di){ const d=new Date(); d.setDate(d.getDate()+1); di.min=d.toISOString().split('T')[0]; }
+</script>
+
+<script>
+// Hyperlink all 'Growziq' words to growziq.in (case-insensitive, including badge)
+document.addEventListener('DOMContentLoaded', function() {
+  function linkGrowziqText(node) {
+    if (node.nodeType === 3) {
+      const replaced = node.nodeValue.replace(/(Growziq)/gi, function(match) {
+        return '<a href="https://growziq.in" target="_blank" style="color:var(--gold);text-decoration:underline;font-weight:700;">'+match+'</a>';
+      });
+      if (replaced !== node.nodeValue) {
+        const span = document.createElement('span');
+        span.innerHTML = replaced;
+        node.parentNode.replaceChild(span, node);
+      }
+    } else if (node.nodeType === 1 && node.childNodes && !['A','SCRIPT','STYLE'].includes(node.tagName)) {
+      Array.from(node.childNodes).forEach(linkGrowziqText);
+    }
+  }
+  linkGrowziqText(document.body);
+});
 </body>
 </html>
