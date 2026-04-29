@@ -1,22 +1,1683 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sample Template 6</title>
-    <!-- Use inline Tailwind for the placeholder -->
-    <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Speedy Auto Care — Precision. Speed. Reliability.</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%2300d4ff'/%3E%3Ctext x='32' y='42' font-size='32' text-anchor='middle' fill='%23060a0a' font-family='Barlow Condensed, Arial, sans-serif' font-weight='bold'%3ES%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Barlow+Condensed:wght@300;400;500;600;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ============================================================
+       DESIGN TOKENS & RESET
+    ============================================================ */
+    :root {
+      --black:      #06060a;
+      --dark:       #0d0d14;
+      --panel:      #11111c;
+      --card:       #161625;
+      --border:     rgba(0,212,255,.12);
+      --blue:       #00d4ff;
+      --blue-dim:   rgba(0,212,255,.18);
+      --blue-glow:  rgba(0,212,255,.45);
+      --red:        #ff2d55;
+      --red-dim:    rgba(255,45,85,.18);
+      --yellow:     #ffd60a;
+      --white:      #f0f4ff;
+      --muted:      #6b6b88;
+      --font-head:  'Barlow Condensed', sans-serif;
+      --font-ui:    'Rajdhani', sans-serif;
+      --font-mono:  'Share Tech Mono', monospace;
+      --radius:     4px;
+      --transition: .3s cubic-bezier(.25,.8,.25,1);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: var(--font-ui);
+      overflow-x: hidden;
+      cursor: none;
+    }
+    /* Hide scrollbar for all browsers */
+    body::-webkit-scrollbar { display: none; }
+    body { -ms-overflow-style: none; scrollbar-width: none; }
+    img { display: block; max-width: 100%; }
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+
+    /* ============================================================
+       CUSTOM CURSOR
+    ============================================================ */
+    #cursor-dot, #cursor-ring {
+      position: fixed; border-radius: 50%;
+      pointer-events: none; z-index: 9999; transform: translate(-50%,-50%);
+      transition: opacity .3s;
+    }
+    #cursor-dot {
+      width: 6px; height: 6px;
+      background: var(--blue);
+      box-shadow: 0 0 12px var(--blue-glow);
+    }
+    #cursor-ring {
+      width: 36px; height: 36px;
+      border: 1.5px solid var(--blue);
+      opacity: .6;
+      transition: width .2s, height .2s, opacity .3s;
+    }
+    body:hover #cursor-dot, body:hover #cursor-ring { opacity: 1; }
+
+    /* ============================================================
+       SCROLL PROGRESS BAR
+    ============================================================ */
+    #progress-bar {
+      position: fixed; top: 0; left: 0;
+      height: 2px; width: 0%;
+      background: linear-gradient(90deg, var(--blue), var(--red));
+      z-index: 9998;
+      box-shadow: 0 0 10px var(--blue-glow);
+      transition: width .05s linear;
+    }
+
+    /* ============================================================
+       PRELOADER
+    ============================================================ */
+    #preloader {
+      position: fixed; inset: 0;
+      background: var(--black);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 9997; flex-direction: column; gap: 20px;
+    }
+    .preloader-logo {
+      font-family: var(--font-head); font-weight: 900;
+      font-size: clamp(28px,5vw,48px); letter-spacing: .15em;
+      color: var(--white);
+    }
+    .preloader-logo span { color: var(--blue); }
+    .loader-bar-wrap {
+      width: 240px; height: 2px;
+      background: rgba(255,255,255,.1); overflow: hidden; border-radius: 2px;
+    }
+    .loader-bar {
+      height: 100%; width: 0%;
+      background: linear-gradient(90deg, var(--blue), var(--red));
+      animation: loadBar 1.6s cubic-bezier(.77,0,.175,1) forwards;
+      box-shadow: 0 0 14px var(--blue-glow);
+    }
+    @keyframes loadBar { to { width: 100%; } }
+    .preloader-text {
+      font-family: var(--font-mono); font-size: 11px;
+      color: var(--muted); letter-spacing: .2em;
+    }
+    #preloader.done { opacity: 0; pointer-events: none; transition: opacity .6s .2s; }
+
+    /* ============================================================
+       NAVBAR
+    ============================================================ */
+    #navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+      padding: 0 clamp(20px,5vw,64px);
+      height: 72px; display: flex; align-items: center; justify-content: space-between;
+      background: rgba(6,6,10,.7);
+      backdrop-filter: blur(20px) saturate(1.4);
+      border-bottom: 1px solid var(--border);
+      transition: background .3s;
+    }
+    #navbar.scrolled { background: rgba(6,6,10,.95); }
+    .nav-brand {
+      font-family: var(--font-head); font-weight: 900;
+      font-size: 22px; letter-spacing: .1em;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .nav-brand .icon {
+      width: 32px; height: 32px; background: var(--blue);
+      clip-path: polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; color: var(--black); font-weight: 900;
+    }
+    .nav-brand span { color: var(--blue); }
+    .nav-links {
+      display: flex; align-items: center; gap: 36px;
+    }
+    .nav-links a {
+      font-family: var(--font-head); font-weight: 600; font-size: 13px;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--muted); position: relative; transition: color .3s;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -4px; left: 0;
+      width: 0; height: 1px; background: var(--blue);
+      transition: width .3s;
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-cta {
+      background: var(--blue); color: var(--black) !important;
+      padding: 8px 22px; clip-path: polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);
+      font-weight: 700; font-size: 12px !important;
+      transition: box-shadow .3s, background .3s !important;
+    }
+    .nav-cta::after { display: none !important; }
+    .nav-cta:hover { background: var(--white) !important; box-shadow: 0 0 24px var(--blue-glow); }
+    #hamburger {
+      display: none; flex-direction: column; gap: 5px; cursor: none;
+      background: none; border: none; padding: 4px;
+    }
+    #hamburger span { display: block; width: 26px; height: 2px; background: var(--white); transition: .3s; }
+    #mobile-menu {
+      display: none; position: fixed; top: 72px; left: 0; right: 0;
+      background: rgba(6,6,10,.97); padding: 32px;
+      backdrop-filter: blur(20px); z-index: 499; flex-direction: column; gap: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+    #mobile-menu.open { display: flex; }
+    #mobile-menu a {
+      font-family: var(--font-head); font-size: 22px; font-weight: 700;
+      letter-spacing: .1em; color: var(--muted); border-bottom: 1px solid var(--border);
+      padding-bottom: 16px; transition: color .3s;
+    }
+    #mobile-menu a:hover { color: var(--blue); }
+
+    /* ============================================================
+       SHARED UTILITIES
+    ============================================================ */
+    .reveal {
+      opacity: 0; transform: translateY(40px);
+      transition: opacity .7s cubic-bezier(.4,0,.2,1), transform .7s cubic-bezier(.4,0,.2,1);
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal-left { opacity: 0; transform: translateX(-50px); transition: opacity .7s, transform .7s; }
+    .reveal-left.visible { opacity: 1; transform: none; }
+    .reveal-right { opacity: 0; transform: translateX(50px); transition: opacity .7s, transform .7s; }
+    .reveal-right.visible { opacity: 1; transform: none; }
+
+    .section-label {
+      font-family: var(--font-mono); font-size: 11px;
+      letter-spacing: .3em; text-transform: uppercase;
+      color: var(--blue); margin-bottom: 12px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .section-label::before {
+      content: ''; display: block; width: 28px; height: 1px; background: var(--blue);
+    }
+    .section-title {
+      font-family: var(--font-head); font-weight: 900;
+      font-size: clamp(36px,5vw,72px); line-height: .95;
+      text-transform: uppercase; letter-spacing: -.02em;
+    }
+    .section-title em { font-style: normal; color: var(--blue); }
+    .section-title .red { color: var(--red); }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: var(--font-head); font-weight: 700; font-size: 14px;
+      letter-spacing: .12em; text-transform: uppercase;
+      padding: 14px 32px; border: none; cursor: none;
+      clip-path: polygon(12px 0%,100% 0%,calc(100% - 12px) 100%,0% 100%);
+      transition: all .3s;
+    }
+    .btn-primary {
+      background: var(--blue); color: var(--black);
+    }
+    .btn-primary:hover {
+      background: var(--white);
+      box-shadow: 0 0 40px var(--blue-glow), 0 0 80px rgba(0,212,255,.2);
+    }
+    .btn-outline {
+      background: transparent; color: var(--white);
+      border: 1px solid rgba(255,255,255,.3);
+      clip-path: none; padding: 13px 30px;
+    }
+    .btn-outline:hover { border-color: var(--blue); color: var(--blue); box-shadow: 0 0 20px var(--blue-dim); }
+    .btn-red { background: var(--red); color: var(--white); }
+    .btn-red:hover { background: #ff4d6a; box-shadow: 0 0 40px rgba(255,45,85,.5); }
+
+    .diagonal-section { clip-path: polygon(0 40px, 100% 0, 100% calc(100% - 40px), 0 100%); }
+    .diagonal-top    { clip-path: polygon(0 40px, 100% 0, 100% 100%, 0 100%); }
+    .diagonal-bottom { clip-path: polygon(0 0, 100% 0, 100% calc(100% - 40px), 0 100%); }
+
+    /* GRID TEXTURE */
+    .grid-bg {
+      background-image:
+        linear-gradient(rgba(0,212,255,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,255,.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    /* ============================================================
+       1. HERO SECTION
+    ============================================================ */
+    #hero {
+      position: relative; min-height: 100vh;
+      display: flex; align-items: center;
+      overflow: hidden; background: var(--black);
+    }
+    .hero-bg {
+      position: absolute; inset: 0; z-index: 0;
+    }
+    /* Speed lines background */
+    .speed-lines {
+      position: absolute; inset: 0; overflow: hidden;
+    }
+    .speed-line {
+      position: absolute; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--blue), transparent);
+      opacity: 0; animation: speedLine 3s linear infinite;
+      box-shadow: 0 0 8px var(--blue);
+    }
+    @keyframes speedLine {
+      0%   { transform: translateX(-100%); opacity: 0; }
+      10%  { opacity: 1; }
+      90%  { opacity: .6; }
+      100% { transform: translateX(200vw); opacity: 0; }
+    }
+    .hero-car-image {
+      position: absolute; right: -5%; bottom: 0;
+      width: clamp(400px, 58vw, 900px); height: auto;
+      opacity: 0; transform: translateX(60px);
+      transition: opacity 1.2s 1s, transform 1.2s 1s cubic-bezier(.25,.8,.25,1);
+      filter: drop-shadow(-40px 0 60px rgba(0,212,255,.3));
+    }
+    .hero-car-image.loaded { opacity: 1; transform: translateX(0); }
+
+    /* Diagonal overlay */
+    .hero-diagonal {
+      position: absolute; top: 0; right: 30%;
+      width: 1px; height: 100%;
+      background: linear-gradient(180deg, transparent, var(--blue-glow), transparent);
+      opacity: .4;
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      padding: 0 clamp(24px,8vw,120px);
+      padding-top: 72px; max-width: 720px;
+    }
+    .hero-tag {
+      font-family: var(--font-mono); font-size: 11px;
+      letter-spacing: .3em; color: var(--blue);
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 24px;
+      opacity: 0; transform: translateY(20px);
+      animation: fadeUp .8s .4s forwards;
+    }
+    .hero-tag::before {
+      content: ''; width: 40px; height: 1px; background: var(--blue);
+      box-shadow: 0 0 8px var(--blue);
+    }
+    .hero-tag .dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--red); margin-right: -4px;
+      animation: blink 1s infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
+    .hero-headline {
+      font-family: var(--font-head); font-weight: 900;
+      font-size: clamp(52px,8vw,120px); line-height: .88;
+      text-transform: uppercase; letter-spacing: -.03em;
+      opacity: 0; transform: translateY(30px);
+      animation: fadeUp .9s .6s forwards;
+    }
+    .hero-headline .line-blue { color: var(--blue); display: block; }
+    .hero-headline .line-outline {
+      display: block;
+      -webkit-text-stroke: 2px rgba(255,255,255,.3);
+      color: transparent;
+    }
+    .hero-sub {
+      font-family: var(--font-ui); font-weight: 400;
+      font-size: clamp(15px,1.8vw,18px); line-height: 1.6;
+      color: var(--muted); max-width: 440px;
+      margin: 24px 0 40px;
+      opacity: 0; transform: translateY(20px);
+      animation: fadeUp .8s .8s forwards;
+    }
+    .hero-ctas {
+      display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+      opacity: 0; transform: translateY(20px);
+      animation: fadeUp .8s 1s forwards;
+    }
+    .hero-stats {
+      display: flex; gap: 40px; margin-top: 64px; flex-wrap: wrap;
+      opacity: 0; transform: translateY(20px);
+      animation: fadeUp .8s 1.2s forwards;
+    }
+    .hero-stat-item { border-left: 2px solid var(--blue); padding-left: 16px; }
+    .hero-stat-num {
+      font-family: var(--font-head); font-weight: 900;
+      font-size: 36px; line-height: 1; color: var(--white);
+    }
+    .hero-stat-num span { color: var(--blue); }
+    .hero-stat-label {
+      font-family: var(--font-mono); font-size: 10px;
+      letter-spacing: .2em; color: var(--muted); margin-top: 4px;
+    }
+    .hero-scroll-hint {
+      position: absolute; bottom: 32px; left: 50%;
+      transform: translateX(-50%); display: flex; flex-direction: column;
+      align-items: center; gap: 8px; z-index: 2;
+      animation: fadeUp .8s 1.6s both;
+    }
+    .scroll-wheel {
+      width: 22px; height: 36px; border: 1.5px solid rgba(255,255,255,.3);
+      border-radius: 12px; display: flex; align-items: flex-start; justify-content: center;
+      padding-top: 5px;
+    }
+    .scroll-wheel::after {
+      content: ''; width: 4px; height: 8px;
+      border-radius: 2px; background: var(--blue);
+      animation: scrollDot 1.8s ease-in-out infinite;
+    }
+    @keyframes scrollDot { 0%,100%{transform:translateY(0);opacity:1} 70%{transform:translateY(12px);opacity:0} }
+    .scroll-label {
+      font-family: var(--font-mono); font-size: 9px;
+      letter-spacing: .25em; color: var(--muted);
+    }
+    @keyframes fadeUp { to { opacity: 1; transform: none; } }
+
+    /* ============================================================
+       2. SERVICES
+    ============================================================ */
+    #services {
+      padding: 100px clamp(20px,6vw,100px);
+      background: var(--dark) linear-gradient(135deg, var(--dark) 60%, #0d0d20);
+      position: relative; overflow: hidden;
+    }
+    #services::before {
+      content: 'SERVICES'; position: absolute;
+      right: -20px; top: 50%; transform: translateY(-50%) rotate(90deg);
+      font-family: var(--font-head); font-weight: 900; font-size: 160px;
+      color: rgba(0,212,255,.03); pointer-events: none; white-space: nowrap;
+    }
+    .services-header { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; margin-bottom: 60px; flex-wrap: wrap; }
+    .services-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2px; background: var(--border);
+    }
+    .service-card {
+      background: var(--panel); padding: 40px 32px;
+      position: relative; overflow: hidden;
+      transition: background .3s;
+      cursor: none;
+    }
+    .service-card::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, var(--blue-dim) 0%, transparent 60%);
+      opacity: 0; transition: opacity .4s;
+    }
+    .service-card::after {
+      content: ''; position: absolute; top: 0; left: 0; right: 0;
+      height: 2px; background: var(--blue);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform .4s cubic-bezier(.25,.8,.25,1);
+    }
+    .service-card:hover { background: var(--card); }
+    .service-card:hover::before { opacity: 1; }
+    .service-card:hover::after { transform: scaleX(1); }
+    .service-icon {
+      width: 64px; height: 64px;
+      background: var(--blue-dim); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px; margin-bottom: 24px;
+      clip-path: polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+      transition: background .3s, transform .3s;
+    }
+    .service-card:hover .service-icon {
+      background: var(--blue); transform: scale(1.1) rotate(5deg);
+    }
+    .service-name {
+      font-family: var(--font-head); font-weight: 700; font-size: 22px;
+      text-transform: uppercase; letter-spacing: .06em; margin-bottom: 12px;
+    }
+    .service-desc { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 24px; }
+    .service-price {
+      font-family: var(--font-mono); font-size: 13px; color: var(--blue);
+      letter-spacing: .1em;
+    }
+    .service-num {
+      position: absolute; top: 20px; right: 24px;
+      font-family: var(--font-head); font-weight: 900; font-size: 72px;
+      color: rgba(255,255,255,.03); line-height: 1; pointer-events: none;
+    }
+
+    /* ============================================================
+       3. WHY CHOOSE US
+    ============================================================ */
+    #why {
+      padding: 100px clamp(20px,6vw,100px);
+      background: var(--black);
+      position: relative; overflow: hidden;
+    }
+    .why-inner {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center;
+    }
+    .why-visual {
+      position: relative; aspect-ratio: 4/3;
+    }
+    .why-img-block {
+      width: 100%; height: 100%;
+      background: url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=900&q=80') center/cover;
+      border: 1px solid var(--border);
+      position: relative;
+    }
+    .why-img-block::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(0,212,255,.15), transparent 60%);
+    }
+    .why-badge {
+      position: absolute; bottom: -24px; right: -24px;
+      width: 160px; height: 160px;
+      background: var(--blue); display: flex; flex-direction: column;
+      align-items: center; justify-content: center; text-align: center;
+      clip-path: polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+      padding: 20px; z-index: 2;
+    }
+    .why-badge-num {
+      font-family: var(--font-head); font-weight: 900;
+      font-size: 42px; line-height: 1; color: var(--black);
+    }
+    .why-badge-label {
+      font-family: var(--font-mono); font-size: 9px;
+      letter-spacing: .15em; color: var(--black); margin-top: 4px;
+    }
+    .why-stats {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 2px;
+      background: var(--border); margin-top: 40px;
+    }
+    .stat-block {
+      background: var(--panel); padding: 28px 24px; text-align: center;
+    }
+    .stat-block .num {
+      font-family: var(--font-head); font-weight: 900;
+      font-size: 48px; line-height: 1; color: var(--white);
+    }
+    .stat-block .num .accent { color: var(--blue); }
+    .stat-block .label {
+      font-family: var(--font-mono); font-size: 10px;
+      letter-spacing: .2em; color: var(--muted); margin-top: 6px;
+    }
+    .why-features { display: flex; flex-direction: column; gap: 24px; margin-top: 40px; }
+    .why-feature {
+      display: flex; gap: 20px; align-items: flex-start;
+      padding: 20px; background: var(--panel);
+      border-left: 2px solid transparent; transition: border-color .3s, background .3s;
+    }
+    .why-feature:hover { border-color: var(--blue); background: var(--card); }
+    .why-feature-icon {
+      width: 44px; height: 44px; flex-shrink: 0;
+      background: var(--blue-dim); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; border-radius: 2px; transition: background .3s;
+    }
+    .why-feature:hover .why-feature-icon { background: var(--blue); }
+    .why-feature-title {
+      font-family: var(--font-head); font-weight: 700; font-size: 18px;
+      text-transform: uppercase; letter-spacing: .06em; margin-bottom: 6px;
+    }
+    .why-feature-desc { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+    /* ============================================================
+       4. PROCESS
+    ============================================================ */
+    #process {
+      padding: 100px clamp(20px,6vw,100px);
+      background: var(--dark); position: relative; overflow: hidden;
+    }
+    #process .section-title { margin-bottom: 60px; }
+    .process-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0; position: relative;
+    }
+    .process-grid::after {
+      content: ''; position: absolute;
+      top: 60px; left: 10%; right: 10%; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--blue), var(--blue), transparent);
+      opacity: .3;
+    }
+    .process-step { padding: 0 32px 40px; position: relative; text-align: center; }
+    .step-node {
+      width: 80px; height: 80px;
+      margin: 0 auto 28px;
+      background: var(--panel); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 30px; position: relative; z-index: 2;
+      clip-path: polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+      transition: background .4s, box-shadow .4s;
+    }
+    .process-step:hover .step-node {
+      background: var(--blue);
+      box-shadow: 0 0 40px var(--blue-glow), 0 0 80px rgba(0,212,255,.2);
+    }
+    .step-number {
+      position: absolute; top: -8px; right: -4px;
+      font-family: var(--font-mono); font-size: 10px;
+      background: var(--red); color: var(--white);
+      width: 22px; height: 22px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; z-index: 3;
+    }
+    .step-title {
+      font-family: var(--font-head); font-weight: 700; font-size: 20px;
+      text-transform: uppercase; letter-spacing: .08em; margin-bottom: 10px;
+    }
+    .step-desc { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+    /* ============================================================
+       5. GALLERY
+    ============================================================ */
+    #gallery {
+      padding: 100px clamp(20px,6vw,100px);
+      background: var(--black); position: relative;
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: auto;
+      gap: 3px; margin-top: 48px;
+    }
+    .gallery-item {
+      position: relative; overflow: hidden;
+      aspect-ratio: 4/3; background: var(--panel); cursor: none;
+    }
+    .gallery-item:first-child {
+      grid-column: span 2; aspect-ratio: 16/9;
+    }
+    .gallery-item:nth-child(5) { grid-column: span 2; aspect-ratio: 16/9; }
+    .gallery-item img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform .6s cubic-bezier(.25,.8,.25,1), filter .6s;
+      filter: saturate(.7) brightness(.8);
+    }
+    .gallery-item:hover img {
+      transform: scale(1.08); filter: saturate(1) brightness(.9);
+    }
+    .gallery-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,212,255,.8) 0%, transparent 50%);
+      opacity: 0; transition: opacity .4s; display: flex;
+      align-items: flex-end; padding: 24px;
+    }
+    .gallery-item:hover .gallery-overlay { opacity: 1; }
+    .gallery-overlay-text {
+      font-family: var(--font-head); font-weight: 700;
+      font-size: 18px; text-transform: uppercase;
+      letter-spacing: .1em; color: var(--black);
+    }
+
+    /* ============================================================
+       6. REVIEWS
+    ============================================================ */
+    #reviews {
+      padding: 100px clamp(20px,6vw,100px);
+      background: var(--dark); position: relative; overflow: hidden;
+    }
+    #reviews::before {
+      content: '❝'; position: absolute; right: 60px; top: 60px;
+      font-size: 400px; color: rgba(0,212,255,.03);
+      line-height: 1; pointer-events: none; font-family: serif;
+    }
+    .reviews-slider { position: relative; margin-top: 60px; }
+    .reviews-track {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 2px; background: var(--border);
+    }
+    .review-card {
+      background: var(--panel); padding: 36px 30px;
+      position: relative; transition: background .3s;
+      border-top: 2px solid transparent; transition: border-color .3s, background .3s;
+    }
+    .review-card:hover { background: var(--card); border-color: var(--blue); }
+    .review-stars {
+      display: flex; gap: 4px; margin-bottom: 20px;
+    }
+    .star { color: var(--yellow); font-size: 16px; }
+    .review-text {
+      font-size: 15px; line-height: 1.7; color: rgba(240,244,255,.8);
+      margin-bottom: 24px; font-style: italic;
+    }
+    .review-author {
+      display: flex; align-items: center; gap: 14px;
+    }
+    .review-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--blue-dim); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-head); font-weight: 700; font-size: 18px; color: var(--blue);
+    }
+    .review-name {
+      font-family: var(--font-head); font-weight: 700; font-size: 16px;
+    }
+    .review-role { font-size: 12px; color: var(--muted); }
+    .review-quote-mark {
+      position: absolute; top: 24px; right: 24px;
+      font-family: var(--font-head); font-size: 80px; line-height: 1;
+      color: rgba(0,212,255,.08); pointer-events: none;
+    }
+
+    /* ============================================================
+       7. BOOKING
+    ============================================================ */
+    #booking {
+      padding: 100px clamp(20px,6vw,100px);
+      background: var(--black); position: relative; overflow: hidden;
+    }
+    .booking-grid {
+      display: grid; grid-template-columns: 1fr 1.2fr;
+      gap: 60px; align-items: start;
+    }
+    .booking-info {}
+    .booking-contact-items { display: flex; flex-direction: column; gap: 20px; margin-top: 40px; }
+    .booking-contact-item {
+      display: flex; gap: 16px; align-items: flex-start;
+      padding: 20px; background: var(--panel);
+      border-left: 2px solid var(--border); transition: border-color .3s;
+    }
+    .booking-contact-item:hover { border-color: var(--blue); }
+    .contact-icon {
+      width: 40px; height: 40px; flex-shrink: 0;
+      background: var(--blue-dim); display: flex; align-items: center; justify-content: center;
+      font-size: 18px; border-radius: 2px;
+    }
+    .contact-label {
+      font-family: var(--font-mono); font-size: 10px;
+      letter-spacing: .2em; color: var(--muted); margin-bottom: 4px;
+    }
+    .contact-value {
+      font-family: var(--font-head); font-weight: 600; font-size: 17px;
+    }
+
+    /* Dashboard form */
+    .dashboard-form {
+      background: var(--panel);
+      border: 1px solid var(--border); padding: 40px;
+      position: relative;
+    }
+    .dashboard-form::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--blue), var(--red));
+    }
+    .form-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 32px; padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .form-title {
+      font-family: var(--font-mono); font-size: 11px;
+      letter-spacing: .2em; color: var(--blue);
+    }
+    .form-status {
+      display: flex; align-items: center; gap: 8px;
+      font-family: var(--font-mono); font-size: 10px; color: var(--muted);
+    }
+    .status-dot {
+      width: 6px; height: 6px; border-radius: 50%; background: #22c55e;
+      animation: blink 2s infinite;
+    }
+    .form-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    }
+    .form-group { display: flex; flex-direction: column; gap: 8px; }
+    .form-group.full { grid-column: span 2; }
+    .form-label {
+      font-family: var(--font-mono); font-size: 10px;
+      letter-spacing: .2em; color: var(--muted); text-transform: uppercase;
+    }
+    .form-input {
+      background: var(--dark); border: 1px solid var(--border);
+      color: var(--white); font-family: var(--font-ui); font-size: 15px;
+      padding: 12px 16px; outline: none; transition: border-color .3s, box-shadow .3s;
+      border-radius: var(--radius);
+      width: 100%; cursor: none;
+      -webkit-appearance: none;
+    }
+    .form-input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 2px var(--blue-dim), 0 0 20px rgba(0,212,255,.1);
+    }
+    .form-input option { background: var(--dark); }
+    textarea.form-input { resize: vertical; min-height: 100px; }
+    .form-submit-row { margin-top: 24px; display: flex; align-items: center; gap: 20px; }
+    .form-note { font-size: 12px; color: var(--muted); }
+    #form-success {
+      display: none; padding: 16px; background: rgba(34,197,94,.1);
+      border: 1px solid rgba(34,197,94,.3); border-radius: 2px;
+      font-family: var(--font-mono); font-size: 12px; color: #22c55e;
+      letter-spacing: .1em; margin-top: 16px; text-align: center;
+    }
+
+    /* ============================================================
+       8. FOOTER
+    ============================================================ */
+    #footer {
+      background: var(--dark); border-top: 1px solid var(--border);
+      padding: 60px clamp(20px,6vw,100px) 0;
+    }
+    .footer-top {
+      display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 48px; padding-bottom: 48px;
+      border-bottom: 1px solid var(--border);
+    }
+    .footer-brand-name {
+      font-family: var(--font-head); font-weight: 900;
+      font-size: 28px; letter-spacing: .1em; margin-bottom: 16px;
+    }
+    .footer-brand-name span { color: var(--blue); }
+    .footer-brand-desc { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 24px; }
+    .footer-socials { display: flex; gap: 10px; }
+    .social-btn {
+      width: 38px; height: 38px;
+      background: var(--panel); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; transition: background .3s, border-color .3s, box-shadow .3s;
+      cursor: none;
+    }
+    .social-btn:hover { background: var(--blue); border-color: var(--blue); box-shadow: 0 0 20px var(--blue-glow); }
+    .footer-col-title {
+      font-family: var(--font-mono); font-size: 11px;
+      letter-spacing: .25em; color: var(--blue); margin-bottom: 20px;
+      text-transform: uppercase;
+    }
+    .footer-links { display: flex; flex-direction: column; gap: 10px; }
+    .footer-links a {
+      font-size: 14px; color: var(--muted); transition: color .3s;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .footer-links a::before {
+      content: '›'; color: var(--blue); font-size: 18px; line-height: 1;
+    }
+    .footer-links a:hover { color: var(--white); }
+    .hours-list { display: flex; flex-direction: column; gap: 8px; }
+    .hours-row {
+      display: flex; justify-content: space-between; font-size: 13px;
+      padding-bottom: 8px; border-bottom: 1px solid var(--border);
+    }
+    .hours-day { color: var(--muted); }
+    .hours-time { color: var(--white); font-family: var(--font-mono); font-size: 11px; }
+    .hours-time.open { color: #22c55e; }
+    .footer-bottom {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 20px 0; flex-wrap: gap;gap: 16px;
+    }
+    .footer-copy {
+      font-family: var(--font-mono); font-size: 11px;
+      letter-spacing: .1em; color: var(--muted);
+    }
+    .footer-copy span { color: var(--blue); }
+    .footer-legal { display: flex; gap: 24px; }
+    .footer-legal a { font-size: 12px; color: var(--muted); transition: color .3s; }
+    .footer-legal a:hover { color: var(--white); }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 1024px) {
+      .why-inner { grid-template-columns: 1fr; gap: 48px; }
+      .why-visual { display: none; }
+      .booking-grid { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      #hamburger { display: flex; }
+      .hero-car-image { width: 80vw; opacity: .3 !important; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; }
+      .gallery-item:first-child,
+      .gallery-item:nth-child(5) { grid-column: span 2; }
+      .reviews-track { grid-template-columns: 1fr; }
+      .form-grid { grid-template-columns: 1fr; }
+      .form-group.full { grid-column: span 1; }
+      .footer-top { grid-template-columns: 1fr; }
+      .process-grid::after { display: none; }
+      .why-stats { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 480px) {
+      .gallery-grid { grid-template-columns: 1fr; }
+      .gallery-item:first-child,
+      .gallery-item:nth-child(5) { grid-column: span 1; aspect-ratio: 4/3; }
+      .hero-stats { gap: 20px; }
+      .hero-ctas { flex-direction: column; align-items: flex-start; }
+    }
+
+    /* ============================================================
+       CTA STRIP
+    ============================================================ */
+    .cta-strip {
+      background: var(--blue); padding: 28px clamp(20px,6vw,100px);
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 20px;
+    }
+    .cta-strip-text {
+      font-family: var(--font-head); font-weight: 900;
+      font-size: clamp(22px,3vw,36px); text-transform: uppercase;
+      color: var(--black); letter-spacing: -.01em;
+    }
+    .cta-strip-text span { opacity: .6; }
+    .btn-dark {
+      background: var(--black); color: var(--white);
+      clip-path: polygon(12px 0%,100% 0%,calc(100% - 12px) 100%,0% 100%);
+      padding: 14px 32px;
+      font-family: var(--font-head); font-weight: 700;
+      font-size: 14px; letter-spacing: .12em; text-transform: uppercase;
+      border: none; cursor: none; transition: all .3s;
+      display: inline-flex; align-items: center;
+    }
+    .btn-dark:hover { background: var(--dark); color: var(--blue); box-shadow: 0 0 30px rgba(0,0,0,.5); }
+
+    /* Ticker */
+    .ticker-wrap {
+      background: var(--red); overflow: hidden; padding: 10px 0;
+    }
+    .ticker-inner {
+      display: flex; white-space: nowrap;
+      animation: ticker 18s linear infinite;
+    }
+    @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .ticker-item {
+      display: inline-flex; align-items: center; gap: 20px;
+      font-family: var(--font-head); font-weight: 700; font-size: 13px;
+      text-transform: uppercase; letter-spacing: .12em;
+      color: var(--white); padding: 0 32px; flex-shrink: 0;
+    }
+    .ticker-sep { color: rgba(255,255,255,.4); }
+  </style>
 </head>
-<body class="bg-gray-50 flex items-center justify-center min-h-screen font-sans">
-    <div class="text-center p-8 bg-white rounded-2xl shadow-sm border border-gray-100">
-        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4 text-blue-500 text-2xl font-bold">
-            6
-        </div>
-        <h1 class="text-2xl font-bold text-gray-800 mb-2">Sample Template 6</h1>
-        <p class="text-gray-500 mb-8 max-w-sm">This is a placeholder page for sample design number 6. The final design will be implemented here.</p>
-        <a href="../portfolio.html" class="inline-block px-6 py-3 bg-gray-900 text-white rounded-xl font-medium hover:bg-gray-800 transition-colors shadow-sm">
-            ← Back to Portfolio
-        </a>
+<body>
+
+<!-- CURSOR -->
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+
+<!-- PROGRESS BAR -->
+<div id="progress-bar"></div>
+
+<!-- PRELOADER -->
+<div id="preloader">
+  <div class="preloader-logo">SPEEDY<span>AUTO</span>CARE</div>
+  <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
+  <div class="preloader-text">INITIALIZING SYSTEMS...</div>
+</div>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <a href="#hero" class="nav-brand">
+    <div class="icon">S</div>
+    SPEEDY<span>AUTO</span>CARE
+  </a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#why">About</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+    <li><a href="#booking" class="nav-cta">Book Now</a></li>
+  </ul>
+  <button id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div id="mobile-menu">
+  <a href="#services" onclick="closeMobile()">Services</a>
+  <a href="#why" onclick="closeMobile()">About</a>
+  <a href="#process" onclick="closeMobile()">Process</a>
+  <a href="#gallery" onclick="closeMobile()">Gallery</a>
+  <a href="#reviews" onclick="closeMobile()">Reviews</a>
+  <a href="#booking" onclick="closeMobile()">Book Now</a>
+</div>
+
+<!-- ============================================================
+     1. HERO
+============================================================ -->
+<section id="hero">
+  <!-- Speed lines -->
+  <div class="speed-lines" id="speed-lines-container"></div>
+
+  <!-- Diagonal line -->
+  <div class="hero-diagonal"></div>
+
+  <!-- Car image via Unsplash -->
+  <img class="hero-car-image" id="hero-car"
+    src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=1200&q=85"
+    alt="Performance car"
+    onload="document.getElementById('hero-car').classList.add('loaded')" />
+
+  <!-- Radial glow -->
+  <div style="position:absolute;top:20%;right:25%;width:500px;height:500px;background:radial-gradient(circle,rgba(0,212,255,.08) 0%,transparent 70%);pointer-events:none;"></div>
+
+  <div class="hero-content">
+    <div class="hero-tag">
+      <div class="dot"></div>
+      EST. 2008 — CERTIFIED TECHNICIANS
     </div>
+
+    <h1 class="hero-headline">
+      <span>PRECISION.</span>
+      <span class="line-blue">SPEED.</span>
+      <span class="line-outline">RELIABILITY.</span>
+    </h1>
+
+    <p class="hero-sub">
+      Professional auto care engineered for performance. We diagnose, repair, and restore with the precision of a pit crew — every time, on time.
+    </p>
+
+    <div class="hero-ctas">
+      <a href="#booking" class="btn btn-primary">⚡ Book a Service</a>
+      <a href="#services" class="btn btn-outline">Explore Services →</a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="hero-stat-item">
+        <div class="hero-stat-num"><span class="count" data-target="12000">0</span><span>+</span></div>
+        <div class="hero-stat-label">CARS SERVICED</div>
+      </div>
+      <div class="hero-stat-item">
+        <div class="hero-stat-num"><span class="count" data-target="16">0</span><span>+ YRS</span></div>
+        <div class="hero-stat-label">EXPERIENCE</div>
+      </div>
+      <div class="hero-stat-item">
+        <div class="hero-stat-num"><span class="count" data-target="98">0</span><span>%</span></div>
+        <div class="hero-stat-label">SATISFACTION</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-scroll-hint">
+    <div class="scroll-wheel"></div>
+    <div class="scroll-label">SCROLL DOWN</div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-inner" id="ticker"></div>
+</div>
+
+<!-- ============================================================
+     2. SERVICES
+============================================================ -->
+<section id="services">
+  <div class="services-header reveal">
+    <div>
+      <div class="section-label">WHAT WE DO</div>
+      <h2 class="section-title">OUR <em>SERVICES</em></h2>
+    </div>
+    <a href="#booking" class="btn btn-outline">Schedule Appointment →</a>
+  </div>
+
+  <div class="services-grid">
+    <div class="service-card reveal" style="transition-delay:.05s">
+      <div class="service-num">01</div>
+      <div class="service-icon">🔧</div>
+      <div class="service-name">Oil &amp; Filter Change</div>
+      <div class="service-desc">Full synthetic or conventional oil changes with multi-point inspection. Keeps your engine running clean and efficient.</div>
+      <div class="service-price">FROM ₹599 · 30 MIN</div>
+    </div>
+    <div class="service-card reveal" style="transition-delay:.1s">
+      <div class="service-num">02</div>
+      <div class="service-icon">⚙️</div>
+      <div class="service-name">Engine Diagnostics</div>
+      <div class="service-desc">Advanced OBD-II scanning and live sensor analysis to pinpoint issues fast — no guesswork, just precision data.</div>
+      <div class="service-price">FROM ₹999 · 45 MIN</div>
+    </div>
+    <div class="service-card reveal" style="transition-delay:.15s">
+      <div class="service-num">03</div>
+      <div class="service-icon">🛞</div>
+      <div class="service-name">Wheel &amp; Alignment</div>
+      <div class="service-desc">4-wheel alignment, balancing, and rotation. Proper alignment extends tyre life and improves handling.</div>
+      <div class="service-price">FROM ₹799 · 60 MIN</div>
+    </div>
+    <div class="service-card reveal" style="transition-delay:.2s">
+      <div class="service-num">04</div>
+      <div class="service-icon">❄️</div>
+      <div class="service-name">AC Service</div>
+      <div class="service-desc">Gas top-up, leak testing, and component service. Restore cabin cooling to factory performance levels.</div>
+      <div class="service-price">FROM ₹1,299 · 90 MIN</div>
+    </div>
+    <div class="service-card reveal" style="transition-delay:.25s">
+      <div class="service-num">05</div>
+      <div class="service-icon">🔋</div>
+      <div class="service-name">Battery &amp; Electrical</div>
+      <div class="service-desc">Battery load testing, terminal cleaning, alternator check, and full electrical fault tracing.</div>
+      <div class="service-price">FROM ₹499 · 20 MIN</div>
+    </div>
+    <div class="service-card reveal" style="transition-delay:.3s">
+      <div class="service-num">06</div>
+      <div class="service-icon">🚿</div>
+      <div class="service-name">Premium Car Wash</div>
+      <div class="service-desc">Foam cannon pre-soak, hand wash, interior vacuuming, dashboard polish, and tyre dressing.</div>
+      <div class="service-price">FROM ₹399 · 45 MIN</div>
+    </div>
+    <div class="service-card reveal" style="transition-delay:.35s">
+      <div class="service-num">07</div>
+      <div class="service-icon">🛑</div>
+      <div class="service-name">Brake Service</div>
+      <div class="service-desc">Pad &amp; disc replacement, brake fluid flush, caliper inspection. Stop on a dime, every time.</div>
+      <div class="service-price">FROM ₹1,499 · 2 HRS</div>
+    </div>
+    <div class="service-card reveal" style="transition-delay:.4s">
+      <div class="service-num">08</div>
+      <div class="service-icon">🔩</div>
+      <div class="service-name">Suspension &amp; Steering</div>
+      <div class="service-desc">Shock absorber, strut, tie rod, and bush replacement. Regain the sharp, confident handling your car was built for.</div>
+      <div class="service-price">FROM ₹2,499 · 3 HRS</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA STRIP -->
+<div class="cta-strip">
+  <div class="cta-strip-text">NEED A QUICK QUOTE? <span>CALL US NOW.</span></div>
+  <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+    <div style="font-family:var(--font-mono);font-size:18px;font-weight:700;color:var(--black);">📞 +91 98765 43210</div>
+    <a href="#booking" class="btn-dark">Book Online →</a>
+  </div>
+</div>
+
+<!-- ============================================================
+     3. WHY CHOOSE US
+============================================================ -->
+<section id="why">
+  <div class="why-inner">
+    <div class="why-visual reveal-left">
+      <div class="why-img-block"></div>
+      <div class="why-badge">
+        <div class="why-badge-num">16</div>
+        <div class="why-badge-label">YEARS OF TRUST</div>
+      </div>
+    </div>
+
+    <div class="reveal-right">
+      <div class="section-label">WHY US</div>
+      <h2 class="section-title">BUILT ON <em>TRUST</em><br>DRIVEN BY <span class="red">SPEED</span></h2>
+      <p style="margin:20px 0 32px;color:var(--muted);font-size:15px;line-height:1.7;max-width:480px;">
+        We're not just mechanics — we're car people. Every technician on our floor is ASE-certified with hands-on track experience. Your car gets the same attention our own cars do.
+      </p>
+
+      <div class="why-stats">
+        <div class="stat-block">
+          <div class="num"><span class="count" data-target="12000">0</span><span class="accent">+</span></div>
+          <div class="label">CARS SERVICED</div>
+        </div>
+        <div class="stat-block">
+          <div class="num"><span class="count" data-target="98">0</span><span class="accent">%</span></div>
+          <div class="label">SATISFACTION RATE</div>
+        </div>
+        <div class="stat-block">
+          <div class="num"><span class="count" data-target="24">0</span><span class="accent">h</span></div>
+          <div class="label">QUICK TURNAROUND</div>
+        </div>
+        <div class="stat-block">
+          <div class="num"><span class="count" data-target="5">0</span><span class="accent">⭐</span></div>
+          <div class="label">AVERAGE RATING</div>
+        </div>
+      </div>
+
+      <div class="why-features" style="margin-top:32px;">
+        <div class="why-feature">
+          <div class="why-feature-icon">🔬</div>
+          <div>
+            <div class="why-feature-title">OEM-Level Diagnostics</div>
+            <div class="why-feature-desc">Latest diagnostic equipment — same tools used by dealerships, without dealership pricing.</div>
+          </div>
+        </div>
+        <div class="why-feature">
+          <div class="why-feature-icon">✅</div>
+          <div>
+            <div class="why-feature-title">Transparent Pricing</div>
+            <div class="why-feature-desc">No hidden charges, no upsells. You approve every cost before we lift a wrench.</div>
+          </div>
+        </div>
+        <div class="why-feature">
+          <div class="why-feature-icon">🛡️</div>
+          <div>
+            <div class="why-feature-title">6-Month Warranty</div>
+            <div class="why-feature-desc">All repairs backed by a 6-month / 10,000 km warranty. We stand behind our work.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     4. PROCESS
+============================================================ -->
+<section id="process" class="grid-bg">
+  <div class="section-label reveal">HOW WE WORK</div>
+  <h2 class="section-title reveal">THE <em>PROCESS</em></h2>
+
+  <div class="process-grid" style="margin-top:64px;">
+    <div class="process-step reveal" style="transition-delay:.05s">
+      <div class="step-node">📋<div class="step-number">01</div></div>
+      <div class="step-title">Book</div>
+      <div class="step-desc">Schedule online or call us. Pick a time slot that works. No waiting rooms, no surprises.</div>
+    </div>
+    <div class="process-step reveal" style="transition-delay:.1s">
+      <div class="step-node">🔍<div class="step-number">02</div></div>
+      <div class="step-title">Diagnose</div>
+      <div class="step-desc">We run a comprehensive 50-point inspection and digital diagnostic scan on arrival.</div>
+    </div>
+    <div class="process-step reveal" style="transition-delay:.15s">
+      <div class="step-node">📊<div class="step-number">03</div></div>
+      <div class="step-title">Quote</div>
+      <div class="step-desc">You get a clear, itemized cost estimate. Nothing begins until you approve it.</div>
+    </div>
+    <div class="process-step reveal" style="transition-delay:.2s">
+      <div class="step-node">🔧<div class="step-number">04</div></div>
+      <div class="step-title">Repair</div>
+      <div class="step-desc">Our ASE-certified techs get to work with OEM parts and precision tools.</div>
+    </div>
+    <div class="process-step reveal" style="transition-delay:.25s">
+      <div class="step-node">🚗<div class="step-number">05</div></div>
+      <div class="step-title">Deliver</div>
+      <div class="step-desc">Final QC check, wash, and handover. You get a full service report in your inbox.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     5. GALLERY
+============================================================ -->
+<section id="gallery">
+  <div class="section-label reveal">OUR WORK</div>
+  <h2 class="section-title reveal">THE <em>GARAGE</em></h2>
+
+  <div class="gallery-grid">
+    <div class="gallery-item reveal">
+      <img src="https://images.unsplash.com/photo-1486006920555-c77dcf18193c?w=1200&q=80" alt="Engine bay" loading="lazy"/>
+      <div class="gallery-overlay"><div class="gallery-overlay-text">Engine Rebuild</div></div>
+    </div>
+    <div class="gallery-item reveal" style="transition-delay:.05s">
+      <img src="https://images.unsplash.com/photo-1558981403-c5f9899a28bc?w=600&q=80" alt="Wheel alignment" loading="lazy"/>
+      <div class="gallery-overlay"><div class="gallery-overlay-text">Wheel Alignment</div></div>
+    </div>
+    <div class="gallery-item reveal" style="transition-delay:.1s">
+      <img src="https://images.unsplash.com/photo-1609521263047-f8f205293f24?w=600&q=80" alt="Detailing" loading="lazy"/>
+      <div class="gallery-overlay"><div class="gallery-overlay-text">Paint Detailing</div></div>
+    </div>
+    <div class="gallery-item reveal" style="transition-delay:.15s">
+      <img src="https://images.unsplash.com/photo-1625047509168-a7026f36de04?w=600&q=80" alt="Diagnostics" loading="lazy"/>
+      <div class="gallery-overlay"><div class="gallery-overlay-text">Advanced Diagnostics</div></div>
+    </div>
+    <div class="gallery-item reveal" style="transition-delay:.2s">
+      <img src="https://images.unsplash.com/photo-1637420118875-892abb7fa58d?w=1200&q=80" alt="Workshop" loading="lazy"/>
+      <div class="gallery-overlay"><div class="gallery-overlay-text">Professional Workshop</div></div>
+    </div>
+    <div class="gallery-item reveal" style="transition-delay:.25s">
+      <img src="https://images.unsplash.com/photo-1580274455191-1c62238fa333?w=600&q=80" alt="Brake service" loading="lazy"/>
+      <div class="gallery-overlay"><div class="gallery-overlay-text">Brake Service</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     6. REVIEWS
+============================================================ -->
+<section id="reviews">
+  <div class="section-label reveal">TESTIMONIALS</div>
+  <h2 class="section-title reveal">WHAT CLIENTS <em>SAY</em></h2>
+
+  <div class="reviews-slider">
+    <div class="reviews-track">
+      <div class="review-card reveal" style="transition-delay:.05s">
+        <div class="review-quote-mark">"</div>
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">"Brought in my BMW 3 Series for a mysterious engine rattle. They diagnosed it in 20 minutes — a loose heat shield. Fixed same day, no nonsense. These guys actually know what they're doing."</div>
+        <div class="review-author">
+          <div class="review-avatar">R</div>
+          <div>
+            <div class="review-name">Rahul Sharma</div>
+            <div class="review-role">BMW 3 Series Owner · Ludhiana</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card reveal" style="transition-delay:.1s">
+        <div class="review-quote-mark">"</div>
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">"Transparent pricing is real here. Got a quote upfront, they stuck to it. No call-back with 'we found extra problems.' First time I've left a garage without feeling robbed."</div>
+        <div class="review-author">
+          <div class="review-avatar">P</div>
+          <div>
+            <div class="review-name">Priya Mehta</div>
+            <div class="review-role">Hyundai Creta Owner · Chandigarh</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card reveal" style="transition-delay:.15s">
+        <div class="review-quote-mark">"</div>
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">"Full suspension overhaul on my Fortuner. The difference is night and day — handles like it did when it was new. The 6-month warranty gives real peace of mind. Highly recommended."</div>
+        <div class="review-author">
+          <div class="review-avatar">A</div>
+          <div>
+            <div class="review-name">Amarjit Singh</div>
+            <div class="review-role">Toyota Fortuner Owner · Amritsar</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rating bar -->
+  <div style="display:flex;align-items:center;justify-content:center;gap:40px;margin-top:48px;flex-wrap:wrap;" class="reveal">
+    <div style="text-align:center;">
+      <div style="font-family:var(--font-head);font-weight:900;font-size:72px;line-height:1;color:var(--white);">4.9</div>
+      <div style="color:var(--yellow);font-size:24px;letter-spacing:4px;">★★★★★</div>
+      <div style="font-family:var(--font-mono);font-size:11px;color:var(--muted);margin-top:8px;letter-spacing:.2em;">AVERAGE RATING</div>
+    </div>
+    <div style="width:1px;height:80px;background:var(--border);"></div>
+    <div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <span style="font-family:var(--font-mono);font-size:11px;color:var(--muted);width:20px;">5★</span>
+          <div style="flex:1;height:6px;background:var(--panel);border-radius:3px;overflow:hidden;min-width:160px;">
+            <div style="width:87%;height:100%;background:var(--blue);border-radius:3px;"></div>
+          </div>
+          <span style="font-family:var(--font-mono);font-size:11px;color:var(--muted);">87%</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <span style="font-family:var(--font-mono);font-size:11px;color:var(--muted);width:20px;">4★</span>
+          <div style="flex:1;height:6px;background:var(--panel);border-radius:3px;overflow:hidden;">
+            <div style="width:10%;height:100%;background:var(--blue);border-radius:3px;opacity:.6;"></div>
+          </div>
+          <span style="font-family:var(--font-mono);font-size:11px;color:var(--muted);">10%</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <span style="font-family:var(--font-mono);font-size:11px;color:var(--muted);width:20px;">3★</span>
+          <div style="flex:1;height:6px;background:var(--panel);border-radius:3px;overflow:hidden;">
+            <div style="width:3%;height:100%;background:var(--blue);border-radius:3px;opacity:.4;"></div>
+          </div>
+          <span style="font-family:var(--font-mono);font-size:11px;color:var(--muted);">3%</span>
+        </div>
+      </div>
+      <div style="font-family:var(--font-mono);font-size:10px;color:var(--muted);margin-top:10px;letter-spacing:.15em;">BASED ON 840+ REVIEWS</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     7. BOOKING
+============================================================ -->
+<section id="booking" class="grid-bg">
+  <div class="booking-grid">
+    <div class="booking-info">
+      <div class="section-label reveal">BOOK ONLINE</div>
+      <h2 class="section-title reveal">SCHEDULE<br>YOUR <em>SERVICE</em></h2>
+      <p class="reveal" style="margin-top:20px;color:var(--muted);font-size:15px;line-height:1.7;max-width:380px;">
+        Drop your details and we'll confirm your slot within 2 hours. No deposit needed — just show up.
+      </p>
+
+      <div class="booking-contact-items">
+        <div class="booking-contact-item reveal">
+          <div class="contact-icon">📍</div>
+          <div>
+            <div class="contact-label">LOCATION</div>
+            <div class="contact-value">GT Road, Near Punjab &amp; Haryana Bank, Ludhiana, Punjab 141003</div>
+          </div>
+        </div>
+        <div class="booking-contact-item reveal" style="transition-delay:.05s">
+          <div class="contact-icon">📞</div>
+          <div>
+            <div class="contact-label">PHONE</div>
+            <div class="contact-value">+91 98765 43210</div>
+          </div>
+        </div>
+        <div class="booking-contact-item reveal" style="transition-delay:.1s">
+          <div class="contact-icon">✉️</div>
+          <div>
+            <div class="contact-label">EMAIL</div>
+            <div class="contact-value">hello@speedyautocare.in</div>
+          </div>
+        </div>
+        <div class="booking-contact-item reveal" style="transition-delay:.15s">
+          <div class="contact-icon">🕐</div>
+          <div>
+            <div class="contact-label">WORKING HOURS</div>
+            <div class="contact-value">Mon–Sat: 8AM–8PM &nbsp;·&nbsp; Sun: 10AM–4PM</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dashboard Form -->
+    <div class="dashboard-form reveal-right">
+      <div class="form-header">
+        <div class="form-title">// SERVICE BOOKING TERMINAL</div>
+        <div class="form-status"><div class="status-dot"></div> SLOTS AVAILABLE</div>
+      </div>
+
+      <form id="booking-form" onsubmit="handleBooking(event)">
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">FULL NAME</label>
+            <input type="text" class="form-input" placeholder="John Doe" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">PHONE NUMBER</label>
+            <input type="tel" class="form-input" placeholder="+91 00000 00000" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">EMAIL ADDRESS</label>
+            <input type="email" class="form-input" placeholder="you@email.com" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">VEHICLE MODEL</label>
+            <input type="text" class="form-input" placeholder="e.g. Swift Dzire 2022" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">SERVICE TYPE</label>
+            <select class="form-input" required>
+              <option value="" disabled selected>Select service...</option>
+              <option>Oil &amp; Filter Change</option>
+              <option>Engine Diagnostics</option>
+              <option>Wheel &amp; Alignment</option>
+              <option>AC Service</option>
+              <option>Battery &amp; Electrical</option>
+              <option>Premium Car Wash</option>
+              <option>Brake Service</option>
+              <option>Suspension &amp; Steering</option>
+              <option>Full Service Package</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">PREFERRED DATE</label>
+            <input type="date" class="form-input" required />
+          </div>
+          <div class="form-group full">
+            <label class="form-label">ADDITIONAL NOTES</label>
+            <textarea class="form-input" placeholder="Describe any symptoms, noises, or specific concerns..."></textarea>
+          </div>
+        </div>
+
+        <div class="form-submit-row">
+          <button type="submit" class="btn btn-primary">⚡ Confirm Booking</button>
+          <div class="form-note">We'll call you within 2 hours to confirm.</div>
+        </div>
+
+        <div id="form-success">
+          ✅ &nbsp; BOOKING RECEIVED — WE'LL CONTACT YOU SHORTLY
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     8. FOOTER
+============================================================ -->
+<footer id="footer">
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand-name">SPEEDY<span>AUTO</span>CARE</div>
+      <div class="footer-brand-desc">
+        Professional auto care built on precision, speed, and trust. Serving Ludhiana and Punjab since 2008 with certified technicians and transparent service.
+      </div>
+      <div class="footer-socials">
+        <a class="social-btn" href="#" aria-label="Facebook">f</a>
+        <a class="social-btn" href="#" aria-label="Instagram" style="font-style:italic;">in</a>
+        <a class="social-btn" href="#" aria-label="YouTube">▶</a>
+        <a class="social-btn" href="#" aria-label="WhatsApp">📱</a>
+      </div>
+    </div>
+
+    <div>
+      <div class="footer-col-title">SERVICES</div>
+      <ul class="footer-links">
+        <li><a href="#services">Oil &amp; Filter Change</a></li>
+        <li><a href="#services">Engine Diagnostics</a></li>
+        <li><a href="#services">Wheel &amp; Alignment</a></li>
+        <li><a href="#services">AC Service</a></li>
+        <li><a href="#services">Brake Service</a></li>
+        <li><a href="#services">Premium Wash</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="footer-col-title">NAVIGATE</div>
+      <ul class="footer-links">
+        <li><a href="#hero">Home</a></li>
+        <li><a href="#why">About Us</a></li>
+        <li><a href="#process">Our Process</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#reviews">Reviews</a></li>
+        <li><a href="#booking">Book Now</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="footer-col-title">WORKING HOURS</div>
+      <div class="hours-list">
+        <div class="hours-row">
+          <span class="hours-day">Monday</span>
+          <span class="hours-time open">8AM – 8PM</span>
+        </div>
+        <div class="hours-row">
+          <span class="hours-day">Tuesday</span>
+          <span class="hours-time open">8AM – 8PM</span>
+        </div>
+        <div class="hours-row">
+          <span class="hours-day">Wednesday</span>
+          <span class="hours-time open">8AM – 8PM</span>
+        </div>
+        <div class="hours-row">
+          <span class="hours-day">Thursday</span>
+          <span class="hours-time open">8AM – 8PM</span>
+        </div>
+        <div class="hours-row">
+          <span class="hours-day">Friday</span>
+          <span class="hours-time open">8AM – 8PM</span>
+        </div>
+        <div class="hours-row">
+          <span class="hours-day">Saturday</span>
+          <span class="hours-time open">8AM – 6PM</span>
+        </div>
+        <div class="hours-row">
+          <span class="hours-day">Sunday</span>
+          <span class="hours-time" style="color:var(--red);">10AM – 4PM</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="footer-copy">
+      © 2024 <span>SpeedyAutoCare</span>. All rights reserved. Built with 🔧 in Ludhiana, Punjab.
+    </div>
+    <div class="footer-legal">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+      <a href="#">Sitemap</a>
+    </div>
+  </div>
+</footer>
+
+<!-- GROWZIQ FOOTER -->
+<footer id="growziq-footer" style="background: var(--panel); border-top: 1px solid var(--border); padding: 24px 0 20px 0; text-align: center; position: relative; z-index: 100;">
+  <span style="font-family: var(--font-mono); font-size: 12px; color: var(--muted); letter-spacing: .12em;">
+    © 2026 <a href="https://growziq.in" target="_blank" style="color: var(--blue); text-decoration: underline; font-weight: 700;">Growziq™</a> | All rights reserved.<br>
+    All designs, layouts, and code are intellectual property of <a href="https://growziq.in" target="_blank" style="color: var(--blue); text-decoration: underline; font-weight: 700;">Growziq</a> and protected under applicable laws
+  </span>
+</footer>
+
+<!-- GROWZIQ BADGE -->
+<a href="https://growziq.in" target="_blank" id="growziq-badge" style="position:fixed;right:24px;bottom:24px;z-index:99999;text-decoration:none;">
+  <div style="display:flex;align-items:center;gap:8px;background:var(--blue);color:var(--black);font-family:var(--font-head);font-weight:900;font-size:13px;padding:8px 18px 8px 14px;border-radius:20px 8px 20px 8px;box-shadow:0 2px 16px var(--blue-glow);transition:background .3s;">
+    <span style="font-size:16px;">🚀</span> built by <span style="color:var(--black);font-weight:900;">Growziq</span>
+  </div>
+</a>
+
+<!-- ============================================================
+     JAVASCRIPT
+============================================================ -->
+<script>
+// Hyperlink all 'Growziq' words to growziq.in (case-insensitive, including badge)
+document.addEventListener('DOMContentLoaded', function() {
+  function linkGrowziqText(node) {
+    if (node.nodeType === 3) {
+      const replaced = node.nodeValue.replace(/(Growziq)/gi, function(match) {
+        return '<a href="https://growziq.in" target="_blank" style="color:var(--blue);text-decoration:underline;font-weight:700;">'+match+'</a>';
+      });
+      if (replaced !== node.nodeValue) {
+        const span = document.createElement('span');
+        span.innerHTML = replaced;
+        node.parentNode.replaceChild(span, node);
+      }
+    } else if (node.nodeType === 1 && node.childNodes && !['A','SCRIPT','STYLE'].includes(node.tagName)) {
+      Array.from(node.childNodes).forEach(linkGrowziqText);
+    }
+  }
+  linkGrowziqText(document.body);
+});
+/* -------- PRELOADER -------- */
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    const pl = document.getElementById('preloader');
+    pl.classList.add('done');
+    setTimeout(() => pl.remove(), 800);
+  }, 1800);
+});
+
+/* -------- CURSOR -------- */
+const dot  = document.getElementById('cursor-dot');
+const ring = document.getElementById('cursor-ring');
+let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+document.addEventListener('mousemove', e => {
+  mouseX = e.clientX; mouseY = e.clientY;
+  dot.style.left  = mouseX + 'px';
+  dot.style.top   = mouseY + 'px';
+});
+(function animateRing() {
+  ringX += (mouseX - ringX) * .12;
+  ringY += (mouseY - ringY) * .12;
+  ring.style.left = ringX + 'px';
+  ring.style.top  = ringY + 'px';
+  requestAnimationFrame(animateRing);
+})();
+document.querySelectorAll('a,button,.service-card,.gallery-item,.why-feature,.social-btn').forEach(el => {
+  el.addEventListener('mouseenter', () => { ring.style.width='52px'; ring.style.height='52px'; ring.style.opacity='.9'; });
+  el.addEventListener('mouseleave', () => { ring.style.width='36px'; ring.style.height='36px'; ring.style.opacity='.6'; });
+});
+
+/* -------- SCROLL PROGRESS -------- */
+window.addEventListener('scroll', () => {
+  const scrolled = window.scrollY;
+  const total    = document.documentElement.scrollHeight - window.innerHeight;
+  document.getElementById('progress-bar').style.width = (scrolled / total * 100) + '%';
+  document.getElementById('navbar').classList.toggle('scrolled', scrolled > 40);
+});
+
+/* -------- SPEED LINES -------- */
+const slc = document.getElementById('speed-lines-container');
+for (let i = 0; i < 22; i++) {
+  const line = document.createElement('div');
+  line.className = 'speed-line';
+  const top    = 10 + Math.random() * 80;
+  const width  = 80 + Math.random() * 200;
+  const delay  = Math.random() * 5;
+  const dur    = 2.5 + Math.random() * 2;
+  const opacity = 0.15 + Math.random() * 0.4;
+  line.style.cssText = `top:${top}%;width:${width}px;animation-delay:${delay}s;animation-duration:${dur}s;opacity:${opacity};`;
+  slc.appendChild(line);
+}
+
+/* -------- TICKER -------- */
+const tickerItems = [
+  '🔧 Oil Change', '⚙️ Engine Repair', '🛞 Wheel Alignment', '🚿 Car Wash',
+  '❄️ AC Service', '🔋 Battery Check', '🛑 Brake Service', '🔩 Suspension',
+  '📊 Free Diagnostics', '⭐ 4.9 Rating', '🏆 16 Years Experience', '✅ 12,000+ Cars Serviced'
+];
+const doubleItems = [...tickerItems, ...tickerItems];
+document.getElementById('ticker').innerHTML = doubleItems
+  .map(t => `<span class="ticker-item">${t}<span class="ticker-sep">//</span></span>`)
+  .join('');
+
+/* -------- REVEAL ON SCROLL -------- */
+const revealEls = document.querySelectorAll('.reveal,.reveal-left,.reveal-right');
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+}, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+revealEls.forEach(el => io.observe(el));
+
+/* -------- ANIMATED COUNTERS -------- */
+let countersStarted = false;
+function animateCounters() {
+  if (countersStarted) return;
+  countersStarted = true;
+  document.querySelectorAll('.count').forEach(el => {
+    const target = parseInt(el.dataset.target);
+    const duration = 1800;
+    const step = target / (duration / 16);
+    let current = 0;
+    const timer = setInterval(() => {
+      current += step;
+      if (current >= target) { el.textContent = target.toLocaleString(); clearInterval(timer); }
+      else { el.textContent = Math.floor(current).toLocaleString(); }
+    }, 16);
+  });
+}
+const counterSection = document.getElementById('why');
+const counterIO = new IntersectionObserver(entries => {
+  if (entries[0].isIntersecting) { animateCounters(); counterIO.disconnect(); }
+}, { threshold: 0.3 });
+counterIO.observe(counterSection);
+
+/* -------- MOBILE MENU -------- */
+const hamburger    = document.getElementById('hamburger');
+const mobileMenu   = document.getElementById('mobile-menu');
+let menuOpen = false;
+hamburger.addEventListener('click', () => {
+  menuOpen = !menuOpen;
+  mobileMenu.classList.toggle('open', menuOpen);
+  const spans = hamburger.querySelectorAll('span');
+  if (menuOpen) {
+    spans[0].style.transform = 'rotate(45deg) translate(5px,5px)';
+    spans[1].style.opacity = '0';
+    spans[2].style.transform = 'rotate(-45deg) translate(5px,-5px)';
+  } else {
+    spans.forEach(s => { s.style.transform=''; s.style.opacity=''; });
+  }
+});
+function closeMobile() {
+  menuOpen = false;
+  mobileMenu.classList.remove('open');
+  hamburger.querySelectorAll('span').forEach(s => { s.style.transform=''; s.style.opacity=''; });
+}
+
+/* -------- BOOKING FORM -------- */
+function handleBooking(e) {
+  e.preventDefault();
+  const btn = e.target.querySelector('[type="submit"]');
+  btn.textContent = 'PROCESSING...'; btn.disabled = true;
+  setTimeout(() => {
+    document.getElementById('form-success').style.display = 'block';
+    btn.textContent = '⚡ Confirm Booking'; btn.disabled = false;
+    e.target.reset();
+    setTimeout(() => { document.getElementById('form-success').style.display = 'none'; }, 5000);
+  }, 1200);
+}
+
+/* -------- PARALLAX HERO -------- */
+window.addEventListener('scroll', () => {
+  const car = document.getElementById('hero-car');
+  if (!car) return;
+  const offset = window.scrollY * 0.25;
+  car.style.transform = `translateY(${offset}px)`;
+});
+
+/* -------- SET MIN DATE ON BOOKING -------- */
+const dateInput = document.querySelector('input[type="date"]');
+if (dateInput) {
+  const today = new Date();
+  const yyyy  = today.getFullYear();
+  const mm    = String(today.getMonth() + 1).padStart(2, '0');
+  const dd    = String(today.getDate() + 1).padStart(2, '0');
+  dateInput.min = `${yyyy}-${mm}-${dd}`;
+}
+</script>
 </body>
 </html>
