@@ -1,22 +1,692 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23222'/%3E%3Ctext x='50%' y='54%' text-anchor='middle' font-size='36' fill='%23ffec80' font-family='Inter,Arial,sans-serif' dy='.3em'%3EU%3C/text%3E%3C/svg%3E">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sample Template 2</title>
-    <!-- Use inline Tailwind for the placeholder -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>URBN | Retail Clothing</title>
+    <!-- Dependencies: Lenis (Smooth Scroll) & GSAP (Animations) -->
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300;1,600&family=Syncopate:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --color-bg: #050505;
+            --color-text: #ffffff;
+            --color-accent: #f2f2f2;
+            --color-muted: #555;
+            --font-display: 'Syncopate', sans-serif;
+            --font-serif: 'Cormorant Garamond', serif;
+            --font-sans: 'Inter', sans-serif;
+            --smooth: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+                /* cursor: none !important; */
+        }
+
+        /* Scrollbar: keep visible and subtle */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.06);
+            border-radius: 10px;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+        }
+        html {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255,255,255,0.06) transparent;
+            -ms-overflow-style: auto;
+        }
+
+        body {
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            font-family: var(--font-sans);
+            font-size: 18px; /* slightly larger base for desktop */
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body.nav-open {
+            overflow: hidden;
+        }
+
+        /* Custom cursor removed (production) */
+
+        /* Noise */
+        .grain {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.05;
+            background: url("https://grainy-gradients.vercel.app/noise.svg");
+        }
+
+        /* Section Layout */
+        .section {
+            padding: 15vh 8vw;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 2200px;
+            margin: 0 auto;
+        }
+
+        /* Navigation */
+        nav {
+                        background: rgba(5,5,5,0.92);
+                        box-shadow: 0 2px 16px 0 rgba(0,0,0,0.12);
+                        backdrop-filter: blur(6px);
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            padding: 40px 8vw;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .nav-logo {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 20px;
+            letter-spacing: 8px;
+            text-decoration: none;
+            color: #ffec80;
+            transition: opacity 0.3s, color 0.3s;
+        }
+        .nav-logo:hover {
+            color: #ffec80;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 48px;
+            height: 48px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            z-index: 1100;
+            padding: 6px;
+        }
+        .nav-toggle span {
+            display: block;
+            width: 22px;
+            height: 2px;
+            margin: 4px 0;
+            background: var(--color-accent);
+            border-radius: 2px;
+            transition: transform 260ms cubic-bezier(.2,.9,.2,1), opacity 180ms ease;
+            will-change: transform, opacity;
+        }
+
+        .nav-links a {
+            font-size: 14px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--color-accent);
+            font-weight: 600;
+            transition: color 0.3s var(--smooth);
+        }
+        .nav-links a:hover, .nav-links a.active {
+            color: #ffec80;
+        }
+        /* hide the mobile-only close button on desktop */
+        .nav-close { display: none; }
+
+        /* Hero Styling */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: clamp(60px, 15vw, 260px);
+            line-height: 0.8;
+            letter-spacing: -0.05em;
+            text-align: center;
+            z-index: 2;
+            color: #fff;
+            text-shadow: 0 2px 24px #000, 0 1px 0 #222;
+            pointer-events: none;
+        }
+
+        .hero-img-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40vw;
+            height: 55vw;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .hero-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(1) brightness(0.6);
+            will-change: transform;
+        }
+
+        /* Collection Grid */
+        .collection-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 5vw;
+            padding-top: 10vh;
+        }
+
+        .product-card {
+            grid-column: span 6;
+            margin-bottom: 20vh;
+        }
+
+        .product-card:nth-child(even) {
+            margin-top: 30vh;
+        }
+
+        .img-wrap {
+            width: 100%;
+            aspect-ratio: 4/5.5;
+            overflow: hidden;
+            background: #181818;
+            border-radius: 12px;
+            box-shadow: 0 4px 32px 0 rgba(0,0,0,0.18);
+            position: relative;
+        }
+
+        .img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(0.4);
+            transition: transform 1.2s var(--smooth), filter 0.8s var(--smooth);
+            will-change: transform;
+        }
+
+        .product-card:hover .img-wrap img {
+            transform: scale(1.1);
+            filter: grayscale(0);
+        }
+
+        .product-info {
+            margin-top: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .p-meta h3 {
+                        color: var(--color-accent);
+            font-family: var(--font-display);
+            font-size: 13px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .p-meta p {
+            font-family: var(--font-serif);
+            font-size: 24px;
+            color: #bdbdbd;
+            font-style: italic;
+        }
+
+        .p-price {
+            font-family: var(--font-display);
+            font-size: 15px;
+            letter-spacing: 2px;
+            color: #ffec80;
+            opacity: 0.95;
+        }
+
+        /* Footer */
+        footer {
+            padding: 120px 8vw;
+            background: #111;
+            color: var(--color-accent);
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 80px;
+        }
+
+        .f-logo {
+                        color: #ffec80;
+                        text-shadow: 0 2px 16px #000;
+            font-family: var(--font-display);
+            font-size: 32px;
+            letter-spacing: 12px;
+            font-weight: 700;
+        }
+
+        .f-col h4 {
+            font-size: 9px;
+            letter-spacing: 5px;
+            color: #ffec80;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+
+        .f-col ul { list-style: none; }
+        .f-col li { margin-bottom: 20px; }
+        .f-col a { text-decoration: none; color: var(--color-accent); font-size: 14px; letter-spacing: 2px; transition: color 0.3s;}
+        .f-col a:hover { color: #ffec80; }
+
+        @media (max-width: 1024px) {
+            nav {
+                padding: 12px 4vw;
+                justify-content: space-between;
+            }
+            /* Reduce base font-size on smaller screens to preserve layout */
+            body { font-size: 16px; line-height: 1.5; }
+            .nav-logo { font-size: 18px; letter-spacing: 8px; }
+            .nav-toggle {
+                display: flex;
+            }
+
+            .nav-toggle span { background: var(--color-accent); }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: rgba(5,5,5,0.86);
+                backdrop-filter: blur(8px);
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 24px;
+                padding: 0;
+                opacity: 0;
+                visibility: hidden;
+                pointer-events: none;
+                transform: translateY(-6%);
+                transition: opacity 280ms cubic-bezier(.2,.9,.2,1), transform 280ms cubic-bezier(.2,.9,.2,1), visibility 280ms;
+                z-index: 1200;
+            }
+            .nav-links.open {
+                opacity: 1;
+                visibility: visible;
+                pointer-events: auto;
+                transform: translateY(0);
+            }
+            .nav-close {
+                position: absolute;
+                top: 18px;
+                right: 18px;
+                width: 44px;
+                height: 44px;
+                display: none;
+                align-items: center;
+                justify-content: center;
+                background: transparent;
+                border: none;
+                color: var(--color-accent);
+                font-size: 28px;
+                cursor: pointer;
+                z-index: 1250;
+            }
+            .nav-links.open .nav-close { display: flex; }
+
+            .nav-links a {
+                font-size: 20px;
+                padding: 12px 0;
+                color: var(--color-accent);
+                border-bottom: none;
+            }
+            .nav-toggle.open span:first-child { transform: translateY(6px) rotate(45deg); }
+            .nav-toggle.open span:nth-child(2) { opacity: 0; transform: translateX(-6px); }
+            .nav-toggle.open span:last-child { transform: translateY(-6px) rotate(-45deg); }
+
+            /* Mobile-only layout overrides */
+            .product-card { grid-column: span 12; margin-top: 0 !important; }
+            footer { grid-template-columns: 1fr; gap: 60px; }
+            .hero-img-container { width: 80vw; height: 100vw; }
+        }
+
+        /* Reveal Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(60px);
+            will-change: transform, opacity;
+        }
+
+        /* Utility classes moved from inline styles */
+        .intro { margin-bottom: 10vh; }
+        .series-label { font-size: 10px; letter-spacing: 8px; color: var(--color-muted); display:inline-block; }
+        .statement-section { text-align: center; border-top: 1px solid #222; }
+        .statement-heading { font-family: var(--font-display); font-size: 8vw; letter-spacing: -0.04em; line-height: 0.9; margin: 0; }
+        .footer-desc { font-size: 12px; color: var(--color-muted); max-width: 400px; margin-top: 30px; line-height: 1.8; }
+
+        /* Growziq badge */
+        .growziq-badge {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+            color: var(--color-accent);
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-family: var(--font-display);
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-decoration: none;
+            box-shadow: 0 6px 24px rgba(0,0,0,0.45), 0 1px 0 rgba(255,255,255,0.02) inset;
+            border: 1px solid rgba(255,255,255,0.04);
+            backdrop-filter: blur(6px);
+            transition: transform 180ms cubic-bezier(.2,.9,.2,1), box-shadow 200ms ease, opacity 200ms ease;
+            opacity: 0.95;
+            z-index: 1300;
+        }
+        .growziq-badge .growziq-name { color: #ffec80; }
+
+        /* Footer note */
+        .footer-note {
+            grid-column: 1 / -1;
+            margin-top: 40px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255,255,255,0.04);
+            font-size: 13px;
+            color: var(--color-muted);
+            text-align: center;
+            line-height: 1.6;
+        }
+        .footer-note a { color: #ffec80; text-decoration: none; transition: opacity 160ms ease; }
+        .footer-note a:hover { opacity: 0.85; }
+        .growziq-badge:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            opacity: 1;
+        }
+
+        @media (max-width: 480px) {
+            .growziq-badge { right: 12px; bottom: 12px; padding: 8px 10px; font-size: 11px; }
+        }
+
+    </style>
 </head>
-<body class="bg-gray-50 flex items-center justify-center min-h-screen font-sans">
-    <div class="text-center p-8 bg-white rounded-2xl shadow-sm border border-gray-100">
-        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4 text-blue-500 text-2xl font-bold">
-            2
+<body>
+    <!-- Custom cursor removed for production -->
+    <div class="grain"></div>
+
+    <nav>
+        <a href="#hero" class="nav-logo hover-el">URBN</a>
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <div class="nav-links" role="menu" aria-hidden="true">
+            <button class="nav-close" aria-label="Close navigation">×</button>
+            <a href="#collection" role="menuitem" class="hover-el nav-link">Archive</a>
+            <a href="#statement" role="menuitem" class="hover-el nav-link">Statement</a>
+            <a href="#footer" role="menuitem" class="hover-el nav-link">Contact</a>
         </div>
-        <h1 class="text-2xl font-bold text-gray-800 mb-2">Sample Template 2</h1>
-        <p class="text-gray-500 mb-8 max-w-sm">This is a placeholder page for sample design number 2. The final design will be implemented here.</p>
-        <a href="../portfolio.html" class="inline-block px-6 py-3 bg-gray-900 text-white rounded-xl font-medium hover:bg-gray-800 transition-colors shadow-sm">
-            ← Back to Portfolio
-        </a>
-    </div>
+    </nav>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero" id="hero">
+            <div class="hero-img-container">
+                <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=1920&auto=format&fit=crop" alt="Streetwear Hero" class="hero-img">
+            </div>
+            <h1 class="hero-title reveal">
+                CONCRETE<br>DREAMS
+            </h1>
+        </section>
+
+        <!-- Collection Section -->
+        <section class="section" id="collection">
+            <div class="container">
+                <div class="reveal intro">
+                    <span class="series-label">[ SERIES 01: INDUSTRIAL ]</span>
+                </div>
+                
+                <div class="collection-grid">
+                    <!-- Product 1 -->
+                    <div class="product-card reveal">
+                        <div class="img-wrap hover-el">
+                            <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=1200&auto=format&fit=crop" alt="Luxury Puffer">
+                        </div>
+                        <div class="product-info">
+                            <div class="p-meta">
+                                <h3>URBAN ARMOUR</h3>
+                                <p>Satin-Finish Technical Puffer</p>
+                            </div>
+                            <div class="p-price">₹950</div>
+                        </div>
+                    </div>
+
+                    <!-- Product 2 -->
+                    <div class="product-card reveal">
+                        <div class="img-wrap hover-el">
+                            <img src="https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?q=80&w=1200&auto=format&fit=crop" alt="Minimalist Coat">
+                        </div>
+                        <div class="product-info">
+                            <div class="p-meta">
+                                <h3>VOID CHRONICLE</h3>
+                                <p>Double-Faced Loro Piana Wool</p>
+                            </div>
+                            <div class="p-price">₹1,800</div>
+                        </div>
+                    </div>
+
+                    <!-- Product 3 -->
+                    <div class="product-card reveal">
+                        <div class="img-wrap hover-el">
+                            <img src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?q=80&w=1200&auto=format&fit=crop" alt="Technical Shoes">
+                        </div>
+                        <div class="product-info">
+                            <div class="p-meta">
+                                <h3>KINETIC STEP</h3>
+                                <p>Structural Leather Footwear</p>
+                            </div>
+                            <div class="p-price">₹620</div>
+                        </div>
+                    </div>
+
+                    <!-- Product 4 -->
+                    <div class="product-card reveal">
+                        <div class="img-wrap hover-el">
+                            <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1200&auto=format&fit=crop" alt="Silk Editorial">
+                        </div>
+                        <div class="product-info">
+                            <div class="p-meta">
+                                <h3>ELEMENTAL SILO</h3>
+                                <p>Hand-Dyed Geometric Ensemble</p>
+                            </div>
+                            <div class="p-price">₹1,100</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Aesthetic Statement -->
+        <section class="section reveal statement-section" id="statement">
+            <div class="container">
+                <h2 class="statement-heading">THE CITY<br>IS THE<br>ATELIER.</h2>
+            </div>
+        </section>
+    </main>
+
+    <footer id="footer">
+        <div class="f-col">
+            <div class="f-logo">URBN</div>
+            <p class="footer-desc">URBAN THREADS is a research-based clothing label dedicated to the study of metropolitan silhouettes and industrial craftsmanship.</p>
+        </div>
+        <div class="f-col">
+            <h4>Access</h4>
+            <ul>
+                <li><a href="#" class="hover-el">Logistics</a></li>
+                <li><a href="#" class="hover-el">Returns</a></li>
+                <li><a href="#" class="hover-el">Archive</a></li>
+            </ul>
+        </div>
+        <div class="f-col">
+            <h4>Connect</h4>
+            <ul>
+                <li><a href="#" class="hover-el">Instagram</a></li>
+                <li><a href="#" class="hover-el">Journal</a></li>
+                <li><a href="#" class="hover-el">Mailing</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-note">
+            © 2026 <a href="https://growziq.in" target="_blank" rel="noopener noreferrer">Growziq</a>™ | All rights reserved. All designs, layouts, and code are intellectual property of <a href="https://growziq.in" target="_blank" rel="noopener noreferrer">Growziq</a> and protected under applicable laws
+        </div>
+    </footer>
+
+    <!-- Growziq Badge -->
+    <a href="https://growziq.in" target="_blank" rel="noopener noreferrer" class="growziq-badge">Built by <span class="growziq-name">Growziq</span></a>
+
+    <script>
+        // Hamburger menu toggle for mobile nav
+        const navToggle = document.querySelector('.nav-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        const navClose = document.querySelector('.nav-close');
+        if (navToggle && navLinks) {
+            const closeNav = () => {
+                navLinks.classList.remove('open');
+                navToggle.classList.remove('open');
+                navToggle.setAttribute('aria-expanded', 'false');
+                document.body.classList.remove('nav-open');
+            };
+
+            navToggle.addEventListener('click', (e) => {
+                const isOpen = !navLinks.classList.contains('open');
+                if (isOpen) {
+                    navLinks.classList.add('open');
+                    navToggle.classList.add('open');
+                    navToggle.setAttribute('aria-expanded', 'true');
+                    document.body.classList.add('nav-open');
+                } else {
+                    closeNav();
+                }
+            });
+
+            // Close when a link is clicked
+            navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', closeNav));
+
+            // Close on close-button click
+            if (navClose) navClose.addEventListener('click', closeNav);
+
+            // Close on outside click
+            document.addEventListener('click', (ev) => {
+                if (navLinks.classList.contains('open') && !navLinks.contains(ev.target) && !navToggle.contains(ev.target)) {
+                    closeNav();
+                }
+            });
+
+            // Close on Escape key
+            document.addEventListener('keydown', (ev) => {
+                if (ev.key === 'Escape' && navLinks.classList.contains('open')) closeNav();
+            });
+        }
+        // Init GSAP & Lenis
+        gsap.registerPlugin(ScrollTrigger);
+        
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            orientation: 'vertical',
+            gestureOrientation: 'vertical',
+            smoothWheel: true,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // Custom cursor code removed for production
+
+        // Ultra-Smooth Navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = this.getAttribute('href');
+                if (target === '#') return;
+                
+                lenis.scrollTo(target, {
+                    offset: 0,
+                    duration: 1.5,
+                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+                });
+            });
+        });
+
+        // GSAP Revelations
+        gsap.utils.toArray('.reveal').forEach((el) => {
+            gsap.to(el, {
+                scrollTrigger: {
+                    trigger: el,
+                    start: "top 90%",
+                    toggleActions: "play none none none"
+                },
+                opacity: 1,
+                y: 0,
+                duration: 1.5,
+                ease: "power4.out"
+            });
+        });
+
+        // Hero Parallax
+        gsap.to('.hero-img', {
+            scrollTrigger: {
+                trigger: '#hero',
+                start: "top top",
+                end: "bottom top",
+                scrub: true
+            },
+            y: 150,
+            scale: 1.2
+        });
+
+    </script>
 </body>
 </html>
