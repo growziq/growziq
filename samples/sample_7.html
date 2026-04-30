@@ -1,22 +1,1529 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sample Template 7</title>
-    <!-- Use inline Tailwind for the placeholder -->
-    <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Favicon: India-inspired, vibrant, relevant -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23ff9933'/%3E%3Ccircle cx='32' cy='32' r='22' fill='%23fff'/%3E%3Ccircle cx='32' cy='32' r='14' fill='%2300803a'/%3E%3Cg stroke='%2300803a' stroke-width='2'%3E%3Cline x1='32' y1='10' x2='32' y2='54'/%3E%3Cline x1='10' y1='32' x2='54' y2='32'/%3E%3Cline x1='18.6' y1='18.6' x2='45.4' y2='45.4'/%3E%3Cline x1='45.4' y1='18.6' x2='18.6' y2='45.4'/%3E%3C/g%3E%3C/svg%3E">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SaaSName — Tagline</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+:root {
+  --bg: #0d0f14;
+  --bg2: #111318;
+  --bg3: #161921;
+  --card: #1a1d26;
+  --card2: #1e2130;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.12);
+  --accent: #ff4f1f;
+  --accent2: #ff7a45;
+  --accent-glow: rgba(255,79,31,0.25);
+  --accent-subtle: rgba(255,79,31,0.08);
+  --blue: #4f8aff;
+  --blue-subtle: rgba(79,138,255,0.08);
+  --green: #22c55e;
+  --text: #f1f2f5;
+  --text2: #8b8fa8;
+  --text3: #4a4e62;
+  --font: 'Plus Jakarta Sans', sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+  --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --radius: 14px;
+  --radius-sm: 8px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.6;
+}
+/* ── SCROLL PROGRESS ── */
+#spbar {
+  position: fixed; top: 0; left: 0; height: 2px; z-index: 1000;
+  background: linear-gradient(90deg, var(--accent), var(--accent2), #ffad33);
+  box-shadow: 0 0 10px var(--accent); transition: width .1s linear;
+}
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 900;
+  padding: 1rem 0;
+  transition: background .4s, border-color .4s;
+  border-bottom: 1px solid transparent;
+}
+nav.scrolled {
+  background: rgba(13,15,20,0.88);
+  backdrop-filter: blur(24px);
+  border-color: var(--border);
+}
+.nav-inner {
+  max-width: 1200px; margin: 0 auto;
+  padding: 0 2rem;
+  display: flex; align-items: center; justify-content: space-between; gap: 2rem;
+}
+.logo {
+  display: flex; align-items: center; gap: 0.55rem;
+  font-size: 1.2rem; font-weight: 800; color: var(--text);
+  text-decoration: none; flex-shrink: 0;
+}
+.logo-icon {
+  width: 30px; height: 30px;
+  background: var(--accent);
+  border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+}
+.logo-icon svg { width: 16px; height: 16px; }
+.nav-links {
+  display: flex; align-items: center; gap: 2rem; list-style: none;
+}
+.nav-links a {
+  font-size: 0.875rem; font-weight: 500;
+  color: var(--text2); text-decoration: none;
+  transition: color .2s;
+}
+.nav-links a:hover { color: var(--text); }
+.nav-actions { display: flex; align-items: center; gap: 0.75rem; flex-shrink: 0; }
+.btn-ghost {
+  font-size: 0.875rem; font-weight: 600; color: var(--text2);
+  background: none; border: none; cursor: pointer; padding: 0.5rem 1rem;
+  border-radius: 8px; transition: color .2s, background .2s; text-decoration: none;
+}
+.btn-ghost:hover { color: var(--text); background: rgba(255,255,255,0.06); }
+.btn-primary {
+  font-size: 0.875rem; font-weight: 700;
+  background: var(--accent); color: #fff;
+  border: none; cursor: pointer; padding: 0.6rem 1.25rem;
+  border-radius: 8px; transition: transform .2s var(--ease-spring), background .2s, box-shadow .2s;
+  text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem;
+  white-space: nowrap;
+}
+.btn-primary:hover { background: var(--accent2); transform: translateY(-1px); box-shadow: 0 4px 20px var(--accent-glow); }
+.btn-primary:active { transform: translateY(0); }
+/* ── HAMBURGER ── */
+.ham { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
+.ham span { display: block; width: 22px; height: 1.5px; background: var(--text); border-radius: 2px; transition: transform .3s, opacity .3s; }
+.ham.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.ham.open span:nth-child(2) { opacity: 0; }
+.ham.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+.mobile-menu {
+  display: none; position: fixed; inset: 0; z-index: 800;
+  background: var(--bg2);
+  flex-direction: column; align-items: center; justify-content: center; gap: 2rem;
+  padding: 2rem;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a { font-size: 1.5rem; font-weight: 700; color: var(--text); text-decoration: none; }
+/* ── SHARED ── */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+.section { padding: 6rem 0; }
+.section-sm { padding: 4rem 0; }
+.label {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-family: var(--mono); font-size: 0.72rem; font-weight: 500;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--accent); background: var(--accent-subtle);
+  border: 1px solid rgba(255,79,31,0.2);
+  padding: 0.3rem 0.75rem; border-radius: 100px; margin-bottom: 1.25rem;
+}
+.section-title {
+  font-size: clamp(2rem, 4.5vw, 3.2rem); font-weight: 800;
+  letter-spacing: -0.04em; line-height: 1.1; margin-bottom: 1rem;
+}
+.section-sub {
+  font-size: 1.05rem; color: var(--text2); max-width: 520px; line-height: 1.7;
+}
+.text-accent { color: var(--accent); }
+.text-muted { color: var(--text2); }
+.center { text-align: center; }
+.center .section-sub { margin: 0 auto; }
+/* ── HERO ── */
+#hero {
+  min-height: 100svh; padding: 8rem 0 4rem;
+  position: relative; overflow: hidden;
+  display: flex; align-items: center;
+}
+.hero-glow {
+  position: absolute; border-radius: 50%; pointer-events: none; filter: blur(80px);
+}
+.hero-glow-1 {
+  width: 600px; height: 400px;
+  background: radial-gradient(ellipse, rgba(255,79,31,0.18) 0%, transparent 70%);
+  top: 10%; left: -10%;
+}
+.hero-glow-2 {
+  width: 500px; height: 500px;
+  background: radial-gradient(ellipse, rgba(79,138,255,0.1) 0%, transparent 70%);
+  bottom: 0; right: -5%;
+}
+.hero-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 4rem; align-items: center; position: relative; z-index: 2;
+}
+.hero-eyebrow { margin-bottom: 1.5rem; }
+.hero-tag {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-size: 0.8rem; font-weight: 600;
+  color: var(--text2); background: var(--card);
+  border: 1px solid var(--border2); padding: 0.35rem 0.9rem;
+  border-radius: 100px;
+}
+.hero-tag .dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; animation: blink 2s ease infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+.hero-h1 {
+  font-size: clamp(2.6rem, 5.5vw, 4.2rem); font-weight: 800;
+  letter-spacing: -0.05em; line-height: 1.05;
+  margin-bottom: 1.5rem;
+}
+.hero-h1 em { font-style: normal; color: var(--accent); }
+.hero-sub-text {
+  font-size: 1.08rem; color: var(--text2); max-width: 420px;
+  line-height: 1.75; margin-bottom: 2.5rem;
+}
+.hero-ctas { display: flex; gap: 0.8rem; flex-wrap: wrap; align-items: center; }
+.btn-lg { padding: 0.85rem 1.75rem; font-size: 0.95rem; border-radius: 10px; }
+.btn-outline {
+  font-size: 0.9rem; font-weight: 600;
+  color: var(--text); background: transparent;
+  border: 1px solid var(--border2);
+  padding: 0.8rem 1.6rem; border-radius: 10px;
+  cursor: pointer; transition: border-color .2s, background .2s, transform .2s;
+  text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem;
+}
+.btn-outline:hover { border-color: rgba(255,255,255,0.25); background: rgba(255,255,255,0.05); transform: translateY(-1px); }
+.hero-meta {
+  display: flex; align-items: center; gap: 1.5rem;
+  margin-top: 2.5rem; flex-wrap: wrap;
+}
+.hero-meta-item {
+  display: flex; align-items: center; gap: 0.4rem;
+  font-size: 0.8rem; color: var(--text2);
+}
+.hero-meta-item svg { color: var(--green); flex-shrink: 0; }
+/* ── PRODUCT MOCKUP ── */
+.mockup-wrap {
+  position: relative; width: 100%;
+}
+.mockup-shell {
+  background: var(--card);
+  border: 1px solid var(--border2);
+  border-radius: 18px; overflow: hidden;
+  box-shadow: 0 40px 100px rgba(0,0,0,0.5), 0 0 0 1px var(--border);
+  position: relative;
+}
+.mockup-bar {
+  background: var(--card2); height: 36px; display: flex; align-items: center;
+  padding: 0 1rem; gap: 6px; border-bottom: 1px solid var(--border);
+}
+.mockup-dot { width: 10px; height: 10px; border-radius: 50%; }
+.mockup-dot:nth-child(1) { background: #ff5f56; }
+.mockup-dot:nth-child(2) { background: #ffbd2e; }
+.mockup-dot:nth-child(3) { background: #27c93f; }
+.mockup-url {
+  flex: 1; background: rgba(255,255,255,0.05); border-radius: 5px;
+  height: 20px; margin: 0 1rem; display: flex; align-items: center;
+  padding: 0 0.75rem; font-family: var(--mono); font-size: 0.62rem; color: var(--text3);
+}
+.mockup-body {
+  padding: 1.25rem; display: grid;
+  grid-template-columns: 1fr 1fr; gap: 0.75rem;
+}
+/* Dashboard cards inside mockup */
+.dash-card {
+  background: var(--card2); border: 1px solid var(--border);
+  border-radius: 10px; padding: 1rem;
+}
+.dash-card.span2 { grid-column: span 2; }
+.dash-label { font-size: 0.62rem; color: var(--text3); font-family: var(--mono); margin-bottom: 0.3rem; text-transform: uppercase; letter-spacing: 0.08em; }
+.dash-value { font-size: 1.4rem; font-weight: 800; letter-spacing: -0.03em; }
+.dash-change { font-size: 0.65rem; color: var(--green); margin-top: 0.2rem; }
+.dash-chart {
+  display: flex; align-items: flex-end; gap: 3px; height: 40px; margin-top: 0.6rem;
+}
+.dash-bar {
+  flex: 1; border-radius: 3px 3px 0 0; min-height: 6px;
+  background: var(--accent); opacity: 0.6;
+  transition: opacity .3s;
+}
+.dash-bar:nth-child(4n) { opacity: 1; }
+.dash-bar:hover { opacity: 1; }
+.dash-donut {
+  width: 50px; height: 50px; border-radius: 50%;
+  background: conic-gradient(var(--accent) 0% 65%, rgba(255,255,255,0.06) 65% 100%);
+  display: flex; align-items: center; justify-content: center; margin-left: auto;
+}
+.dash-donut-inner {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: var(--card2); display: flex; align-items: center; justify-content: center;
+  font-size: 0.62rem; font-weight: 700;
+}
+.dash-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem; }
+.dash-avatar { width: 22px; height: 22px; border-radius: 50%; background: var(--accent); opacity: 0.7; display: inline-block; }
+.dash-progress-wrap { height: 4px; background: rgba(255,255,255,0.06); border-radius: 2px; margin-top: 0.4rem; overflow: hidden; }
+.dash-progress { height: 100%; background: var(--accent); border-radius: 2px; }
+/* Floating cards */
+.float-card {
+  position: absolute; background: var(--card);
+  border: 1px solid var(--border2);
+  border-radius: 12px; padding: 0.75rem 1rem;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+  animation: float 4s ease-in-out infinite;
+}
+.float-card:nth-child(1) { bottom: -20px; left: -40px; animation-delay: 0s; }
+.float-card:nth-child(2) { top: 40px; right: -40px; animation-delay: 1.5s; }
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+.float-label { font-size: 0.62rem; color: var(--text3); font-family: var(--mono); }
+.float-value { font-size: 1.1rem; font-weight: 800; color: var(--green); }
+/* ── TRUST BAR ── */
+#trust {
+  padding: 2.5rem 0 3rem;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.trust-label { font-size: 0.78rem; color: var(--text3); font-weight: 500; text-align: center; margin-bottom: 1.5rem; letter-spacing: 0.06em; text-transform: uppercase; }
+.logos-track {
+  display: flex; align-items: center; justify-content: center;
+  gap: 3rem; flex-wrap: wrap;
+}
+.logo-item {
+  font-size: 1rem; font-weight: 800; color: var(--text3);
+  letter-spacing: -0.03em; opacity: 0.5; transition: opacity .2s;
+  display: flex; align-items: center; gap: 0.4rem;
+}
+.logo-item:hover { opacity: 0.8; }
+.logo-item .li { width: 16px; height: 16px; background: var(--text3); border-radius: 3px; opacity: 0.5; }
+/* ── PROBLEM → SOLUTION ── */
+#howitworks { background: var(--bg2); }
+.steps-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 2rem; margin-top: 4rem;
+}
+.step-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 2rem;
+  position: relative; overflow: hidden;
+  transition: border-color .3s, transform .3s var(--ease);
+}
+.step-card::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,79,31,0.04) 0%, transparent 60%);
+  opacity: 0; transition: opacity .3s;
+}
+.step-card:hover { border-color: rgba(255,79,31,0.25); transform: translateY(-4px); }
+.step-card:hover::before { opacity: 1; }
+.step-num {
+  font-family: var(--mono); font-size: 0.7rem; color: var(--accent);
+  letter-spacing: 0.1em; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;
+}
+.step-num::after { content: ''; flex: 1; height: 1px; background: rgba(255,79,31,0.2); }
+.step-icon {
+  width: 48px; height: 48px; border-radius: 12px;
+  background: var(--accent-subtle); border: 1px solid rgba(255,79,31,0.15);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 1.25rem;
+}
+.step-icon svg { width: 22px; height: 22px; color: var(--accent); }
+.step-title { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.6rem; letter-spacing: -0.02em; }
+.step-desc { font-size: 0.88rem; color: var(--text2); line-height: 1.65; }
+/* ── FEATURES BENTO ── */
+#features { position: relative; }
+.bento {
+  display: grid; grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: 90px; gap: 1rem; margin-top: 4rem;
+}
+.feat {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.75rem;
+  overflow: hidden; position: relative;
+  transition: border-color .3s, transform .3s var(--ease);
+  display: flex; flex-direction: column;
+}
+.feat:hover { border-color: var(--border2); transform: translateY(-3px); }
+.feat-1 { grid-column: 1/6; grid-row: 1/5; }
+.feat-2 { grid-column: 6/9; grid-row: 1/4; }
+.feat-3 { grid-column: 9/13; grid-row: 1/4; }
+.feat-4 { grid-column: 6/10; grid-row: 4/7; }
+.feat-5 { grid-column: 10/13; grid-row: 4/6; }
+.feat-6 { grid-column: 1/4; grid-row: 5/7; }
+.feat-7 { grid-column: 4/6; grid-row: 5/7; }
+.feat-8 { grid-column: 10/13; grid-row: 6/8; }
+.feat-icon {
+  width: 40px; height: 40px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 1rem; flex-shrink: 0;
+}
+.feat-icon svg { width: 20px; height: 20px; }
+.feat-icon.orange { background: var(--accent-subtle); border: 1px solid rgba(255,79,31,0.15); color: var(--accent); }
+.feat-icon.blue { background: var(--blue-subtle); border: 1px solid rgba(79,138,255,0.15); color: var(--blue); }
+.feat-icon.green { background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.15); color: var(--green); }
+.feat-title { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+.feat-desc { font-size: 0.82rem; color: var(--text2); line-height: 1.6; margin-top: auto; }
+.feat-big-num {
+  font-size: 3.5rem; font-weight: 800; letter-spacing: -0.06em;
+  color: var(--accent); line-height: 1; margin: auto 0;
+}
+.feat-mini-chart { display: flex; align-items: flex-end; gap: 3px; height: 30px; margin: 0.75rem 0; }
+.feat-bar { flex: 1; border-radius: 2px; background: rgba(255,79,31,0.3); }
+.feat-bar.hi { background: var(--accent); }
+/* ── DEMO SECTION ── */
+#demo { background: var(--bg2); }
+.demo-tabs {
+  display: flex; gap: 0.5rem; margin-bottom: 2rem;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 10px; padding: 4px; width: fit-content;
+}
+.demo-tab {
+  font-size: 0.82rem; font-weight: 600; color: var(--text2);
+  background: none; border: none; cursor: pointer;
+  padding: 0.5rem 1.1rem; border-radius: 7px;
+  transition: color .2s, background .2s;
+}
+.demo-tab.active { background: var(--accent); color: #fff; }
+.demo-screen {
+  background: var(--card); border: 1px solid var(--border2);
+  border-radius: var(--radius); overflow: hidden;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+}
+.demo-sidebar {
+  background: var(--card2); width: 200px; flex-shrink: 0;
+  padding: 1rem; border-right: 1px solid var(--border);
+  display: flex; flex-direction: column; gap: 0.25rem;
+}
+.sidebar-item {
+  display: flex; align-items: center; gap: 0.6rem;
+  padding: 0.5rem 0.6rem; border-radius: 7px; cursor: pointer;
+  font-size: 0.78rem; font-weight: 500; color: var(--text2);
+  transition: background .2s, color .2s;
+}
+.sidebar-item:hover, .sidebar-item.active { background: var(--accent-subtle); color: var(--text); }
+.sidebar-item.active { color: var(--accent); }
+.sidebar-dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; opacity: 0.7; flex-shrink: 0; }
+.demo-main { flex: 1; padding: 1.5rem; overflow: hidden; }
+.demo-content { display: flex; gap: 1rem; }
+.demo-screen-body { display: flex; height: 340px; }
+.demo-metric {
+  background: var(--card2); border: 1px solid var(--border);
+  border-radius: 10px; padding: 1rem; flex: 1;
+  display: flex; flex-direction: column; gap: 0.25rem;
+}
+.demo-metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 0.75rem; }
+.demo-big-chart {
+  background: var(--card2); border: 1px solid var(--border);
+  border-radius: 10px; padding: 1rem; flex: 1.8;
+  display: flex; flex-direction: column;
+}
+.big-chart-area {
+  flex: 1; display: flex; align-items: flex-end; gap: 6px; margin-top: 0.5rem;
+}
+.big-bar { flex: 1; border-radius: 4px 4px 0 0; background: rgba(255,79,31,0.25); min-height: 8px; }
+.big-bar.accent { background: var(--accent); }
+/* ── BENEFITS ── */
+#benefits {}
+.benefits-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 3rem;
+}
+.benefit-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 2rem;
+  display: flex; gap: 1.25rem; align-items: flex-start;
+  transition: border-color .3s, transform .3s var(--ease);
+}
+.benefit-card:hover { border-color: var(--border2); transform: translateY(-3px); }
+.benefit-icon {
+  width: 44px; height: 44px; border-radius: 10px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--accent-subtle); border: 1px solid rgba(255,79,31,0.15);
+}
+.benefit-icon svg { width: 20px; height: 20px; color: var(--accent); }
+.benefit-title { font-size: 1rem; font-weight: 700; margin-bottom: 0.4rem; }
+.benefit-desc { font-size: 0.85rem; color: var(--text2); line-height: 1.65; }
+.metrics-strip {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 1rem; margin-top: 4rem;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 2.5rem;
+}
+.metric-item { text-align: center; }
+.metric-num {
+  font-size: 2.8rem; font-weight: 800; letter-spacing: -0.05em;
+  color: var(--text); line-height: 1; margin-bottom: 0.3rem;
+}
+.metric-num span { color: var(--accent); }
+.metric-label { font-size: 0.8rem; color: var(--text2); }
+/* ── TESTIMONIALS ── */
+#testimonials { background: var(--bg2); }
+.testi-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem; margin-top: 3.5rem;
+}
+.testi-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.75rem;
+  transition: border-color .3s, transform .3s;
+}
+.testi-card:hover { border-color: var(--border2); transform: translateY(-3px); }
+.stars { display: flex; gap: 2px; margin-bottom: 1rem; }
+.stars svg { width: 14px; height: 14px; color: #fbbf24; fill: currentColor; }
+.testi-text { font-size: 0.9rem; color: var(--text2); line-height: 1.7; margin-bottom: 1.25rem; font-style: italic; }
+.testi-author { display: flex; align-items: center; gap: 0.75rem; }
+.author-avatar {
+  width: 36px; height: 36px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem; font-weight: 700; color: #fff; flex-shrink: 0;
+}
+.author-name { font-size: 0.85rem; font-weight: 700; }
+.author-role { font-size: 0.75rem; color: var(--text3); }
+/* ── PRICING ── */
+#pricing {}
+.price-toggle {
+  display: flex; align-items: center; gap: 0.75rem; justify-content: center; margin: 2rem 0 3rem;
+}
+.price-toggle span { font-size: 0.85rem; font-weight: 600; color: var(--text2); }
+.toggle-switch {
+  width: 44px; height: 24px; background: var(--accent);
+  border-radius: 100px; position: relative; cursor: pointer;
+  border: none; transition: background .2s;
+}
+.toggle-knob {
+  width: 18px; height: 18px; background: #fff; border-radius: 50%;
+  position: absolute; top: 3px; left: 3px;
+  transition: left .25s var(--ease-spring);
+}
+.toggle-switch.annual .toggle-knob { left: 23px; }
+.save-badge {
+  font-size: 0.68rem; font-weight: 700; color: var(--green);
+  background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.2);
+  padding: 0.2rem 0.5rem; border-radius: 100px; margin-left: 0.2rem;
+}
+.pricing-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem;
+}
+.price-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 2rem;
+  transition: border-color .3s, transform .3s;
+  position: relative;
+}
+.price-card:hover { border-color: var(--border2); transform: translateY(-4px); }
+.price-card.featured {
+  border-color: var(--accent); background: linear-gradient(160deg, rgba(255,79,31,0.05) 0%, var(--card) 50%);
+}
+.price-card.featured:hover { border-color: var(--accent2); }
+.popular-tag {
+  position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  color: #fff; background: var(--accent);
+  padding: 0.25rem 0.85rem; border-radius: 100px;
+}
+.plan-name { font-size: 0.8rem; font-weight: 600; color: var(--text2); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.08em; }
+.plan-price {
+  display: flex; align-items: baseline; gap: 0.25rem;
+  margin-bottom: 0.4rem;
+}
+.plan-price .currency { font-size: 1.1rem; font-weight: 700; color: var(--text2); margin-top: 0.4rem; }
+.plan-price .amount { font-size: 3rem; font-weight: 800; letter-spacing: -0.06em; }
+.plan-price .per { font-size: 0.82rem; color: var(--text2); }
+.plan-desc { font-size: 0.82rem; color: var(--text2); margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
+.plan-features { display: flex; flex-direction: column; gap: 0.7rem; margin-bottom: 2rem; }
+.plan-feature {
+  display: flex; align-items: flex-start; gap: 0.6rem;
+  font-size: 0.84rem; color: var(--text2);
+}
+.plan-feature svg { width: 15px; height: 15px; color: var(--green); flex-shrink: 0; margin-top: 2px; }
+.plan-feature.muted svg { color: var(--text3); }
+.plan-feature.muted { color: var(--text3); }
+.btn-plan {
+  width: 100%; font-size: 0.88rem; font-weight: 700;
+  padding: 0.8rem; border-radius: 9px; cursor: pointer;
+  transition: transform .2s, background .2s, box-shadow .2s;
+  border: none;
+}
+.btn-plan-outline {
+  background: transparent; color: var(--text);
+  border: 1px solid var(--border2);
+}
+.btn-plan-outline:hover { background: rgba(255,255,255,0.06); transform: translateY(-1px); }
+.btn-plan-fill { background: var(--accent); color: #fff; }
+.btn-plan-fill:hover { background: var(--accent2); transform: translateY(-1px); box-shadow: 0 4px 20px var(--accent-glow); }
+/* ── FAQ ── */
+#faq { background: var(--bg2); }
+.faq-list { max-width: 720px; margin: 3rem auto 0; display: flex; flex-direction: column; gap: 0.75rem; }
+.faq-item {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); overflow: hidden;
+  transition: border-color .2s;
+}
+.faq-item.open { border-color: rgba(255,79,31,0.25); }
+.faq-q {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.1rem 1.25rem; cursor: pointer;
+  font-size: 0.95rem; font-weight: 600; gap: 1rem;
+}
+.faq-icon {
+  width: 22px; height: 22px; border-radius: 50%;
+  background: rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: background .2s, transform .3s;
+}
+.faq-item.open .faq-icon { background: var(--accent-subtle); transform: rotate(45deg); }
+.faq-icon svg { width: 12px; height: 12px; color: var(--text2); }
+.faq-item.open .faq-icon svg { color: var(--accent); }
+.faq-a {
+  max-height: 0; overflow: hidden;
+  transition: max-height .35s var(--ease), padding .35s;
+  font-size: 0.88rem; color: var(--text2); line-height: 1.7;
+  padding: 0 1.25rem;
+}
+.faq-item.open .faq-a { max-height: 200px; padding: 0 1.25rem 1.1rem; }
+/* ── FINAL CTA ── */
+#cta-final {
+  padding: 8rem 0;
+  background: linear-gradient(135deg, rgba(255,79,31,0.08) 0%, transparent 50%, rgba(79,138,255,0.05) 100%);
+  border-top: 1px solid var(--border);
+  text-align: center;
+  position: relative; overflow: hidden;
+}
+.cta-glow {
+  position: absolute; bottom: -100px; left: 50%; transform: translateX(-50%);
+  width: 600px; height: 300px;
+  background: radial-gradient(ellipse, rgba(255,79,31,0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+.cta-title {
+  font-size: clamp(2.2rem, 5vw, 3.8rem); font-weight: 800;
+  letter-spacing: -0.05em; line-height: 1.05; margin-bottom: 1.25rem;
+}
+.cta-sub { font-size: 1.05rem; color: var(--text2); max-width: 460px; margin: 0 auto 2.5rem; line-height: 1.7; }
+.cta-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+.cta-note { font-size: 0.78rem; color: var(--text3); margin-top: 1rem; }
+/* ── FOOTER ── */
+footer {
+  background: var(--bg2); border-top: 1px solid var(--border);
+  padding: 4rem 0 2rem;
+}
+.footer-top {
+  display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  gap: 3rem; margin-bottom: 3rem;
+}
+.footer-brand {}
+.footer-brand .logo { margin-bottom: 1rem; }
+.footer-tagline { font-size: 0.85rem; color: var(--text2); line-height: 1.65; max-width: 240px; }
+.footer-col-title { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); margin-bottom: 1rem; }
+.footer-links { display: flex; flex-direction: column; gap: 0.6rem; }
+.footer-links a { font-size: 0.85rem; color: var(--text2); text-decoration: none; transition: color .2s; }
+.footer-links a:hover { color: var(--text); }
+.footer-bottom {
+  border-top: 1px solid var(--border); padding-top: 1.5rem;
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+}
+.footer-copy { font-size: 0.78rem; color: var(--text3); }
+.footer-legal { display: flex; gap: 1.5rem; }
+.footer-legal a { font-size: 0.78rem; color: var(--text3); text-decoration: none; transition: color .2s; }
+.footer-legal a:hover { color: var(--text2); }
+/* ── ANIMATIONS ── */
+.anim { opacity: 0; transform: translateY(32px); }
+.anim-l { opacity: 0; transform: translateX(-30px); }
+.anim-r { opacity: 0; transform: translateX(30px); }
+.anim-s { opacity: 0; transform: scale(0.93); }
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  .bento { display: flex; flex-direction: column; }
+  .feat { min-height: 180px; }
+}
+@media (max-width: 900px) {
+  nav .nav-links { display: none; }
+  nav .nav-actions .btn-ghost { display: none; }
+  .ham { display: flex; }
+  .hero-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .mockup-wrap { order: -1; }
+  .steps-grid { grid-template-columns: 1fr; }
+  .testi-grid { grid-template-columns: 1fr; }
+  .pricing-grid { grid-template-columns: 1fr; }
+  .footer-top { grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .metrics-strip { grid-template-columns: 1fr 1fr; }
+  .benefits-grid { grid-template-columns: 1fr; }
+  .demo-sidebar { width: 140px; }
+}
+@media (max-width: 600px) {
+  .container { padding: 0 1.25rem; }
+  .section { padding: 4rem 0; }
+  nav { padding: 0.8rem 0; }
+  .hero-ctas { flex-direction: column; align-items: flex-start; }
+  .float-card { display: none; }
+  .footer-top { grid-template-columns: 1fr; }
+  .metrics-strip { grid-template-columns: 1fr 1fr; padding: 1.5rem; }
+  .demo-sidebar { display: none; }
+  .cta-actions { flex-direction: column; align-items: center; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; }
+}
+</style>
 </head>
-<body class="bg-gray-50 flex items-center justify-center min-h-screen font-sans">
-    <div class="text-center p-8 bg-white rounded-2xl shadow-sm border border-gray-100">
-        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4 text-blue-500 text-2xl font-bold">
-            7
-        </div>
-        <h1 class="text-2xl font-bold text-gray-800 mb-2">Sample Template 7</h1>
-        <p class="text-gray-500 mb-8 max-w-sm">This is a placeholder page for sample design number 7. The final design will be implemented here.</p>
-        <a href="../portfolio.html" class="inline-block px-6 py-3 bg-gray-900 text-white rounded-xl font-medium hover:bg-gray-800 transition-colors shadow-sm">
-            ← Back to Portfolio
-        </a>
+<body>
+
+<!-- SCROLL PROGRESS -->
+<div id="spbar" style="width:0%"></div>
+
+<!-- ── NAV ── -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="#" class="logo">
+      <div class="logo-icon">
+        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3 8L7 12L13 4" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <!-- REPLACE: Your company name -->
+      [SaaSName]
+    </a>
+    <ul class="nav-links">
+      <li><a href="#howitworks">How it Works</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="#" class="btn-ghost">Log in</a>
+      <a href="#" class="btn-primary">Get Started →</a>
+      <button class="ham" id="ham" aria-label="Menu"><span></span><span></span><span></span></button>
     </div>
+  </div>
+</nav>
+
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#howitworks">How it Works</a>
+  <a href="#features">Features</a>
+  <a href="#pricing">Pricing</a>
+  <a href="#faq">FAQ</a>
+  <a href="#" style="color:var(--accent)">Get Started Free →</a>
+</div>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="hero-glow hero-glow-1"></div>
+  <div class="hero-glow hero-glow-2"></div>
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-left">
+        <div class="hero-eyebrow anim">
+          <div class="hero-tag">
+            <span class="dot"></span>
+            <!-- REPLACE: Your version/announcement -->
+            Now introducing v2.0 — Built for scale
+          </div>
+        </div>
+        <!-- REPLACE: Your headline -->
+        <h1 class="hero-h1 anim">
+          <em>AI-powered</em> sales<br>that close while<br>you sleep
+        </h1>
+        <!-- REPLACE: Your sub-headline -->
+        <p class="hero-sub-text anim">
+          Automate your entire sales pipeline from lead capture to closed deal. [SaaSName] handles follow-ups, scoring, and nurturing — so your team focuses only on what matters.
+        </p>
+        <div class="hero-ctas anim">
+          <a href="#" class="btn-primary btn-lg">
+            Start Free — No Card Needed
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M8 3l5 4-5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a href="#demo" class="btn-outline">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.3"/><path d="M5.5 5l4 2-4 2V5z" fill="currentColor"/></svg>
+            See Live Demo
+          </a>
+        </div>
+        <div class="hero-meta anim">
+          <div class="hero-meta-item">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l3.5 3.5L12 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Free 14-day trial
+          </div>
+          <div class="hero-meta-item">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l3.5 3.5L12 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            No credit card required
+          </div>
+          <div class="hero-meta-item">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l3.5 3.5L12 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Cancel anytime
+          </div>
+        </div>
+      </div>
+
+      <!-- Product Mockup -->
+      <div class="mockup-wrap anim-r">
+        <!-- Floating badges -->
+        <div class="float-card" style="bottom:-16px;left:-44px;">
+          <div class="float-label">Deals closed today</div>
+          <div class="float-value">+$48,200</div>
+        </div>
+        <div class="float-card" style="top:30px;right:-44px;animation-delay:1.2s;">
+          <div class="float-label">AI Score</div>
+          <div class="float-value" style="color:var(--accent);">94/100</div>
+        </div>
+
+        <div class="mockup-shell">
+          <div class="mockup-bar">
+            <div class="mockup-dot"></div><div class="mockup-dot"></div><div class="mockup-dot"></div>
+            <div class="mockup-url">app.saasname.com/dashboard</div>
+          </div>
+          <div class="mockup-body">
+            <div class="dash-card">
+              <div class="dash-label">Total Revenue</div>
+              <div class="dash-value">$84,320</div>
+              <div class="dash-change">↑ 24.5% this month</div>
+              <div class="dash-chart">
+                <div class="dash-bar" style="height:55%"></div>
+                <div class="dash-bar" style="height:40%"></div>
+                <div class="dash-bar" style="height:70%"></div>
+                <div class="dash-bar" style="height:50%"></div>
+                <div class="dash-bar" style="height:85%"></div>
+                <div class="dash-bar" style="height:65%"></div>
+                <div class="dash-bar" style="height:100%"></div>
+              </div>
+            </div>
+            <div class="dash-card" style="display:flex;flex-direction:column;">
+              <div class="dash-label">Pipeline Health</div>
+              <div style="display:flex;align-items:center;gap:0.75rem;margin-top:0.3rem;">
+                <div>
+                  <div class="dash-value" style="font-size:1.1rem;">65%</div>
+                  <div class="dash-change">On Track</div>
+                </div>
+                <div class="dash-donut" style="margin-left:auto">
+                  <div class="dash-donut-inner">65%</div>
+                </div>
+              </div>
+            </div>
+            <div class="dash-card span2">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem;">
+                <div class="dash-label">Active Deals</div>
+                <div style="font-size:0.65rem;color:var(--accent);font-family:var(--mono);">View All →</div>
+              </div>
+              <div class="dash-row">
+                <div style="display:flex;align-items:center;gap:0.5rem;">
+                  <div class="dash-avatar" style="background:#ff4f1f;"></div>
+                  <div style="font-size:0.72rem;">Acme Corp — Enterprise</div>
+                </div>
+                <div style="font-size:0.72rem;color:var(--green);font-weight:700;">$24K</div>
+              </div>
+              <div class="dash-progress-wrap"><div class="dash-progress" style="width:75%"></div></div>
+              <div class="dash-row" style="margin-top:0.6rem;">
+                <div style="display:flex;align-items:center;gap:0.5rem;">
+                  <div class="dash-avatar" style="background:#4f8aff;"></div>
+                  <div style="font-size:0.72rem;">Beta Solutions — Pro</div>
+                </div>
+                <div style="font-size:0.72rem;color:var(--green);font-weight:700;">$8.4K</div>
+              </div>
+              <div class="dash-progress-wrap"><div class="dash-progress" style="width:45%;background:var(--blue)"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TRUST BAR ── -->
+<div id="trust">
+  <div class="container">
+    <!-- REPLACE: Your real customer logos or metrics -->
+    <div class="trust-label">Trusted by 10,000+ teams at companies like</div>
+    <div class="logos-track">
+      <div class="logo-item"><div class="li" style="border-radius:50%"></div> Stripe</div>
+      <div class="logo-item"><div class="li" style="background:#4f8aff;opacity:1;border-radius:50%"></div> Linear</div>
+      <div class="logo-item"><div class="li" style="background:var(--green);opacity:1;border-radius:3px"></div> Shopify</div>
+      <div class="logo-item"><div class="li" style="background:var(--accent);opacity:1;border-radius:50%"></div> Notion</div>
+      <div class="logo-item"><div class="li" style="background:#a855f7;opacity:1;border-radius:4px"></div> Figma</div>
+      <div class="logo-item"><div class="li" style="border-radius:50%"></div> Vercel</div>
+      <div class="logo-item"><div class="li" style="background:#fbbf24;opacity:1;border-radius:3px"></div> HubSpot</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── HOW IT WORKS ── -->
+<section id="howitworks" class="section">
+  <div class="container">
+    <div class="center anim">
+      <div class="label">How It Works</div>
+      <!-- REPLACE: Section heading -->
+      <h2 class="section-title">From chaos to clarity<br>in <span class="text-accent">three steps</span></h2>
+      <p class="section-sub">Most teams waste 60% of their sales time on admin. [SaaSName] eliminates that entirely.</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card anim">
+        <div class="step-num">Step 01</div>
+        <div class="step-icon">
+          <svg viewBox="0 0 22 22" fill="none"><rect x="3" y="3" width="16" height="16" rx="3" stroke="currentColor" stroke-width="1.5"/><path d="M7 11h8M7 7h5M7 15h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="step-title">Connect Your Data Sources</h3>
+        <!-- REPLACE: Step descriptions -->
+        <p class="step-desc">Link your CRM, email, calendar, and website in under 2 minutes. We support 200+ integrations including Salesforce, HubSpot, and Gmail.</p>
+      </div>
+      <div class="step-card anim">
+        <div class="step-num">Step 02</div>
+        <div class="step-icon">
+          <svg viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="1.5"/><path d="M8 11l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3 class="step-title">AI Learns Your Pipeline</h3>
+        <p class="step-desc">Our AI analyzes your historical wins, losses, and buyer patterns. Within 48 hours it's scoring leads and writing follow-ups in your voice.</p>
+      </div>
+      <div class="step-card anim">
+        <div class="step-num">Step 03</div>
+        <div class="step-icon">
+          <svg viewBox="0 0 22 22" fill="none"><path d="M4 15l4-4 3 3 7-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 7h3v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3 class="step-title">Close Deals on Autopilot</h3>
+        <p class="step-desc">Your team sees a prioritized list of hot leads every morning. [SaaSName] handles the rest — follow-ups, scheduling, and deal tracking automatically.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FEATURES BENTO ── -->
+<section id="features" class="section" style="background:var(--bg2);">
+  <div class="container">
+    <div class="anim">
+      <div class="label">Features</div>
+      <h2 class="section-title">Everything you need.<br><span class="text-accent">Nothing you don't.</span></h2>
+    </div>
+    <!-- REPLACE: Your features -->
+    <div class="bento">
+      <div class="feat feat-1 anim-s">
+        <div class="feat-icon orange">
+          <svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v4l2.5 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="feat-title">AI Lead Scoring</h3>
+        <p class="feat-desc" style="margin-bottom:1.5rem;">Our model analyzes 140+ behavioral signals to predict which leads will convert. Stop wasting time on cold prospects.</p>
+        <div class="feat-big-num">94%</div>
+        <div style="font-size:0.75rem;color:var(--text2);margin-top:0.4rem;">prediction accuracy</div>
+        <div class="feat-mini-chart">
+          <div class="feat-bar" style="height:40%"></div>
+          <div class="feat-bar" style="height:60%"></div>
+          <div class="feat-bar" style="height:50%"></div>
+          <div class="feat-bar" style="height:75%"></div>
+          <div class="feat-bar hi" style="height:90%"></div>
+          <div class="feat-bar hi" style="height:100%"></div>
+        </div>
+      </div>
+      <div class="feat feat-2 anim">
+        <div class="feat-icon blue">
+          <svg viewBox="0 0 20 20" fill="none"><path d="M4 4h12v8H4z" stroke="currentColor" stroke-width="1.5" rx="2"/><path d="M7 16h6M10 12v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="feat-title">Smart Email Sequences</h3>
+        <p class="feat-desc">AI writes personalized follow-ups that sound like you — and sends them at the perfect time.</p>
+      </div>
+      <div class="feat feat-3 anim">
+        <div class="feat-icon green">
+          <svg viewBox="0 0 20 20" fill="none"><path d="M10 2l2.4 4.9 5.4.8-3.9 3.8.9 5.3L10 14.3l-4.8 2.5.9-5.3L2.2 7.7l5.4-.8z" stroke="currentColor" stroke-width="1.4"/></svg>
+        </div>
+        <h3 class="feat-title">Pipeline Automation</h3>
+        <p class="feat-desc">Auto-advance deals through stages based on engagement signals. No manual updates.</p>
+      </div>
+      <div class="feat feat-4 anim">
+        <div class="feat-icon orange">
+          <svg viewBox="0 0 20 20" fill="none"><rect x="2" y="2" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="2" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="2" y="11" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="11" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.5"/></svg>
+        </div>
+        <h3 class="feat-title">200+ Native Integrations</h3>
+        <p class="feat-desc">Salesforce, HubSpot, Slack, Gmail, Zoom — connect your entire stack in minutes. Two-way sync, zero data loss.</p>
+      </div>
+      <div class="feat feat-5 anim">
+        <div class="feat-icon blue">
+          <svg viewBox="0 0 20 20" fill="none"><path d="M10 18a8 8 0 100-16 8 8 0 000 16z" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v4l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="feat-title">Real-time Analytics</h3>
+      </div>
+      <div class="feat feat-6 anim">
+        <div class="feat-icon green">
+          <svg viewBox="0 0 20 20" fill="none"><path d="M17 9.5A7.5 7.5 0 115.1 14.9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M17 4v5.5h-5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3 class="feat-title">Auto Follow-ups</h3>
+      </div>
+      <div class="feat feat-7 anim" style="background:linear-gradient(135deg,rgba(255,79,31,0.08),var(--card));border-color:rgba(255,79,31,0.2);">
+        <div style="font-size:0.7rem;font-family:var(--mono);color:var(--accent);margin-bottom:0.5rem;">ENTERPRISE</div>
+        <h3 class="feat-title">SOC 2 Compliant</h3>
+      </div>
+      <div class="feat feat-8 anim">
+        <div class="feat-icon orange">
+          <svg viewBox="0 0 20 20" fill="none"><path d="M4 10h12M10 4v12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="feat-title">Team Collaboration</h3>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── DEMO ── -->
+<section id="demo" class="section">
+  <div class="container">
+    <div class="center anim">
+      <div class="label">Live Preview</div>
+      <h2 class="section-title">See it in <span class="text-accent">action</span></h2>
+      <p class="section-sub" style="margin-bottom:2.5rem;">This is what your team sees every morning — a clear, prioritized view of what to do next.</p>
+    </div>
+    <div class="anim-s">
+      <!-- Tabs -->
+      <div class="demo-tabs">
+        <button class="demo-tab active" onclick="switchTab(this,'pipeline')">Pipeline View</button>
+        <button class="demo-tab" onclick="switchTab(this,'analytics')">Analytics</button>
+        <button class="demo-tab" onclick="switchTab(this,'email')">Email AI</button>
+      </div>
+      <div class="demo-screen" id="demoScreen">
+        <div class="demo-screen-body">
+          <div class="demo-sidebar">
+            <div class="sidebar-item active"><span class="sidebar-dot"></span> Pipeline</div>
+            <div class="sidebar-item"><span class="sidebar-dot" style="background:var(--blue)"></span> Leads</div>
+            <div class="sidebar-item"><span class="sidebar-dot" style="background:var(--green)"></span> Deals</div>
+            <div class="sidebar-item"><span class="sidebar-dot"></span> Reports</div>
+            <div class="sidebar-item"><span class="sidebar-dot"></span> Automations</div>
+            <div class="sidebar-item"><span class="sidebar-dot"></span> Settings</div>
+          </div>
+          <div class="demo-main">
+            <div style="font-size:0.85rem;font-weight:700;margin-bottom:1rem;">Pipeline Overview <span style="color:var(--text3);font-weight:400;font-size:0.75rem;margin-left:0.5rem;">Today, May 2026</span></div>
+            <div class="demo-metric-grid">
+              <div class="demo-metric">
+                <div class="dash-label">Hot Leads</div>
+                <div style="font-size:1.6rem;font-weight:800;letter-spacing:-0.04em;color:var(--accent);">24</div>
+                <div style="font-size:0.65rem;color:var(--green);">↑ 8 from yesterday</div>
+              </div>
+              <div class="demo-metric">
+                <div class="dash-label">Avg Deal Size</div>
+                <div style="font-size:1.6rem;font-weight:800;letter-spacing:-0.04em;">$6.2K</div>
+                <div style="font-size:0.65rem;color:var(--green);">↑ 12% MoM</div>
+              </div>
+              <div class="demo-metric">
+                <div class="dash-label">Win Rate</div>
+                <div style="font-size:1.6rem;font-weight:800;letter-spacing:-0.04em;color:var(--green);">38%</div>
+                <div style="font-size:0.65rem;color:var(--green);">+6% vs. last quarter</div>
+              </div>
+              <div class="demo-metric">
+                <div class="dash-label">Cycle Time</div>
+                <div style="font-size:1.6rem;font-weight:800;letter-spacing:-0.04em;">18d</div>
+                <div style="font-size:0.65rem;color:var(--green);">↓ 5 days faster</div>
+              </div>
+            </div>
+            <div class="demo-big-chart">
+              <div style="display:flex;align-items:center;justify-content:space-between;">
+                <div class="dash-label">Monthly Revenue</div>
+                <div style="font-size:0.65rem;color:var(--text3);">Last 8 months</div>
+              </div>
+              <div class="big-chart-area">
+                <div class="big-bar" style="height:35%"></div>
+                <div class="big-bar" style="height:48%"></div>
+                <div class="big-bar" style="height:42%"></div>
+                <div class="big-bar" style="height:65%"></div>
+                <div class="big-bar" style="height:58%"></div>
+                <div class="big-bar accent" style="height:80%"></div>
+                <div class="big-bar accent" style="height:72%"></div>
+                <div class="big-bar accent" style="height:100%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── BENEFITS / RESULTS ── -->
+<section id="benefits" class="section" style="background:var(--bg2);">
+  <div class="container">
+    <div class="anim">
+      <div class="label">Results</div>
+      <h2 class="section-title">The numbers don't<br><span class="text-accent">lie</span></h2>
+    </div>
+    <div class="benefits-grid">
+      <!-- REPLACE: Your actual benefits -->
+      <div class="benefit-card anim">
+        <div class="benefit-icon">
+          <svg viewBox="0 0 20 20" fill="none"><path d="M10 2l2.4 4.9 5.4.8-3.9 3.8.9 5.3L10 14.3l-4.8 2.5.9-5.3L2.2 7.7l5.4-.8z" stroke="currentColor" stroke-width="1.4"/></svg>
+        </div>
+        <div>
+          <h3 class="benefit-title">3× faster deal cycles</h3>
+          <p class="benefit-desc">Teams using [SaaSName] close deals 3× faster than industry average by eliminating manual follow-up delays and missed touchpoints.</p>
+        </div>
+      </div>
+      <div class="benefit-card anim">
+        <div class="benefit-icon">
+          <svg viewBox="0 0 20 20" fill="none"><path d="M4 15l4-4 3 3 7-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div>
+          <h3 class="benefit-title">60% less admin work</h3>
+          <p class="benefit-desc">Reps reclaim 12+ hours per week by letting AI handle data entry, follow-up scheduling, and meeting summaries automatically.</p>
+        </div>
+      </div>
+      <div class="benefit-card anim">
+        <div class="benefit-icon">
+          <svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v4l2.5 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <div>
+          <h3 class="benefit-title">38% higher win rate</h3>
+          <p class="benefit-desc">AI-prioritized lead queues mean your reps always call the right person at the right time — boosting win rates by an average of 38%.</p>
+        </div>
+      </div>
+      <div class="benefit-card anim">
+        <div class="benefit-icon">
+          <svg viewBox="0 0 20 20" fill="none"><path d="M10 2C5.6 2 2 5.6 2 10s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm0 14c-3.3 0-6-2.7-6-6s2.7-6 6-6 6 2.7 6 6-2.7 6-6 6z" fill="currentColor" opacity=".15"/><path d="M13.5 10a3.5 3.5 0 11-7 0 3.5 3.5 0 017 0z" stroke="currentColor" stroke-width="1.5"/></svg>
+        </div>
+        <div>
+          <h3 class="benefit-title">ROI in under 30 days</h3>
+          <p class="benefit-desc">Average customer sees positive ROI within the first month. Our onboarding team ensures you're set up for success from day one.</p>
+        </div>
+      </div>
+    </div>
+    <div class="metrics-strip anim-s">
+      <!-- REPLACE: Your real metrics -->
+      <div class="metric-item">
+        <div class="metric-num" data-target="10000">0<span>+</span></div>
+        <div class="metric-label">Teams using [SaaSName]</div>
+      </div>
+      <div class="metric-item">
+        <div class="metric-num" data-target="94">0<span>%</span></div>
+        <div class="metric-label">Customer satisfaction</div>
+      </div>
+      <div class="metric-item">
+        <div class="metric-num" data-target="3">0<span>×</span></div>
+        <div class="metric-label">Faster deal cycles</div>
+      </div>
+      <div class="metric-item">
+        <div class="metric-num" data-target="200">0<span>+</span></div>
+        <div class="metric-label">Native integrations</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TESTIMONIALS ── -->
+<section id="testimonials" class="section">
+  <div class="container">
+    <div class="center anim">
+      <div class="label">Testimonials</div>
+      <h2 class="section-title">Don't take our word <span class="text-accent">for it</span></h2>
+    </div>
+    <!-- REPLACE: Real testimonials -->
+    <div class="testi-grid">
+      <div class="testi-card anim">
+        <div class="stars">
+          <svg viewBox="0 0 14 14"><path d="M7 1l1.6 3.3L12 5l-2.5 2.4.6 3.5L7 9.2 3.9 10.9l.6-3.5L2 5l3.4-.7z"/></svg>
+          <svg viewBox="0 0 14 14"><path d="M7 1l1.6 3.3L12 5l-2.5 2.4.6 3.5L7 9.2 3.9 10.9l.6-3.5L2 5l3.4-.7z"/></svg>
+          <svg viewBox="0 0 14 14"><path d="M7 1l1.6 3.3L12 5l-2.5 2.4.6 3.5L7 9.2 3.9 10.9l.6-3.5L2 5l3.4-.7z"/></svg>
+          <svg viewBox="0 0 14 14"><path d="M7 1l1.6 3.3L12 5l-2.5 2.4.6 3.5L7 9.2 3.9 10.9l.6-3.5L2 5l3.4-.7z"/></svg>
+          <svg viewBox="0 0 14 14"><path d="M7 1l1.6 3.3L12 5l-2.5 2.4.6 3.5L7 9.2 3.9 10.9l.6-3.5L2 5l3.4-.7z"/></svg>
+        </div>
+        <p class="testi-text">"We went from a 45-day average deal cycle to 15 days in the first month. The AI email sequences alone paid for the entire annual subscription in week two."</p>
+        <div class="testi-author">
+          <div class="author-avatar" style="background:linear-gradient(135deg,#ff4f1f,#ff7a45);">SJ</div>
+          <div>
+            <div class="author-name">Sarah Johnson</div>
+            <div class="author-role">VP of Sales, Acme Corp</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card anim">
+        <div class="stars">
+          <svg viewBox="0 0 14 14"><path d="M7 1l1.6 3.3L12 5l-2.5 2.4.6 3.5L7 9.2 3.9 10.9l.6-3.5L2 5l3.4-.7z"/></svg>
+          <svg viewBox="0 0 14 14"><path d="M7 1l1.6 3.3L12 5l-2.5 2.4.6 3.5L7 9.2 3.9 10.9l.6-3.5L2 5l3.4-.7z"/></svg>
+          <svg viewBox="0 0 14 14"><path d="M7 1l1.6 3.3L12 5l-2.5 2.4.6 3.5L7 9.2 3.9 10.9l.6-3.5L2 5l3.4-.7z"/></svg>
+          <svg viewBox="0 0 14 14"><path d="M7 1l1.6 3.3L12 5l-2.5 2.4.6 3.5L7 9.2 3.9 10.9l.6-3.5L2 5l3.4-.7z"/></svg>
+          <svg viewBox="0 0 14 14"><path d="M7 1l1.6 3.3L12 5l-2.5 2.4.6 3.5L7 9.2 3.9 10.9l.6-3.5L2 5l3.4-.7z"/></svg>
+        </div>
+        <p class="testi-text">"My team of 6 reps now performs at the level of a 20-person team. The AI handles everything between first touch and close — we just show up for the pitch."</p>
+        <div class="testi-author">
+          <div class="author-avatar" style="background:linear-gradient(135deg,#4f8aff,#6ea8ff);">MR</div>
+          <div>
+            <div class="author-name">Marcus Rivera</div>
+            <div class="author-role">Head of Growth, BetaSaaS</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card anim">
+        <div class="stars">
+          <svg viewBox="0 0 14 14"><path d="M7 1l1.6 3.3L12 5l-2.5 2.4.6 3.5L7 9.2 3.9 10.9l.6-3.5L2 5l3.4-.7z"/></svg>
+          <svg viewBox="0 0 14 14"><path d="M7 1l1.6 3.3L12 5l-2.5 2.4.6 3.5L7 9.2 3.9 10.9l.6-3.5L2 5l3.4-.7z"/></svg>
+          <svg viewBox="0 0 14 14"><path d="M7 1l1.6 3.3L12 5l-2.5 2.4.6 3.5L7 9.2 3.9 10.9l.6-3.5L2 5l3.4-.7z"/></svg>
+          <svg viewBox="0 0 14 14"><path d="M7 1l1.6 3.3L12 5l-2.5 2.4.6 3.5L7 9.2 3.9 10.9l.6-3.5L2 5l3.4-.7z"/></svg>
+          <svg viewBox="0 0 14 14"><path d="M7 1l1.6 3.3L12 5l-2.5 2.4.6 3.5L7 9.2 3.9 10.9l.6-3.5L2 5l3.4-.7z"/></svg>
+        </div>
+        <p class="testi-text">"The HubSpot integration was flawless. We had [SaaSName] running alongside our existing stack in 20 minutes. No disruption, immediate results."</p>
+        <div class="testi-author">
+          <div class="author-avatar" style="background:linear-gradient(135deg,#22c55e,#4ade80);">AL</div>
+          <div>
+            <div class="author-name">Aisha Lee</div>
+            <div class="author-role">RevOps Lead, CloudCo</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PRICING ── -->
+<section id="pricing" class="section" style="background:var(--bg2);">
+  <div class="container">
+    <div class="center anim">
+      <div class="label">Pricing</div>
+      <h2 class="section-title">Simple pricing that<br><span class="text-accent">scales with you</span></h2>
+      <p class="section-sub">No hidden fees. No per-seat surprises. Cancel anytime.</p>
+    </div>
+    <div class="price-toggle anim">
+      <span>Monthly</span>
+      <button class="toggle-switch annual" id="priceToggle" onclick="togglePricing()">
+        <div class="toggle-knob"></div>
+      </button>
+      <span>Annual <span class="save-badge">Save 30%</span></span>
+    </div>
+    <!-- REPLACE: Your actual pricing tiers -->
+    <div class="pricing-grid">
+      <div class="price-card anim">
+        <div class="plan-name">Starter</div>
+        <div class="plan-price">
+          <span class="currency">$</span>
+          <span class="amount" id="p1">29</span>
+          <span class="per">/mo</span>
+        </div>
+        <p class="plan-desc">For solo reps and early-stage teams exploring AI sales automation.</p>
+        <div class="plan-features">
+          <div class="plan-feature"><svg viewBox="0 0 15 15" fill="none"><path d="M2 7.5l3.5 3.5 7-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> Up to 3 team members</div>
+          <div class="plan-feature"><svg viewBox="0 0 15 15" fill="none"><path d="M2 7.5l3.5 3.5 7-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> 500 lead scores/month</div>
+          <div class="plan-feature"><svg viewBox="0 0 15 15" fill="none"><path d="M2 7.5l3.5 3.5 7-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> 10 AI email sequences</div>
+          <div class="plan-feature"><svg viewBox="0 0 15 15" fill="none"><path d="M2 7.5l3.5 3.5 7-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> Gmail & Outlook integration</div>
+          <div class="plan-feature muted"><svg viewBox="0 0 15 15" fill="none"><path d="M3 3l9 9M12 3l-9 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> Custom AI training</div>
+          <div class="plan-feature muted"><svg viewBox="0 0 15 15" fill="none"><path d="M3 3l9 9M12 3l-9 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> Dedicated CSM</div>
+        </div>
+        <button class="btn-plan btn-plan-outline">Get Started Free</button>
+      </div>
+      <div class="price-card featured anim">
+        <div class="popular-tag">Most Popular</div>
+        <div class="plan-name">Pro</div>
+        <div class="plan-price">
+          <span class="currency">$</span>
+          <span class="amount" id="p2">79</span>
+          <span class="per">/mo</span>
+        </div>
+        <p class="plan-desc">For growing sales teams that want full AI automation and deep integrations.</p>
+        <div class="plan-features">
+          <div class="plan-feature"><svg viewBox="0 0 15 15" fill="none"><path d="M2 7.5l3.5 3.5 7-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> Up to 15 team members</div>
+          <div class="plan-feature"><svg viewBox="0 0 15 15" fill="none"><path d="M2 7.5l3.5 3.5 7-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> Unlimited lead scoring</div>
+          <div class="plan-feature"><svg viewBox="0 0 15 15" fill="none"><path d="M2 7.5l3.5 3.5 7-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> Unlimited AI sequences</div>
+          <div class="plan-feature"><svg viewBox="0 0 15 15" fill="none"><path d="M2 7.5l3.5 3.5 7-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> 200+ integrations</div>
+          <div class="plan-feature"><svg viewBox="0 0 15 15" fill="none"><path d="M2 7.5l3.5 3.5 7-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> Custom AI training</div>
+          <div class="plan-feature muted"><svg viewBox="0 0 15 15" fill="none"><path d="M3 3l9 9M12 3l-9 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> Dedicated CSM</div>
+        </div>
+        <button class="btn-plan btn-plan-fill">Start 14-Day Free Trial</button>
+      </div>
+      <div class="price-card anim">
+        <div class="plan-name">Enterprise</div>
+        <div class="plan-price">
+          <span class="amount" style="font-size:2.4rem;" id="p3">Custom</span>
+        </div>
+        <p class="plan-desc">For large sales orgs needing custom AI models, SSO, and white-glove support.</p>
+        <div class="plan-features">
+          <div class="plan-feature"><svg viewBox="0 0 15 15" fill="none"><path d="M2 7.5l3.5 3.5 7-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> Unlimited seats</div>
+          <div class="plan-feature"><svg viewBox="0 0 15 15" fill="none"><path d="M2 7.5l3.5 3.5 7-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> Custom AI fine-tuning</div>
+          <div class="plan-feature"><svg viewBox="0 0 15 15" fill="none"><path d="M2 7.5l3.5 3.5 7-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> SSO / SAML / SCIM</div>
+          <div class="plan-feature"><svg viewBox="0 0 15 15" fill="none"><path d="M2 7.5l3.5 3.5 7-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> SOC 2 Type II</div>
+          <div class="plan-feature"><svg viewBox="0 0 15 15" fill="none"><path d="M2 7.5l3.5 3.5 7-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> Dedicated CSM + SLA</div>
+          <div class="plan-feature"><svg viewBox="0 0 15 15" fill="none"><path d="M2 7.5l3.5 3.5 7-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> On-prem deployment</div>
+        </div>
+        <button class="btn-plan btn-plan-outline">Book a Demo</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FAQ ── -->
+<section id="faq" class="section">
+  <div class="container">
+    <div class="center anim">
+      <div class="label">FAQ</div>
+      <h2 class="section-title">Questions, <span class="text-accent">answered</span></h2>
+    </div>
+    <!-- REPLACE: Your actual FAQs -->
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          How long does setup take?
+          <div class="faq-icon"><svg viewBox="0 0 12 12" fill="none"><path d="M6 2v8M2 6h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        </div>
+        <div class="faq-a">Most teams are fully set up in under 30 minutes. Our onboarding wizard walks you through connecting your CRM, email, and calendar step by step. We also offer a free white-glove onboarding call for Pro and Enterprise plans.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Does [SaaSName] replace my existing CRM?
+          <div class="faq-icon"><svg viewBox="0 0 12 12" fill="none"><path d="M6 2v8M2 6h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        </div>
+        <div class="faq-a">No — we're the AI layer on top of your existing stack. [SaaSName] syncs bidirectionally with Salesforce, HubSpot, Pipedrive, and 200+ other tools. Your reps keep using what they know; we just make it smarter.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          How does the AI learn my sales style?
+          <div class="faq-icon"><svg viewBox="0 0 12 12" fill="none"><path d="M6 2v8M2 6h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        </div>
+        <div class="faq-a">The AI analyzes your historical email conversations, call transcripts, and deal outcomes to build a model of what works for your specific product and ICP. Pro plans can also manually train on custom scripts and playbooks.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Is my data secure?
+          <div class="faq-icon"><svg viewBox="0 0 12 12" fill="none"><path d="M6 2v8M2 6h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        </div>
+        <div class="faq-a">Yes. We're SOC 2 Type II certified, GDPR compliant, and your data is encrypted at rest (AES-256) and in transit (TLS 1.3). We never sell your data or use it to train models for other customers. Enterprise plans support on-premise deployment.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Can I cancel anytime?
+          <div class="faq-icon"><svg viewBox="0 0 12 12" fill="none"><path d="M6 2v8M2 6h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        </div>
+        <div class="faq-a">Absolutely. Month-to-month plans can be cancelled anytime from your dashboard with no fees. Annual plans can be cancelled for a full refund within 30 days; after that, access continues until the period ends.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Do you offer a free trial?
+          <div class="faq-icon"><svg viewBox="0 0 12 12" fill="none"><path d="M6 2v8M2 6h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        </div>
+        <div class="faq-a">Yes — all plans include a 14-day free trial with full feature access and no credit card required. If you need more time to evaluate, just email our team and we'll extend it.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FINAL CTA ── -->
+<section id="cta-final">
+  <div class="cta-glow"></div>
+  <div class="container" style="position:relative;z-index:2;">
+    <div class="anim">
+      <!-- REPLACE: Final CTA headline -->
+      <h2 class="cta-title">Ready to stop<br>leaving money on the table?</h2>
+      <p class="cta-sub">Join 10,000+ sales teams who close more with less effort. Start your free 14-day trial — no credit card, no commitment.</p>
+      <div class="cta-actions">
+        <a href="#" class="btn-primary btn-lg">
+          Start for Free Today
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M8 3l5 4-5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="#" class="btn-outline">Book a 15-min Demo</a>
+      </div>
+      <p class="cta-note">✓ Free 14-day trial &nbsp;·&nbsp; ✓ No credit card &nbsp;·&nbsp; ✓ Cancel anytime</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="#" class="logo" style="margin-bottom:1rem;display:inline-flex;">
+          <div class="logo-icon"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8L7 12L13 4" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          [SaaSName]
+        </a>
+        <!-- REPLACE: Footer tagline -->
+        <p class="footer-tagline">AI-powered sales automation that closes deals while your team focuses on what matters.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Product</div>
+        <div class="footer-links">
+          <a href="#">Features</a>
+          <a href="#">Pricing</a>
+          <a href="#">Integrations</a>
+          <a href="#">Changelog</a>
+          <a href="#">Roadmap</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Company</div>
+        <div class="footer-links">
+          <a href="#">About</a>
+          <a href="#">Blog</a>
+          <a href="#">Careers</a>
+          <a href="#">Press</a>
+          <a href="#">Contact</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Legal</div>
+        <div class="footer-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Cookie Policy</a>
+          <a href="#">Security</a>
+          <a href="#">GDPR</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <!-- REPLACE: Year and company name -->
+      <div class="footer-copy">© 2026 <a href="https://growziq.in" target="_blank" style="color:inherit;">Growziq™</a> | All rights reserved. All designs, layouts, and code are intellectual property of <a href="https://growziq.in" target="_blank" style="color:inherit;;">Growziq</a> and protected under applicable laws.</div>
+      <div class="footer-legal">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+
+        <a href="#">Security</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Sticky Growziq Badge (outside footer for alignment) -->
+<a href="https://growziq.in" class="growziq-badge" target="_blank" rel="noopener" aria-label="Built by Growziq" style="position:fixed;bottom:2.2rem;right:2.2rem;z-index:999;display:flex;align-items:center;gap:0.7rem;background:linear-gradient(90deg,var(--accent),var(--accent2),#ffad33);color:#fff;font-family:var(--mono);font-size:0.92rem;font-weight:700;letter-spacing:0.08em;border-radius:2rem;box-shadow:0 4px 24px 0 var(--accent-glow);padding:0.7rem 1.6rem 0.7rem 1.2rem;text-decoration:none;border:none;cursor:pointer;opacity:0.98;outline:none;user-select:none;overflow:hidden;">
+  <span style="background:#fff;border-radius:50%;width:1.5rem;height:1.5rem;display:flex;align-items:center;justify-content:center;margin-right:0.3rem;box-shadow:0 2px 8px 0 rgba(0,0,0,0.07);">
+    <svg width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
+      <path d="M8 7 L4 12 L8 17" stroke="#ff4f1f" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <path d="M16 7 L20 12 L16 17" stroke="#ff7a45" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <path d="M10.5 6.5 L13.5 17.5" stroke="#ffad33" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    </svg>
+  </span>
+  <span style="color:#fff;font-weight:700;text-decoration:none;letter-spacing:0.08em;font-size:0.92rem;">Built by Growziq<span style="text-decoration:underline;">
+
+<!-- ── SCRIPTS ── -->
+<script>
+'use strict';
+
+// ── SCROLL PROGRESS ──
+const spbar = document.getElementById('spbar');
+window.addEventListener('scroll', () => {
+  const pct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100;
+  spbar.style.width = Math.min(pct, 100) + '%';
+}, { passive: true });
+
+// ── NAV SCROLL ──
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 50);
+}, { passive: true });
+
+// ── HAMBURGER ──
+const ham = document.getElementById('ham');
+const mobileMenu = document.getElementById('mobileMenu');
+ham.addEventListener('click', () => {
+  ham.classList.toggle('open');
+  mobileMenu.classList.toggle('open');
+  document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+});
+mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+  ham.classList.remove('open');
+  mobileMenu.classList.remove('open');
+  document.body.style.overflow = '';
+}));
+
+// ── SMOOTH ANCHOR SCROLL ──
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (!target) return;
+    e.preventDefault();
+    window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 76, behavior: 'smooth' });
+  });
+});
+
+// ── GSAP SCROLL ANIMATIONS ──
+gsap.registerPlugin(ScrollTrigger);
+
+const animCls = [
+  ['.anim',   { opacity: 0, y: 36 },   { opacity: 1, y: 0, duration: 0.75, ease: 'power2.out' }],
+  ['.anim-l', { opacity: 0, x: -30 },  { opacity: 1, x: 0, duration: 0.75, ease: 'power2.out' }],
+  ['.anim-r', { opacity: 0, x: 30 },   { opacity: 1, x: 0, duration: 0.75, ease: 'power2.out' }],
+  ['.anim-s', { opacity: 0, scale: 0.93 }, { opacity: 1, scale: 1, duration: 0.8, ease: 'power2.out' }],
+];
+
+animCls.forEach(([sel, from, to]) => {
+  document.querySelectorAll(sel).forEach((el, i) => {
+    gsap.fromTo(el, from, {
+      ...to,
+      scrollTrigger: { trigger: el, start: 'top 88%', once: true },
+      delay: (i % 4) * 0.06,
+    });
+  });
+});
+
+// ── HERO STAGGER ──
+const heroElems = document.querySelectorAll('#hero .anim');
+heroElems.forEach((el, i) => {
+  gsap.fromTo(el,
+    { opacity: 0, y: 28 },
+    { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out', delay: 0.2 + i * 0.12 }
+  );
+});
+
+// ── COUNTER ANIMATION ──
+document.querySelectorAll('[data-target]').forEach(el => {
+  const target = parseInt(el.dataset.target);
+  const suffix = el.innerHTML.replace(/\d+/, '').replace(/<[^>]+>/g, '');
+  ScrollTrigger.create({
+    trigger: el, start: 'top 85%', once: true,
+    onEnter: () => {
+      let cur = 0;
+      const step = Math.ceil(target / 50);
+      const suffix_span = el.querySelector('span') ? el.querySelector('span').outerHTML : '';
+      const t = setInterval(() => {
+        cur = Math.min(cur + step, target);
+        el.innerHTML = (target >= 1000 ? cur.toLocaleString() : cur) + suffix_span;
+        if (cur >= target) clearInterval(t);
+      }, 25);
+    }
+  });
+});
+
+// ── PRICING TOGGLE ──
+let annual = true;
+const prices = { p1: [29, 20], p2: [79, 55] };
+function togglePricing() {
+  annual = !annual;
+  document.getElementById('priceToggle').classList.toggle('annual', annual);
+  Object.entries(prices).forEach(([id, [monthly, ann]]) => {
+    const el = document.getElementById(id);
+    if (el) {
+      const prev = parseInt(el.textContent);
+      const next = annual ? ann : monthly;
+      el.textContent = next;
+    }
+  });
+}
+// init annual state
+togglePricing(); // sets to monthly
+togglePricing(); // sets back to annual (default)
+
+// ── FAQ ACCORDION ──
+function toggleFaq(el) {
+  const item = el.parentElement;
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+// ── DEMO TABS ──
+function switchTab(btn, tab) {
+  document.querySelectorAll('.demo-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  // Visual feedback — in production hook up real panel switching
+  const screen = document.getElementById('demoScreen');
+  screen.style.opacity = '0.6';
+  screen.style.transition = 'opacity 0.2s';
+  setTimeout(() => { screen.style.opacity = '1'; }, 300);
+}
+
+// ── CARD HOVER GLOW ──
+document.querySelectorAll('.step-card, .feat, .testi-card, .price-card, .benefit-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    const x = ((e.clientX - r.left) / r.width) * 100;
+    const y = ((e.clientY - r.top) / r.height) * 100;
+    card.style.background = `radial-gradient(circle at ${x}% ${y}%, rgba(255,79,31,0.04), transparent 60%), var(--card)`;
+  });
+  card.addEventListener('mouseleave', () => { card.style.background = ''; });
+});
+
+// ── ANIMATE BARS ON SCROLL ──
+ScrollTrigger.create({
+  trigger: '.dash-chart', start: 'top 85%', once: true,
+  onEnter: () => {
+    document.querySelectorAll('.dash-bar, .feat-bar, .big-bar').forEach((bar, i) => {
+      setTimeout(() => {
+        bar.style.transition = 'height 0.5s cubic-bezier(0.34,1.56,0.64,1)';
+      }, i * 40);
+    });
+  }
+});
+</script>
 </body>
 </html>
