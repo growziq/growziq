@@ -3,20 +3,540 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sample Template 5</title>
-    <!-- Use inline Tailwind for the placeholder -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="description" content="AURA Luxury Hair & Beauty Studio - Experience premium hair styling, bridal makeovers, and rejuvenating skin rituals in a serene, blush-toned sanctuary.">
+    <meta name="keywords" content="luxury salon, hair studio, beauty rituals, bridal makeup, delhi hair salon, premium beauty services">
+    <meta name="author" content="Growziq">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ais-dev-h5wcvh77pfudi2wciw6sfo-781542782679.asia-southeast1.run.app/">
+    <meta property="og:title" content="AURA | Luxury Salon & Beauty Studio">
+    <meta property="og:description" content="Experience the magic of beauty with our handpicked rituals.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&q=80&w=1200">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://ais-dev-h5wcvh77pfudi2wciw6sfo-781542782679.asia-southeast1.run.app/">
+    <meta property="twitter:title" content="AURA | Luxury Hair & Beauty Studio">
+    <meta property="twitter:description" content="Experience the magic of beauty with our handpicked rituals.">
+    <meta property="twitter:image" content="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&q=80&w=1200">
+
+    <title>AURA | Luxury Hair & Beauty Studio</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://api.iconify.design/lucide:sparkles.svg?color=%23B78A52">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://images.unsplash.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Warm, Bright & Inviting Palette */
+            --bg-base: #FFF9F9; /* Very soft blush white */
+            --bg-card: #FFFFFF;
+            --accent-pink: #FCE4EC; /* Soft Blush Pink */
+            --accent-rose: #F4C2C2; /* Deeper Blush */
+            --accent-gold: #B78A52; /* Rose Gold / Bronze */
+            --text-dark: #3E2723; /* Deep Warm Brown */
+            --text-light: #795548; /* Soft terracotta for text */
+            --transition-smooth: 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-dark);
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 400;
+            overflow-x: hidden;
+            line-height: 1.8;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, .serif {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: 0.3s ease;
+        }
+
+        /* Nav */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 30px 0;
+            z-index: 1000;
+            background: rgba(255, 249, 249, 0.8);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--accent-pink);
+        }
+
+        .nav-inner {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            letter-spacing: 0.3em;
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 35px;
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        /* Hero */
+        #hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding-top: 100px; /* Offset for fixed header */
+            background: linear-gradient(135deg, var(--bg-base) 0%, var(--accent-pink) 100%);
+            overflow: hidden;
+        }
+
+        .hero-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            height: 100%;
+            width: 100%;
+        }
+
+        .hero-text {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 10%;
+            z-index: 10;
+        }
+
+        .hero-image-pane {
+            position: relative;
+            height: 100%;
+        }
+
+        .hero-image-pane img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-bottom-left-radius: 100px;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 6rem);
+            line-height: 1.1;
+            margin-bottom: 25px;
+            color: var(--text-dark);
+        }
+
+        .hero-title span {
+            color: var(--accent-gold);
+            font-style: italic;
+        }
+
+        .btn-main {
+            display: inline-block;
+            padding: 18px 40px;
+            background-color: var(--accent-gold);
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: 4px;
+            box-shadow: 0 10px 30px rgba(183, 138, 82, 0.2);
+        }
+
+        .btn-main:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(183, 138, 82, 0.4);
+            opacity: 1;
+        }
+
+        /* Features / Services */
+        .section {
+            padding: 100px 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-tag {
+            display: block;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            font-size: 0.75rem;
+            color: var(--accent-gold);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3.5rem;
+            margin-bottom: 60px;
+            color: var(--text-dark);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .service-card {
+            background: var(--bg-card);
+            border: 1px solid var(--accent-pink);
+            padding: 50px 30px;
+            text-align: center;
+            border-radius: 15px;
+            transition: all 0.5s ease;
+        }
+
+        .service-card:hover {
+            border-color: var(--accent-gold);
+            background: var(--accent-pink);
+            transform: translateY(-10px);
+        }
+
+        .service-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--accent-gold);
+        }
+
+        .service-card p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        /* About / Story */
+        #story {
+            background: var(--accent-pink);
+            display: flex;
+            align-items: center;
+        }
+
+        .story-inner {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .story-img {
+            width: 100%;
+            height: 600px;
+            object-fit: cover;
+            border-radius: 30px;
+            box-shadow: 20px 20px 0 var(--accent-gold);
+        }
+
+        .story-text h2 {
+            font-size: 3rem;
+            margin-bottom: 30px;
+        }
+
+        /* Booking */
+        #booking {
+            background-color: var(--bg-base);
+        }
+
+        .booking-box {
+            background: white;
+            max-width: 900px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.05);
+        }
+
+        .booking-image {
+            background-image: url('https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?auto=format&fit=crop&q=80&w=1200');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .booking-form {
+            padding: 60px;
+        }
+
+        .input-wrap {
+            margin-bottom: 25px;
+        }
+
+        .input-wrap label {
+            display: block;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .input-wrap input, .input-wrap select {
+            width: 100%;
+            padding: 12px 0;
+            border: none;
+            border-bottom: 1px solid var(--accent-pink);
+            outline: none;
+            font-family: inherit;
+            background: transparent;
+        }
+
+        .input-wrap input:focus {
+            border-bottom-color: var(--accent-gold);
+        }
+
+        /* Badge */
+        .built-badge {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            font-size: 0.75rem;
+            z-index: 1001;
+            border: 1px solid var(--accent-pink);
+        }
+
+        .built-badge a {
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+
+        /* Footer */
+        footer {
+            padding: 80px 0;
+            background: var(--text-dark);
+            color: var(--accent-pink);
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: white;
+            letter-spacing: 0.2em;
+        }
+
+        /* Animations */
+        [data-scroll] {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: var(--transition-smooth);
+        }
+
+        [data-scroll].active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Mobile */
+        @media (max-width: 900px) {
+            .hero-container { grid-template-columns: 1fr; }
+            .hero-image-pane { display: none; }
+            .services-grid { grid-template-columns: 1fr; }
+            .story-inner { grid-template-columns: 1fr; }
+            .booking-box { grid-template-columns: 1fr; }
+            .hero-text { padding: 80px 30px; text-align: center; }
+            .nav-links { display: none; }
+            .section-title { font-size: 2.5rem; }
+        }
+    </style>
 </head>
-<body class="bg-gray-50 flex items-center justify-center min-h-screen font-sans">
-    <div class="text-center p-8 bg-white rounded-2xl shadow-sm border border-gray-100">
-        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4 text-blue-500 text-2xl font-bold">
-            5
+<body>
+
+    <nav id="navbar">
+        <div class="nav-inner">
+            <div class="logo">AURA</div>
+            <div class="nav-links">
+                <a href="#hero">Our Home</a>
+                <a href="#services">Rituals</a>
+                <a href="#story">Our Story</a>
+                <a href="#booking">Book Now</a>
+            </div>
         </div>
-        <h1 class="text-2xl font-bold text-gray-800 mb-2">Sample Template 5</h1>
-        <p class="text-gray-500 mb-8 max-w-sm">This is a placeholder page for sample design number 5. The final design will be implemented here.</p>
-        <a href="../portfolio.html" class="inline-block px-6 py-3 bg-gray-900 text-white rounded-xl font-medium hover:bg-gray-800 transition-colors shadow-sm">
-            ← Back to Portfolio
-        </a>
+    </nav>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="hero">
+            <div class="hero-container">
+                <div class="hero-text">
+                    <span class="section-tag" style="text-align: left; margin-left: 0;">Welcome to AURA Salon</span>
+                    <h1 class="hero-title">
+                        Experience the <span>Magic</span> of Beauty.
+                    </h1>
+                    <p style="margin-bottom: 40px; color: var(--text-light);">We bring to you the finest hair and skin care rituals, inspired by global trends and tailored for the modern Indian soul.</p>
+                    <div>
+                        <a href="#booking" class="btn-main">Book Your Luxury Session</a>
+                    </div>
+                </div>
+                <div class="hero-image-pane">
+                    <img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&q=80&w=1200" alt="Luxury Salon Interior" fetchpriority="high">
+                </div>
+            </div>
+        </section>
+
+        <!-- Services -->
+        <section id="services" class="section">
+            <div class="container">
+                <span class="section-tag" data-scroll>Handpicked Rituals</span>
+                <h2 class="section-title serif" data-scroll>Your Glow, Our Passion</h2>
+                
+                <div class="services-grid">
+                    <div class="service-card" data-scroll>
+                        <h3 class="serif">Designer Cuts</h3>
+                        <p>Our expert hair stylists create looks that don't just follow the trends, but set them. From trendy bobs to elegant layers.</p>
+                    </div>
+                    <div class="service-card" data-scroll>
+                        <h3 class="serif">Bridal Radiance</h3>
+                        <p>Complete bridal makeovers that ensure you shine brightest on your big day. We use premium brands for a flawless finish.</p>
+                    </div>
+                    <div class="service-card" data-scroll>
+                        <h3 class="serif">Hair Spa Rituals</h3>
+                        <p>Indulge in deep conditioning and relaxing massages that rejuvenate your scalp and bring back that healthy shine.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Our Story -->
+        <section id="story" class="section">
+            <div class="container story-inner">
+                <img src="https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?auto=format&fit=crop&q=80&w=1200" alt="Salon Pampering" class="story-img" data-scroll loading="lazy">
+                <div class="story-text" data-scroll>
+                    <span class="section-tag" style="text-align: left;">The Heart of Aura</span>
+                    <h2 class="serif">Rooted in Tradition, Styled for Today.</h2>
+                    <p>At AURA, we believe every person has a unique glow. Founded in the heart of the city, our salon has become the go-to destination for those who seek high-end luxury without compromising on the warmth of true Indian hospitality.</p>
+                    <p style="margin-top: 20px;">Whether it's a quick festive glow-up or a complete hair transformation, our dedicated team is here to pamper you with love and expertise.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Booking -->
+        <section id="booking" class="section">
+            <div class="container" style="max-width: 1000px;">
+                <span class="section-tag" data-scroll>Reservations</span>
+                <h2 class="section-title serif" data-scroll>Visit the Studio</h2>
+                
+                <div class="booking-box" data-scroll>
+                    <div class="booking-image"></div>
+                    <div class="booking-form">
+                        <form>
+                            <div class="input-wrap">
+                                <label>Your Good Name</label>
+                                <input type="text" placeholder="e.g. Anjali Sharma">
+                            </div>
+                            <div class="input-wrap">
+                                <label>Contact Number</label>
+                                <input type="tel" placeholder="+91 98765 43210">
+                            </div>
+                            <div class="input-wrap">
+                                <label>Interest Area</label>
+                                <select>
+                                    <option>Hair Styling & Coloring</option>
+                                    <option>Bridal & Party Makeup</option>
+                                    <option>Refreshing Facials</option>
+                                    <option>Premium Manicure</option>
+                                </select>
+                            </div>
+                            <div class="input-wrap">
+                                <label>Preferred Time</label>
+                                <input type="datetime-local">
+                            </div>
+                            <button type="button" class="btn-main" style="width: 100%; border: none; cursor: pointer;">Send Enquiry</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-logo serif">AURA</div>
+            <p>102 Luxury Towers, GB Road, Ludhiana, India</p>
+            <p style="margin-top: 10px; opacity: 0.6;">Open Mon-Sat | 10:00 AM - 08:30 PM</p>
+            <div style="margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 40px; font-size: 0.8rem;">
+                <div style="margin-top: 0; opacity: 0.7; font-size: 0.75rem; line-height: 1.5;">
+                    © 2026 <a href="https://growziq.in" target="_blank" style="color: white; text-decoration: none;">Growziq</a>™ | All rights reserved. All designs, layouts, and code are intellectual property of Growziq and protected under applicable laws
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Badge -->
+    <div class="built-badge">
+        Built by <a href="https://growziq.in" target="_blank">Growziq</a>
     </div>
+
+    <script>
+        // Scroll Animation Observer
+        const scrollItems = document.querySelectorAll('[data-scroll]');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        scrollItems.forEach(item => observer.observe(item));
+
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Sticky Nav Change
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 100) {
+                nav.style.padding = '15px 0';
+                nav.style.boxShadow = '0 10px 30px rgba(0,0,0,0.05)';
+            } else {
+                nav.style.padding = '30px 0';
+                nav.style.boxShadow = 'none';
+            }
+        });
+    </script>
 </body>
 </html>

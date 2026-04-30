@@ -1,22 +1,1007 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
+    <!-- Favicon: Indian theme (e.g., peacock feather) -->
+    <!-- Favicon: Black background with white 'T' (Times New Roman) -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='black'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-size='40' fill='white' font-family='Times New Roman,Times,serif'%3ET%3C/text%3E%3C/svg%3E">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sample Template 1</title>
-    <!-- Use inline Tailwind for the placeholder -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>TRENDY & CO. | Luxury Indian Couture & Heritage</title>
+    <meta name="description" content="Experience the pinnacle of Indian couture. Handloomed excellence, artisanal craft, and ancestral mastery woven into contemporary silhouettes.">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://trendyboutique.in/">
+    <meta property="og:title" content="TRENDY & CO. | Luxury Indian Couture">
+    <meta property="og:description" content="Handloomed excellence and ancestral mastery woven into contemporary silhouettes.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1583074026343-4f9de8d17204?q=80&w=1200&auto=format&fit=crop">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="TRENDY & CO. | Luxury Indian Couture">
+    <meta property="twitter:description" content="Handloomed excellence and ancestral mastery woven into contemporary silhouettes.">
+    <meta property="twitter:image" content="https://images.unsplash.com/photo-1583074026343-4f9de8d17204?q=80&w=1200&auto=format&fit=crop">
+
+    <style>
+                /* Hide scrollbars for all browsers */
+                html, body {
+                    scrollbar-width: none; /* Firefox */
+                    -ms-overflow-style: none; /* IE 10+ */
+                    overflow-x: hidden;
+                    max-width: 100vw;
+                }
+                body::-webkit-scrollbar, html::-webkit-scrollbar {
+                    display: none; /* Chrome, Safari, Opera */
+                }
+
+                /* Prevent horizontal scroll on mobile */
+                @media (max-width: 768px) {
+                    html, body {
+                        width: 100vw;
+                        overflow-x: hidden !important;
+                    }
+                    main, .section, .collections, .lookbook, .narrative, .testimonials, .contact, footer {
+                        max-width: 100vw;
+                        overflow-x: hidden;
+                    }
+                }
+
+                /* Growziq badge */
+                .growziq-badge {
+                    position: fixed;
+                    bottom: 18px;
+                    right: 18px;
+                    background: rgba(0,0,0,0.85);
+                    color: #fff;
+                    font-size: 13px;
+                    font-family: 'Inter', Arial, sans-serif;
+                    border-radius: 18px;
+                    padding: 7px 18px 7px 14px;
+                    box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+                    z-index: 9999;
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                    opacity: 0.92;
+                    transition: opacity 0.2s;
+                }
+                .growziq-badge:hover {
+                    opacity: 1;
+                }
+                .growziq-badge a {
+                    color: #ffb300;
+                    text-decoration: none;
+                    font-weight: 600;
+                    margin-left: 4px;
+                }
+                @media (max-width: 600px) {
+                    .growziq-badge {
+                        font-size: 11px;
+                        padding: 6px 12px 6px 10px;
+                        bottom: 10px;
+                        right: 10px;
+                    }
+                }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        :root {
+            --bg: #0A0A0B;
+            --ink: #FFFFFF;
+            --accent: #C5A059;
+            --beige: rgba(255, 255, 255, 0.03);
+            --f-display: "Playfair Display", serif;
+            --f-body: "Inter", sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        ::selection {
+            background-color: var(--accent);
+            color: white;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--ink);
+            font-family: var(--f-body);
+            overflow-x: hidden;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, .serif {
+            font-family: var(--f-display);
+            font-weight: 400;
+        }
+
+        .italic { font-style: italic; }
+
+        .sans-caps {
+            font-family: var(--f-body);
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            font-size: 10px;
+            font-weight: 500;
+        }
+
+        .vertical-text {
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
+        }
+
+        /* --- Components --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .btn {
+            background: transparent;
+            border: 1px solid var(--accent);
+            padding: 1rem 2.5rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            font-size: 10px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            display: inline-block;
+            text-decoration: none;
+            font-family: var(--f-body);
+        }
+
+        .btn:hover {
+            background: var(--accent);
+            color: var(--bg);
+        }
+
+        /* --- Layout --- */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 2rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: transparent;
+            transition: all 0.5s ease;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+
+        header.scrolled {
+            background: rgba(10, 10, 11, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 1rem 4rem;
+        }
+
+        .mobile-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            z-index: 2000;
+        }
+
+        .mobile-toggle span {
+            width: 24px;
+            height: 1px;
+            background: var(--ink);
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            height: 100vh;
+            background: var(--bg);
+            z-index: 1500;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 3rem;
+            transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .mobile-menu.active {
+            right: 0;
+        }
+
+        .mobile-menu a {
+            font-family: var(--f-display);
+            font-size: 2.5rem;
+            text-decoration: none;
+            color: var(--ink);
+            opacity: 0.6;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu a:hover {
+            opacity: 1;
+            color: var(--accent);
+            padding-left: 1rem;
+        }
+
+        .logo {
+            font-family: var(--f-display);
+            font-size: 1.5rem;
+            letter-spacing: -0.05em;
+            text-decoration: none;
+            color: var(--ink);
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        nav {
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: rgba(255,255,255,0.6);
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--accent);
+        }
+
+        /* --- Hero --- */
+        .hero {
+            height: 100vh;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr;
+            place-items: center;
+            position: relative;
+            overflow: hidden;
+            background: var(--bg);
+            padding-top: 5rem; /* Room for fixed header */
+        }
+
+        .hero-img {
+            position: absolute;
+            top: 55%; /* Shifted down slightly to align better with centered layout */
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 70%;
+            height: 75%;
+            object-fit: cover;
+            z-index: 0;
+            filter: grayscale(100%);
+            opacity: 0.6;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 400px 400px 0 0;
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 10;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(4rem, 12vw, 8rem);
+            line-height: 1.1;
+            margin-bottom: 2rem;
+            letter-spacing: -0.04em;
+            color: var(--ink);
+        }
+
+        .hero-content h1 span {
+            opacity: 0.8;
+        }
+
+        .hero-accent-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: 800px;
+            background: var(--accent);
+            opacity: 0.03;
+            border-radius: 50%;
+            filter: blur(120px);
+            pointer-events: none;
+        }
+
+        /* --- Featured --- */
+        .section {
+            padding: 12rem 10%;
+        }
+
+        .featured-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 4rem;
+        }
+
+        .feature-item {
+            position: relative;
+        }
+
+        .feature-item:nth-child(1) { grid-column: 1 / 7; }
+        .feature-item:nth-child(2) { grid-column: 8 / 13; padding-top: 15rem; }
+        .feature-item:nth-child(3) { grid-column: 3 / 10; margin-top: 2rem; }
+
+        .img-wrapper {
+            overflow: hidden;
+            position: relative;
+            background: var(--beige);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .img-wrapper img {
+            width: 100%;
+            height: auto;
+            display: block;
+            filter: grayscale(100%) opacity(0.8);
+            transition: all 1.5s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .img-wrapper:hover img {
+            transform: scale(1.05);
+            filter: grayscale(0%) opacity(1);
+        }
+
+        .item-label {
+            margin-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+
+        .item-label h3 {
+            font-size: 1.25rem;
+            letter-spacing: -0.01em;
+            color: rgba(255,255,255,0.9);
+        }
+
+        .item-label span {
+            font-family: var(--f-body);
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            opacity: 0.3;
+        }
+
+        /* --- Narrative --- */
+        .narrative {
+            display: flex;
+            align-items: center;
+            gap: 10%;
+            background: var(--bg);
+            padding: 10rem 10%;
+            position: relative;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            overflow: hidden;
+        }
+
+        .side-label {
+            position: absolute;
+            left: 2rem;
+            top: 50%;
+            transform: translateY(-50%) rotate(180deg);
+            writing-mode: vertical-rl;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            font-size: 10px;
+            color: var(--accent);
+            opacity: 0.3;
+        }
+
+        @media (max-width: 1200px) {
+            .side-label { display: none; }
+        }
+
+        .narrative-img {
+            flex: 1;
+            max-width: 45%;
+        }
+
+        .narrative-content {
+            flex: 1;
+            max-width: 45%;
+        }
+
+        .narrative-content h2 {
+            font-size: 4.5rem;
+            margin-bottom: 2rem;
+            line-height: 1.1;
+        }
+
+        .narrative-content p {
+            font-size: 0.9rem;
+            font-weight: 300;
+            margin-bottom: 3.5rem;
+            color: rgba(255,255,255,0.5);
+            max-width: 400px;
+            line-height: 1.8;
+        }
+
+        /* --- Collections --- */
+        .collections {
+            padding: 8rem 0;
+            background: var(--bg);
+        }
+
+        .collection-track {
+            display: flex;
+            width: 100%;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none;
+        }
+
+        .collection-track::-webkit-scrollbar { display: none; }
+
+        .collection-card {
+            flex: 0 0 100%;
+            height: 90vh;
+            position: relative;
+            scroll-snap-align: start;
+            overflow: hidden;
+            border-right: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .collection-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%) opacity(0.6);
+            transition: all 1s ease;
+        }
+
+        .collection-card:hover img {
+            filter: grayscale(0%) opacity(1);
+        }
+
+        .collection-overlay {
+            position: absolute;
+            bottom: 12%;
+            left: 10%;
+            color: #fff;
+        }
+
+        .collection-overlay h2 {
+            font-size: 6rem;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+            opacity: 0.9;
+        }
+
+        /* --- Lookbook --- */
+        .lookbook {
+            padding: 12rem 8%;
+            background: var(--bg);
+        }
+
+        .lookbook-masonry {
+            columns: 3;
+            column-gap: 3rem;
+        }
+
+        .lookbook-item {
+            margin-bottom: 3rem;
+            break-inside: avoid;
+            position: relative;
+            background: var(--beige);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .lookbook-item img {
+            width: 100%;
+            opacity: 0.6;
+            filter: grayscale(100%);
+            transition: all 0.6s ease;
+        }
+
+        .lookbook-item:hover img {
+            opacity: 1;
+            filter: grayscale(0%);
+            transform: translateY(-8px);
+        }
+
+        /* --- Testimonials --- */
+        .testimonials {
+            text-align: center;
+            padding: 12rem 15%;
+            background: var(--bg);
+            border-top: 1px solid rgba(255,255,255,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .testimonial-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 400px;
+            background: var(--accent);
+            opacity: 0.05;
+            filter: blur(120px);
+            pointer-events: none;
+        }
+
+        .testimonial-text {
+            font-family: var(--f-display);
+            font-size: 2.5rem;
+            font-style: italic;
+            max-width: 900px;
+            margin: 0 auto 3.5rem;
+            line-height: 1.3;
+            color: rgba(255,255,255,0.9);
+            position: relative;
+            z-index: 10;
+        }
+
+        .client-info {
+            font-family: var(--f-body);
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            font-size: 9px;
+            font-weight: 600;
+            color: var(--accent);
+            position: relative;
+            z-index: 10;
+        }
+
+        /* --- Contact --- */
+        .contact {
+            padding: 12rem 10%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background: var(--bg);
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .contact h2 {
+            font-size: 3.5rem;
+            margin-bottom: 3rem;
+            letter-spacing: -0.02em;
+        }
+
+        .visit-info {
+            display: flex;
+            flex-direction: column;
+            gap: 3.5rem;
+            padding-left: 15%;
+        }
+
+        .visit-block h4 {
+            font-family: var(--f-body);
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            font-size: 8px;
+            color: var(--accent);
+            opacity: 0.6;
+            margin-bottom: 0.75rem;
+        }
+
+        .visit-block p {
+            font-family: var(--f-display);
+            font-size: 1.25rem;
+            font-style: italic;
+            color: rgba(255,255,255,0.9);
+        }
+
+        /* --- Footer --- */
+        footer {
+            padding: 6rem 10%;
+            background: var(--bg);
+            border-top: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer-logo {
+            font-family: var(--f-display);
+            font-size: 4rem;
+            opacity: 0.02;
+            color: #fff;
+            letter-spacing: 0.5em;
+            position: absolute;
+            bottom: 2rem;
+            left: 10%;
+            pointer-events: none;
+        }
+
+        .footer-main-level {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            width: 100%;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 3rem;
+            z-index: 10;
+        }
+
+        .footer-links a {
+            text-decoration: none;
+            color: rgba(255,255,255,0.4);
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        .footer-info-block {
+            display: flex;
+            gap: 4rem;
+            z-index: 10;
+        }
+
+        .footer-info-block div p:first-child {
+            margin-bottom: 0.5rem;
+            opacity: 0.3;
+        }
+
+        .footer-info-block div p:last-child {
+            font-size: 0.85rem;
+        }
+
+        /* --- Decorative --- */
+        .decor-line {
+            width: 32px;
+            height: 1px;
+            background: var(--accent);
+            opacity: 0.3;
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 1024px) {
+            header, header.scrolled { padding: 1.5rem 3rem; }
+            .section { padding: 8rem 5%; }
+            .narrative { flex-direction: column; gap: 6rem; padding: 6rem 10%; }
+            .narrative-img, .narrative-content { max-width: 100%; text-align: center; }
+            .narrative-content p { margin: 0 auto 3.5rem; }
+            .lookbook-masonry { columns: 2; }
+            .contact { grid-template-columns: 1fr; gap: 6rem; }
+            .visit-info { padding-left: 0; }
+        }
+
+        @media (max-width: 768px) {
+            header, header.scrolled { padding: 1.2rem 2rem; }
+            nav { display: none; }
+            .mobile-toggle { display: flex; }
+            .hero-content h1 { font-size: 4rem; }
+            .featured-grid { grid-template-columns: 1fr; gap: 6rem; }
+            .feature-item:nth-child(n) { grid-column: 1 / -1; padding-top: 0; margin-top: 0; }
+            .lookbook-masonry { columns: 1; }
+            .collection-overlay h2 { font-size: 3.5rem; }
+            .narrative-content h2 { font-size: 3rem; }
+            .testimonial-text { font-size: 1.75rem; }
+            footer {
+                flex-direction: column;
+                align-items: center;
+                gap: 4rem;
+                text-align: center;
+                justify-content: center;
+            }
+            .footer-main-level {
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                gap: 2rem;
+            }
+            .footer-info-block { flex-direction: column; gap: 2rem; align-items: center; }
+            .footer-links { position: static; gap: 1.5rem; flex-direction: column; align-items: center; }
+            .footer-logo { display: none; }
+        }
+
+        .legal-notice {
+            background: rgba(197, 160, 89, 0.05);
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            padding: 3rem 10%;
+            text-align: center;
+            font-size: 9px;
+            color: rgba(255, 255, 255, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            line-height: 2;
+            position: relative;
+            z-index: 20;
+        }
+
+        .legal-notice strong {
+            color: var(--accent);
+            opacity: 0.8;
+        }
+    </style>
 </head>
-<body class="bg-gray-50 flex items-center justify-center min-h-screen font-sans">
-    <div class="text-center p-8 bg-white rounded-2xl shadow-sm border border-gray-100">
-        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4 text-blue-500 text-2xl font-bold">
-            1
+<body>
+
+    <header id="header">
+        <div class="sans-caps est-text" style="opacity: 0.4;">Est. 1994</div>
+        <a href="#" class="logo">TRENDY <span>&</span> CO.</a>
+        <nav>
+            <a href="#heritage">Heritage</a>
+            <a href="#collections">The Saree Edit</a>
+            <a href="#seasonal">Seasonal</a>
+            <a href="#atelier">Atelier</a>
+        </nav>
+        <div class="mobile-toggle" id="mobile-toggle">
+            <span></span>
+            <span></span>
         </div>
-        <h1 class="text-2xl font-bold text-gray-800 mb-2">Sample Template 1</h1>
-        <p class="text-gray-500 mb-8 max-w-sm">This is a placeholder page for sample design number 1. The final design will be implemented here.</p>
-        <a href="../portfolio.html" class="inline-block px-6 py-3 bg-gray-900 text-white rounded-xl font-medium hover:bg-gray-800 transition-colors shadow-sm">
-            ← Back to Portfolio
-        </a>
+    </header>
+
+    <div class="mobile-menu" id="mobile-menu">
+        <a href="#heritage" onclick="toggleMenu()">Heritage</a>
+        <a href="#collections" onclick="toggleMenu()">The Saree Edit</a>
+        <a href="#seasonal" onclick="toggleMenu()">Seasonal</a>
+        <a href="#atelier" onclick="toggleMenu()">Atelier</a>
     </div>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-accent-glow"></div>
+            <img src="https://images.unsplash.com/photo-1583074026343-4f9de8d17204?q=80&w=2670&auto=format&fit=crop" alt="Luxury Indian Couture" class="hero-img">
+            <div class="hero-content reveal">
+                <h1 class="serif">Handloomed<br><span class="italic">Excellence</span></h1>
+                <p style="color: rgba(255,255,255,0.5); font-size: 13px; max-width: 380px; margin: 0 auto 2.5rem; font-weight: 300;">Experience the pinnacle of Indian couture. Every thread is a narrative of ancestral mastery woven into contemporary silhouettes.</p>
+                <a href="#collections" class="btn">Discover The Collection</a>
+            </div>
+        </section>
+
+        <!-- Featured Pieces -->
+        <section id="heritage" class="section featured">
+            <div class="featured-grid">
+                <div class="feature-item reveal">
+                    <div class="img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1595053801124-710892093557?q=80&w=2574&auto=format&fit=crop" alt="Handloomed Silk">
+                    </div>
+                    <div class="item-label">
+                        <h3>Handloomed Silk</h3>
+                        <span>Varanasi Edit</span>
+                    </div>
+                </div>
+                <div class="feature-item reveal" style="transition-delay: 0.2s;">
+                    <div class="img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?q=80&w=2520&auto=format&fit=crop" alt="Gold Zardozi">
+                    </div>
+                    <div class="item-label">
+                        <h3>Gold Zardozi</h3>
+                        <span>Signature Couture</span>
+                    </div>
+                </div>
+                <div class="feature-item reveal" style="transition-delay: 0.4s;">
+                    <div class="img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?q=80&w=2670&auto=format&fit=crop" alt="Bridal Crimson">
+                    </div>
+                    <div class="item-label">
+                        <h3>Bridal Crimson</h3>
+                        <span>Royal Collection</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Brand Story -->
+        <section class="narrative">
+            <div class="side-label">
+                Mumbai Maison / 2026
+            </div>
+            <div class="narrative-img reveal">
+                <img src="https://images.unsplash.com/photo-1589156206699-bc21e38c8a7d?q=80&w=2673&auto=format&fit=crop" alt="Indian Artisanal Craft" style="width: 100%; border-radius: 200px 200px 0 0; filter: grayscale(100%) opacity(0.8); border: 1px solid rgba(255,255,255,0.05);">
+            </div>
+            <div class="narrative-content reveal" style="transition-delay: 0.2s;">
+                <h4 style="text-transform: uppercase; letter-spacing: 0.3em; font-size: 0.7rem; margin-bottom: 2rem; color: var(--accent); opacity: 0.6;">Our Heritage</h4>
+                <h2 class="serif">Threaded in <br>Tradition</h2>
+                <p>We honor the ancestral masteries of Indian looms. Every stitch is a conversation between heritage and the modern silhouette, crafted in the heart of Mumbai.</p>
+                <a href="#" class="btn">Discover Our Craft</a>
+            </div>
+        </section>
+
+        <!-- Collections -->
+        <section id="collections" class="collections">
+            <div class="collection-track">
+                <div class="collection-card">
+                    <img src="https://images.unsplash.com/photo-1617627143750-d86bc21e44bb?q=80&w=2488&auto=format&fit=crop" alt="Saree Collection">
+                    <div class="collection-overlay reveal">
+                        <h2 class="serif">The Saree</h2>
+                        <a href="#" class="btn">View Collection</a>
+                    </div>
+                </div>
+                <div class="collection-card">
+                    <img src="https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?q=80&w=2564&auto=format&fit=crop" alt="Contemporary Ethnic">
+                    <div class="collection-overlay reveal">
+                        <h2 class="serif">Lehengas</h2>
+                        <a href="#" class="btn">View Collection</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lookbook -->
+        <section id="seasonal" class="lookbook section">
+            <h2 class="serif reveal" style="font-size: 4rem; text-align: center; margin-bottom: 5rem; opacity: 0.9;">Editor's Diary</h2>
+            <div class="lookbook-masonry">
+                <div class="lookbook-item reveal"><img src="https://images.unsplash.com/photo-1502014822147-1aedfb0676e0?q=80&w=2670&auto=format&fit=crop" alt="Fashion Editorial 1"></div>
+                <div class="lookbook-item reveal"><img src="https://images.unsplash.com/photo-1518733057094-95b53143d2a7?q=80&w=2670&auto=format&fit=crop" alt="Fashion Editorial 2"></div>
+                <div class="lookbook-item reveal"><img src="https://images.unsplash.com/photo-1514813482567-2858e6c00ee1?q=80&w=2670&auto=format&fit=crop" alt="Fashion Editorial 3"></div>
+                <div class="lookbook-item reveal"><img src="https://images.unsplash.com/photo-1524231827290-bc7444dd61c9?q=80&w=2670&auto=format&fit=crop" alt="Fashion Editorial 4"></div>
+                <div class="lookbook-item reveal"><img src="https://images.unsplash.com/photo-1542513217-0b0eedf7005d?q=80&w=2505&auto=format&fit=crop" alt="Fashion Editorial 5"></div>
+                <div class="lookbook-item reveal"><img src="https://images.unsplash.com/photo-1611601679655-7c8bc197f0c6?q=80&w=2670&auto=format&fit=crop" alt="Fashion Editorial 6"></div>
+            </div>
+        </section>
+
+        <!-- Testimonials -->
+        <section class="testimonials reveal">
+            <div class="testimonial-glow"></div>
+            <p class="testimonial-text">"Trendy Boutique bridges the gap between Indian regality and modern minimalism with unparalleled grace."</p>
+            <p class="client-info">Rhea Kapoor, Fashion Stylist</p>
+        </section>
+
+        <!-- Visit / Contact -->
+        <section id="atelier" class="contact">
+            <div class="reveal">
+                <h4 style="text-transform: uppercase; letter-spacing: 0.3em; font-size: 0.7rem; margin-bottom: 2rem; color: var(--accent); opacity: 0.6;">Our Spaces</h4>
+                <h2 class="serif">Private Atelier</h2>
+                <p style="font-weight: 300; max-width: 400px; margin-bottom: 2.5rem; color: rgba(255,255,255,0.5);">Experience the collection in our colonial mansion atelier. By appointment only to ensure absolute exclusivity.</p>
+                <a href="#" class="btn">Schedule A Visit</a>
+            </div>
+            <div class="visit-info reveal" style="transition-delay: 0.2s;">
+                <div class="visit-block">
+                    <h4>Location</h4>
+                    <p>Kala Ghoda, Mumbai / Mehrauli, Delhi</p>
+                </div>
+                <div class="visit-block">
+                    <h4>Hours</h4>
+                    <p>Tue to Sun: 11:00 to 20:00</p>
+                </div>
+                <div class="visit-block">
+                    <h4>Enquiries</h4>
+                    <p>atelier@trendyboutique.in</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-logo">TRENDY</div>
+        
+        <div class="footer-links">
+            <a href="#">Instagram</a>
+            <a href="#">Pinterest</a>
+        </div>
+
+        <div class="footer-main-level">
+            <div class="footer-info-block">
+                <div>
+                    <p class="sans-caps">Visit Us</p>
+                    <p class="serif italic" style="color: rgba(255,255,255,0.7);">Kala Ghoda, Mumbai / Mehrauli, Delhi</p>
+                </div>
+                <div>
+                    <p class="sans-caps">Inquiries</p>
+                    <p class="serif italic" style="color: var(--accent);">private@trendyboutique.in</p>
+                </div>
+            </div>
+
+            <div style="text-align: right; z-index: 10;">
+                <div class="serif italic" style="font-size: 0.75rem; opacity: 0.4; margin-bottom: 0.5rem;">"Fashion fades, only style remains the same."</div>
+                <div class="sans-caps" style="opacity: 0.2; font-size: 8px;">&copy; Trendy Boutique International Group</div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Built by Growziq badge -->
+    <div class="growziq-badge">
+        Built by <a href="https://growziq.in" target="_blank" rel="noopener">Growziq</a>
+    </div>
+
+    <div class="legal-notice">
+        © 2026 <a href="https://growziq.in" target="_blank" style="color:inherit;text-decoration:none;"><strong>Growziq™</strong></a> | All rights reserved. All designs, layouts, and code are intellectual property of Growziq and protected under applicable laws
+    </div>
+
+    <script>
+        // --- Smooth Scroll Polyfill for Safari/IE (optional, for best compatibility) ---
+        if ('scrollBehavior' in document.documentElement.style === false) {
+            var script = document.createElement('script');
+            script.src = 'https://cdn.jsdelivr.net/npm/smoothscroll-polyfill@0.4.4/dist/smoothscroll.min.js';
+            script.onload = function() { window.__forceSmoothScrollPolyfill__ && window.__forceSmoothScrollPolyfill__(); };
+            document.head.appendChild(script);
+        }
+
+        // --- Mobile Menu ---
+        const mobileToggle = document.getElementById('mobile-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const body = document.body;
+
+        function toggleMenu() {
+            mobileMenu.classList.toggle('active');
+            const spans = mobileToggle.querySelectorAll('span');
+            if (mobileMenu.classList.contains('active')) {
+                spans[0].style.transform = 'translateY(3.5px) rotate(45deg)';
+                spans[1].style.transform = 'translateY(-3.5px) rotate(-45deg)';
+                body.style.overflow = 'hidden';
+            } else {
+                spans[0].style.transform = 'none';
+                spans[1].style.transform = 'none';
+                body.style.overflow = 'auto';
+            }
+        }
+
+        mobileToggle.addEventListener('click', toggleMenu);
+
+        // --- Navbar Scroll Effect ---
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // --- Reveal Animations ---
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // --- Parallax for Hero ---
+        window.addEventListener('scroll', () => {
+            const heroImg = document.querySelector('.hero-img');
+            const scroll = window.pageYOffset;
+            if (heroImg) {
+                heroImg.style.transform = `translate(-50%, calc(-50% + ${scroll * 0.1}px))`;
+            }
+        });
+    </script>
 </body>
 </html>

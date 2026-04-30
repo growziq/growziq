@@ -1,22 +1,889 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth overflow-x-hidden">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sample Template 8</title>
-    <!-- Use inline Tailwind for the placeholder -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Zen Fitness | Premium Training Club</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏋️</text></svg>">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
+    <!-- Tailwind CDN for high-performance prototyping -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            blue: '#2563eb',
+                            dark: '#050505',
+                            charcoal: '#0a0a0a',
+                            gray: '#111111',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/css">
+        @import "tailwindcss";
+
+        /* Modern Typography Improvements */
+        h1, h2, h3, .font-display {
+            letter-spacing: -0.05em;
+        }
+
+        /* Hide Scrollbar */
+        * {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+            scroll-behavior: smooth;
+        }
+        *::-webkit-scrollbar {
+            display: none;
+        }
+
+        .hero-gradient {
+            background: radial-gradient(circle at 50% 30%, rgba(37, 99, 235, 0.15) 0%, rgba(5, 5, 5, 1) 70%);
+        }
+
+        .glass-nav {
+            background: rgba(5, 5, 5, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Modern Reveal System */
+        .reveal {
+            opacity: 0;
+            filter: blur(10px);
+            transform: translateY(30px) scale(0.98);
+            transition: all 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+            will-change: transform, opacity, filter;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            filter: blur(0);
+            transform: translateY(0) scale(1);
+        }
+
+        .reveal-up { transform: translateY(60px) scale(0.98); }
+        .reveal-left { transform: translateX(-60px) scale(0.98); }
+        .reveal-right { transform: translateX(60px) scale(0.98); }
+
+        /* Grainy High-End Texture */
+        .grain-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.035;
+            background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+            background-repeat: repeat;
+        }
+
+        .btn-glow {
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 20px rgba(37, 99, 235, 0.2);
+        }
+
+        .btn-glow:hover {
+            box-shadow: 0 0 40px rgba(37, 99, 235, 0.5);
+            transform: translateY(-2px);
+        }
+
+        /* Stats Counter Polish */
+        .counter-item {
+            position: relative;
+            padding-left: 1.5rem;
+            border-left: 2px solid rgba(37, 99, 235, 0.2);
+        }
+
+        /* Parallax Background Refinement */
+        .parallax-bg {
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .parallax-bg::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(5, 5, 5, 0.85); /* Overlay to keep text readable */
+            z-index: 1;
+        }
+
+        .parallax-bg > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Mobile Menu Polish */
+        #mobile-menu {
+            transition: transform 0.6s cubic-bezier(0.85, 0, 0.15, 1);
+        }
+
+        /* Card Hover Effects */
+        .card-hover-bright {
+            transition: border-color 0.4s ease, background-color 0.4s ease;
+        }
+        .card-hover-bright:hover {
+            border-color: rgba(37, 99, 235, 0.4);
+            background-color: rgba(37, 99, 235, 0.02);
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: linear-gradient(to right, #2563eb, #60a5fa);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            width: 0%;
+            transition: width 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+            box-shadow: 0 0 15px rgba(37, 99, 235, 0.5);
+        }
+    </style>
 </head>
-<body class="bg-gray-50 flex items-center justify-center min-h-screen font-sans">
-    <div class="text-center p-8 bg-white rounded-2xl shadow-sm border border-gray-100">
-        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4 text-blue-500 text-2xl font-bold">
-            8
-        </div>
-        <h1 class="text-2xl font-bold text-gray-800 mb-2">Sample Template 8</h1>
-        <p class="text-gray-500 mb-8 max-w-sm">This is a placeholder page for sample design number 8. The final design will be implemented here.</p>
-        <a href="../portfolio.html" class="inline-block px-6 py-3 bg-gray-900 text-white rounded-xl font-medium hover:bg-gray-800 transition-colors shadow-sm">
-            ← Back to Portfolio
+<body class="bg-brand-dark text-white font-sans antialiased overflow-x-hidden">
+
+    <div id="scroll-progress" class="progress-bar"></div>
+
+    <div class="grain-overlay"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-nav py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-500">
+        <a href="#" class="flex items-center space-x-3 group active:scale-95 transition-transform">
+            <div class="relative w-12 h-12 flex items-center justify-center text-3xl group-hover:scale-110 group-hover:rotate-12 transition-all duration-500">
+                🏋️
+            </div>
+            <span class="font-display font-black text-2xl tracking-tighter uppercase italic leading-none">Zen<span class="text-brand-blue">Fitness</span></span>
         </a>
+        <div class="hidden lg:flex items-center space-x-12 text-[10px] font-bold tracking-[0.2em] uppercase">
+            <a href="#programs" class="nav-link relative hover:text-brand-blue transition-colors py-2 group">
+                Programs
+                <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-brand-blue transition-all duration-300 group-hover:w-full"></span>
+            </a>
+            <a href="#why-zen" class="nav-link relative hover:text-brand-blue transition-colors py-2 group">
+                Performance
+                <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-brand-blue transition-all duration-300 group-hover:w-full"></span>
+            </a>
+            <a href="#trainers" class="nav-link relative hover:text-brand-blue transition-colors py-2 group">
+                Elite Team
+                <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-brand-blue transition-all duration-300 group-hover:w-full"></span>
+            </a>
+            <a href="#membership" class="nav-link relative hover:text-brand-blue transition-colors py-2 group">
+                Plans
+                <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-brand-blue transition-all duration-300 group-hover:w-full"></span>
+            </a>
+        </div>
+        <div class="flex items-center space-x-6">
+            <a href="#membership" class="hidden sm:block px-8 py-3 bg-brand-blue text-white font-black uppercase tracking-widest text-[10px] btn-glow hover:scale-105 active:scale-95 transition-all">
+                JOIN NOW
+            </a>
+            <!-- Mobile Menu Toggle -->
+            <button id="mobile-menu-toggle" class="lg:hidden relative w-12 h-12 flex items-center justify-center focus:outline-none z-50 group">
+                <div class="flex flex-col justify-between w-6 h-4 transition-all duration-500">
+                    <span class="w-full h-0.5 bg-white transform origin-left transition-all duration-500 group-hover:bg-brand-blue"></span>
+                    <span class="w-full h-0.5 bg-white transition-all duration-500 group-hover:bg-brand-blue"></span>
+                    <span class="w-full h-0.5 bg-white transform origin-left transition-all duration-500 group-hover:bg-brand-blue"></span>
+                </div>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 z-40 bg-brand-dark/95 backdrop-blur-2xl flex flex-col items-center justify-center transform translate-x-full transition-transform duration-500 lg:hidden">
+        <div class="flex flex-col items-center space-y-8 text-center">
+            <a href="#programs" class="mobile-link text-4xl font-display font-black uppercase italic tracking-tighter hover:text-brand-blue transition-colors">Programs</a>
+            <a href="#why-zen" class="mobile-link text-4xl font-display font-black uppercase italic tracking-tighter hover:text-brand-blue transition-colors">Performance</a>
+            <a href="#trainers" class="mobile-link text-4xl font-display font-black uppercase italic tracking-tighter hover:text-brand-blue transition-colors">Elite Team</a>
+            <a href="#membership" class="mobile-link text-4xl font-display font-black uppercase italic tracking-tighter hover:text-brand-blue transition-colors">Plans</a>
+            <div class="pt-8 w-full px-12">
+                <a href="#membership" class="mobile-link block w-full py-6 bg-brand-blue text-white font-black uppercase tracking-[0.2em] text-xs shadow-2xl">
+                    JOIN CLUB
+                </a>
+            </div>
+        </div>
     </div>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center px-6 md:px-12 bg-brand-dark pt-20 overflow-hidden hero-gradient">
+        <!-- Decorative geometric background -->
+        <div class="absolute inset-0 opacity-10 pointer-events-none select-none overflow-hidden">
+            <svg class="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                <polygon points="100,0 100,100 20,100" fill="#2563EB" />
+            </svg>
+        </div>
+        
+            <div class="container mx-auto grid grid-cols-1 gap-1 items-stretch relative z-10 md:grid-cols-12">
+                <div class="col-span-1 md:col-span-12 lg:col-span-8 py-12 md:py-20 lg:py-32 reveal reveal-up">
+                <div class="inline-block px-3 py-1 border border-brand-blue text-brand-blue text-[10px] font-bold uppercase tracking-[0.3em] mb-8">
+                    High Performance Facility
+                </div>
+                <h1 class="font-display font-black text-4xl sm:text-6xl md:text-8xl lg:text-[110px] tracking-tighter leading-[0.9] md:leading-[0.8] uppercase italic mb-8">
+                    The Peak of <br>
+                    <span class="text-brand-blue">Performance.</span>
+                </h1>
+                <p class="text-lg md:text-xl text-gray-400 max-w-md leading-relaxed font-light mb-12">
+                    Experience elite training methodologies in a high-performance environment designed for results. World-class equipment, elite coaching, and a driven community.
+                </p>
+                <div class="flex items-center gap-8 mb-16">
+                    <a href="#membership" class="px-6 sm:px-10 h-16 flex items-center bg-white text-black font-black uppercase tracking-widest hover:bg-brand-blue hover:text-white transition-all transform active:scale-95 shadow-xl text-xs sm:text-sm">
+                        Start Training
+                    </a>
+                    <div class="flex items-center gap-3 group cursor-pointer">
+                        <div class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center group-hover:border-brand-blue transition-colors">
+                            <div class="w-0 h-0 border-t-[6px] border-t-transparent border-l-[10px] border-l-white border-b-[6px] border-b-transparent ml-1"></div>
+                        </div>
+                        <span class="text-[10px] font-bold uppercase tracking-widest text-white/60 group-hover:text-white transition-colors">Watch Intro</span>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 pt-8 border-t border-white/10">
+                    <div>
+                        <span class="block font-display font-black text-3xl sm:text-4xl italic mb-1 counter" data-target="2500">0</span>
+                        <span class="text-[10px] uppercase font-bold text-gray-500 tracking-widest leading-tight">Active Members</span>
+                    </div>
+                    <div>
+                        <span class="block font-display font-black text-3xl sm:text-4xl italic mb-1 counter" data-target="45">0</span>
+                        <span class="text-[10px] uppercase font-bold text-gray-500 tracking-widest leading-tight">Elite Coaches</span>
+                    </div>
+                    <div>
+                        <span class="block font-display font-black text-3xl sm:text-4xl italic mb-1 counter" data-target="150">0</span>
+                        <span class="text-[10px] uppercase font-bold text-gray-500 tracking-widest leading-tight">Modern Machines</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hidden lg:flex col-span-5 relative py-20 reveal reveal-up" style="transition-delay: 200ms">
+                <div class="w-full bg-[#111111] p-8 flex flex-col border border-white/5">
+                    <div class="flex justify-between items-end mb-8">
+                        <h2 class="text-2xl font-black uppercase italic tracking-tighter">Peak Performance</h2>
+                        <span class="text-[10px] font-bold uppercase text-brand-blue tracking-widest">Zen Floor 01</span>
+                    </div>
+                    <div class="flex-1 rounded-sm overflow-hidden relative group">
+                        <img 
+                            src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?auto=format&fit=crop&q=80&w=2070" 
+                            alt="Zen Gym Interior" 
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                            referrerpolicy="no-referrer"
+                        >
+                        <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/80 to-transparent"></div>
+                    </div>
+                    <div class="mt-8 bg-brand-blue p-6 flex items-center justify-between shadow-lg">
+                        <div>
+                            <div class="text-[10px] font-bold uppercase tracking-widest mb-1 text-black/60">Current Special</div>
+                            <div class="text-xl font-black uppercase text-black italic leading-none">Elite Pass</div>
+                        </div>
+                        <div class="text-right text-black">
+                            <div class="text-2xl font-black italic">₹5,999<span class="text-xs font-normal not-italic opacity-60 uppercase">/mo</span></div>
+                            <div class="text-[9px] font-bold uppercase tracking-tighter">No contract</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Programs -->
+    <section id="programs" class="py-24 bg-brand-gray text-white parallax-bg overflow-hidden px-6 md:px-12 border-y border-white/5" style="background-image: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=2070');">
+        <div class="container mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-20 space-y-6 md:space-y-0 reveal reveal-up">
+                <div class="max-w-2xl">
+                    <h2 class="font-display font-black text-5xl md:text-7xl tracking-tighter leading-none uppercase italic mb-8">
+                        Precision <br> <span class="text-white/20">Programs.</span>
+                    </h2>
+                    <p class="text-xl text-gray-400 font-light max-w-lg">
+                        Pathways engineered for specific physiological adaptations and elite performance goals.
+                    </p>
+                </div>
+                <div>
+                     <a href="#" class="px-8 py-4 bg-brand-blue text-white font-bold rounded-sm hover:bg-blue-700 transition-colors uppercase tracking-widest text-xs flex items-center space-x-2">
+                        <span>View All Categories</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </a>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-1 bg-white/5 border border-white/5">
+                <!-- Program 1 -->
+                <div class="group relative bg-brand-charcoal overflow-hidden reveal reveal-up active">
+                    <div class="h-[450px] overflow-hidden opacity-60 group-hover:opacity-100 transition-opacity">
+                        <img 
+                            src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=2070" 
+                            alt="Strength & Power" 
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                            referrerpolicy="no-referrer"
+                        >
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/20 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-8 text-white">
+                        <span class="text-[10px] font-black uppercase tracking-[0.3em] text-brand-blue mb-2 block">Performance</span>
+                        <h3 class="font-display font-black text-2xl uppercase italic mb-4">Strength & <br>Power</h3>
+                        <p class="text-[11px] text-gray-400 font-light line-clamp-2 mb-6 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500">
+                            Compound movements and progressive overload designed to maximize neuromuscular recruitment.
+                        </p>
+                        <div class="h-0.5 w-0 bg-brand-blue group-hover:w-full transition-all duration-700"></div>
+                    </div>
+                </div>
+
+                <!-- Program 2 -->
+                <div class="group relative bg-brand-charcoal overflow-hidden reveal reveal-up active" style="transition-delay: 100ms">
+                    <div class="h-[450px] overflow-hidden opacity-60 group-hover:opacity-100 transition-opacity">
+                        <img 
+                            src="https://images.unsplash.com/photo-1541600391308-e8ce528bf8fc?auto=format&fit=crop&q=80&w=2070" 
+                            alt="Endurance Engine" 
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                            referrerpolicy="no-referrer"
+                        >
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/20 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-8 text-white">
+                        <span class="text-[10px] font-black uppercase tracking-[0.3em] text-brand-blue mb-2 block">Metabolic</span>
+                        <h3 class="font-display font-black text-2xl uppercase italic mb-4">Cardio <br>Endurance</h3>
+                        <p class="text-[11px] text-gray-400 font-light line-clamp-2 mb-6 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500">
+                            VO2 max optimization through high-tech monitoring and adaptive resistance machines.
+                        </p>
+                        <div class="h-0.5 w-0 bg-brand-blue group-hover:w-full transition-all duration-700"></div>
+                    </div>
+                </div>
+
+                <!-- Program 3 -->
+                <div class="group relative bg-brand-charcoal overflow-hidden reveal reveal-up active" style="transition-delay: 200ms">
+                    <div class="h-[450px] overflow-hidden opacity-60 group-hover:opacity-100 transition-opacity">
+                        <img 
+                            src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&q=80&w=2070" 
+                            alt="HIIT Ops" 
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                            referrerpolicy="no-referrer"
+                        >
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/20 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-8 text-white">
+                        <span class="text-[10px] font-black uppercase tracking-[0.3em] text-brand-blue mb-2 block">Intensity</span>
+                        <h3 class="font-display font-black text-2xl uppercase italic mb-4">Zen <br>HIIT</h3>
+                        <p class="text-[11px] text-gray-400 font-light line-clamp-2 mb-6 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500">
+                            Uncompromising high-intensity interval training that pushes past mental and physical barriers.
+                        </p>
+                        <div class="h-0.5 w-0 bg-brand-blue group-hover:w-full transition-all duration-700"></div>
+                    </div>
+                </div>
+
+                <!-- Program 4 -->
+                <div class="group relative bg-brand-charcoal overflow-hidden reveal reveal-up active" style="transition-delay: 300ms">
+                    <div class="h-[450px] overflow-hidden opacity-60 group-hover:opacity-100 transition-opacity">
+                        <img 
+                            src="https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?auto=format&fit=crop&q=80&w=2070" 
+                            alt="Private Coaching" 
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                            referrerpolicy="no-referrer"
+                        >
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/20 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-8 text-white">
+                        <span class="text-[10px] font-black uppercase tracking-[0.3em] text-brand-blue mb-2 block">Bespoke</span>
+                        <h3 class="font-display font-black text-2xl uppercase italic mb-4">Personal <br>Blueprint</h3>
+                        <p class="text-[11px] text-gray-400 font-light line-clamp-2 mb-6 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500">
+                            One-on-one integration with master trainers for targeted, scientific programming.
+                        </p>
+                        <div class="h-0.5 w-0 bg-brand-blue group-hover:w-full transition-all duration-700"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Zen Fitness -->
+    <section id="why-zen" class="py-24 bg-brand-dark parallax-bg overflow-hidden relative px-6 md:px-12" style="background-image: url('https://images.unsplash.com/photo-1540497077202-7c8a3999166f?auto=format&fit=crop&q=80&w=2070');">
+        <div class="container mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+                <div class="relative reveal reveal-up">
+                    <div class="absolute -top-10 -left-10 w-32 h-32 bg-brand-blue/20 blur-3xl rounded-full"></div>
+                    <div class="relative aspect-square md:aspect-auto md:h-[600px] overflow-hidden group">
+                        <img 
+                            src="https://images.unsplash.com/photo-1593079831268-3381b0db4a77?auto=format&fit=crop&q=80&w=2069" 
+                            alt="Gym Equipment" 
+                            class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                            referrerpolicy="no-referrer"
+                        >
+                        <div class="absolute inset-0 bg-brand-dark/40 border border-white/5"></div>
+                        <div class="absolute bottom-10 left-10 p-6 bg-brand-blue text-black font-black uppercase italic tracking-tighter text-2xl shadow-2xl">
+                            Est. 2024
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="reveal reveal-up" style="transition-delay: 200ms">
+                    <span class="text-[10px] font-black uppercase tracking-[0.3em] text-brand-blue mb-4 block">Engineered for Results</span>
+                    <h2 class="font-display font-black text-5xl md:text-7xl tracking-tighter leading-none uppercase italic mb-8">
+                        The Zen <br> Advantage.
+                    </h2>
+                    <p class="text-xl text-gray-400 font-light leading-relaxed mb-12">
+                        We strip away the noise and focus on the science of human performance. Our facility is curated to provide the most efficient path to your peak state.
+                    </p>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                        <div class="group">
+                            <div class="w-12 h-12 bg-white/5 border border-white/10 flex items-center justify-center mb-6 group-hover:bg-brand-blue transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-brand-blue group-hover:text-white transition-colors"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/></svg>
+                            </div>
+                            <h4 class="text-lg font-black uppercase italic mb-3">Biometric Tech</h4>
+                            <p class="text-sm text-gray-500 font-light leading-relaxed">Integrated tracking systems to measure every millisecond of effort.</p>
+                        </div>
+                        <div class="group">
+                            <div class="w-12 h-12 bg-white/5 border border-white/10 flex items-center justify-center mb-6 group-hover:bg-brand-blue transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-brand-blue group-hover:text-white transition-colors"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                            </div>
+                            <h4 class="text-lg font-black uppercase italic mb-3">Scientific Recov</h4>
+                            <p class="text-sm text-gray-500 font-light leading-relaxed">Post-training protocols including cryotherapy and thermal suites.</p>
+                        </div>
+                        <div class="group">
+                            <div class="w-12 h-12 bg-white/5 border border-white/10 flex items-center justify-center mb-6 group-hover:bg-brand-blue transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-brand-blue group-hover:text-white transition-colors"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+                            </div>
+                            <h4 class="text-lg font-black uppercase italic mb-3">Prime Location</h4>
+                            <p class="text-sm text-gray-500 font-light leading-relaxed">Centrally located with secure, 24/7 biometric member access.</p>
+                        </div>
+                        <div class="group">
+                            <div class="w-12 h-12 bg-white/5 border border-white/10 flex items-center justify-center mb-6 group-hover:bg-brand-blue transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-brand-blue group-hover:text-white transition-colors"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><circle cx="19" cy="11" r="3"/></svg>
+                            </div>
+                            <h4 class="text-lg font-black uppercase italic mb-3">Elite Community</h4>
+                            <p class="text-sm text-gray-500 font-light leading-relaxed">Join a network of high-achievers and professional athletes.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trainers -->
+    <section id="trainers" class="py-24 bg-brand-dark px-6 md:px-12">
+        <div class="container mx-auto">
+            <div class="text-center mb-20 reveal reveal-up">
+                <span class="text-[10px] font-black uppercase tracking-[0.3em] text-brand-blue mb-4 block">Master Coaches</span>
+                <h2 class="font-display font-black text-5xl md:text-8xl tracking-tight leading-none uppercase italic">
+                    The Elite <span class="text-white/20">Team.</span>
+                </h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-1 bg-white/5 border border-white/5">
+                <!-- Trainer 1 -->
+                <div class="group relative bg-brand-charcoal overflow-hidden reveal reveal-up active">
+                    <div class="h-[600px] overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-700">
+                        <img 
+                            src="https://images.unsplash.com/photo-1594381898411-846e7d193883?auto=format&fit=crop&q=80&w=1974" 
+                            alt="Coach Marcus" 
+                            class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                            referrerpolicy="no-referrer"
+                        >
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-transparent to-transparent opacity-80"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-10 translate-y-6 group-hover:translate-y-0 transition-transform duration-500">
+                        <div class="text-[10px] font-black uppercase tracking-widest text-brand-blue mb-2">Scientific Director</div>
+                        <h3 class="font-display font-black text-3xl uppercase italic mb-4">Marcus Vane</h3>
+                        <div class="flex space-x-4 opacity-0 group-hover:opacity-100 transition-opacity delay-100">
+                            <a href="#" class="text-white hover:text-brand-blue"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg></a>
+                            <a href="#" class="text-white hover:text-brand-blue"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trainer 2 -->
+                <div class="group relative bg-brand-charcoal overflow-hidden reveal reveal-up active" style="transition-delay: 200ms">
+                    <div class="h-[600px] overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-700">
+                        <img 
+                            src="https://images.unsplash.com/photo-1548690312-e3b507d1712?auto=format&fit=crop&q=80&w=1974" 
+                            alt="Coach Elena" 
+                            class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                            referrerpolicy="no-referrer"
+                        >
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-transparent to-transparent opacity-80"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-10 translate-y-6 group-hover:translate-y-0 transition-transform duration-500">
+                        <div class="text-[10px] font-black uppercase tracking-widest text-brand-blue mb-2">Performance Expert</div>
+                        <h3 class="font-display font-black text-3xl uppercase italic mb-4">Elena Vance</h3>
+                        <div class="flex space-x-4 opacity-0 group-hover:opacity-100 transition-opacity delay-100">
+                            <a href="#" class="text-white hover:text-brand-blue"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg></a>
+                            <a href="#" class="text-white hover:text-brand-blue"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trainer 3 -->
+                <div class="group relative bg-brand-charcoal overflow-hidden reveal reveal-up active" style="transition-delay: 400ms">
+                    <div class="h-[600px] overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-700">
+                        <img 
+                            src="https://images.unsplash.com/photo-1597347343908-2937e7dcc560?auto=format&fit=crop&q=80&w=2070" 
+                            alt="Coach David" 
+                            class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                            referrerpolicy="no-referrer"
+                        >
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-transparent to-transparent opacity-80"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-10 translate-y-6 group-hover:translate-y-0 transition-transform duration-500">
+                        <div class="text-[10px] font-black uppercase tracking-widest text-brand-blue mb-2">Strength Specialist</div>
+                        <h3 class="font-display font-black text-3xl uppercase italic mb-4">Jaxson Reed</h3>
+                        <div class="flex space-x-4 opacity-0 group-hover:opacity-100 transition-opacity delay-100">
+                            <a href="#" class="text-white hover:text-brand-blue"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg></a>
+                            <a href="#" class="text-white hover:text-brand-blue"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Visual Divider (Parallax) -->
+    <section class="h-[500px] parallax-bg relative flex items-center justify-center" style="background-image: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=2070');">
+        <div class="absolute inset-0 bg-brand-dark/60"></div>
+        <div class="relative text-center reveal reveal-up px-6">
+            <h2 class="font-display font-black text-6xl md:text-9xl tracking-tighter uppercase italic text-white/20">Forge Your Destiny.</h2>
+        </div>
+    </section>
+
+    <!-- Membership -->
+    <section id="membership" class="py-24 bg-brand-dark px-6 md:px-12 border-y border-white/5 relative">
+        <div class="container mx-auto">
+            <div class="text-center mb-20 reveal reveal-up">
+                <span class="text-[10px] font-black uppercase tracking-[0.3em] text-brand-blue mb-4 block">Select Tier</span>
+                <h2 class="font-display font-black text-5xl md:text-8xl tracking-tight leading-none uppercase italic">
+                    The <span class="text-white/20">Protocols.</span>
+                </h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-1 bg-white/5 border border-white/5">
+                <!-- Plan 1 -->
+                <div class="p-12 bg-brand-charcoal hover:bg-brand-gray transition-colors reveal reveal-up flex flex-col justify-between group">
+                    <div>
+                        <div class="w-12 h-0.5 bg-brand-blue mb-8"></div>
+                        <h3 class="font-display font-black text-2xl uppercase italic mb-2 tracking-tighter">Essential</h3>
+                        <div class="flex items-baseline mb-8">
+                            <span class="text-5xl font-black tracking-tighter italic">₹4,999</span>
+                            <span class="text-gray-500 text-[10px] font-bold uppercase tracking-widest ml-2">/ month</span>
+                        </div>
+                        <ul class="space-y-4 mb-12">
+                            <li class="flex items-center space-x-3 text-[11px] font-bold uppercase tracking-widest text-gray-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="text-brand-blue"><path d="M20 6L9 17l-5-5"/></svg>
+                                <span>24/7 Facility Access</span>
+                            </li>
+                            <li class="flex items-center space-x-3 text-[11px] font-bold uppercase tracking-widest text-gray-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="text-brand-blue"><path d="M20 6L9 17l-5-5"/></svg>
+                                <span>Basic Bio-Tracking</span>
+                            </li>
+                            <li class="flex items-center space-x-3 text-[11px] font-bold uppercase tracking-widest text-gray-600 line-through">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                                <span>Recovery Spa Entry</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <button class="w-full py-5 bg-white text-black font-black uppercase tracking-[0.2em] text-[10px] hover:bg-brand-blue hover:text-white transition-all transform active:scale-95 shadow-xl">Initiate</button>
+                </div>
+
+                <!-- Plan 2 (Featured) -->
+                <div class="p-12 bg-brand-blue text-black reveal reveal-up flex flex-col justify-between relative shadow-2xl transform lg:-translate-y-4 z-10">
+                    <div class="absolute top-0 right-0 bg-black text-white px-4 py-1 text-[10px] font-black uppercase tracking-widest">Preferred</div>
+                    <div>
+                        <div class="w-12 h-0.5 bg-black mb-8"></div>
+                        <h3 class="font-display font-black text-2xl uppercase italic mb-2 tracking-tighter">Performance</h3>
+                        <div class="flex items-baseline mb-8">
+                            <span class="text-5xl font-black tracking-tighter italic">₹9,999</span>
+                            <span class="text-black/60 text-[10px] font-bold uppercase tracking-widest ml-2">/ month</span>
+                        </div>
+                        <ul class="space-y-4 mb-12">
+                            <li class="flex items-center space-x-3 text-[11px] font-bold uppercase tracking-widest text-black/80">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="text-black"><path d="M20 6L9 17l-5-5"/></svg>
+                                <span>Advanced Bio-Stack</span>
+                            </li>
+                            <li class="flex items-center space-x-3 text-[11px] font-bold uppercase tracking-widest text-black/80">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="text-black"><path d="M20 6L9 17l-5-5"/></svg>
+                                <span>Unlimited Classes</span>
+                            </li>
+                            <li class="flex items-center space-x-3 text-[11px] font-bold uppercase tracking-widest text-black/80">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="text-black"><path d="M20 6L9 17l-5-5"/></svg>
+                                <span>Full Recovery Spa</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <button class="w-full py-5 bg-black text-white font-black uppercase tracking-[0.2em] text-[10px] hover:bg-white hover:text-black transition-all transform active:scale-95 shadow-xl">Engage Tier</button>
+                </div>
+
+                <!-- Plan 3 -->
+                <div class="p-12 bg-brand-charcoal hover:bg-brand-gray transition-colors reveal reveal-up flex flex-col justify-between group">
+                    <div>
+                        <div class="w-12 h-0.5 bg-brand-blue mb-8"></div>
+                        <h3 class="font-display font-black text-2xl uppercase italic mb-2 tracking-tighter">Zen Pro</h3>
+                        <div class="flex items-baseline mb-8">
+                            <span class="text-5xl font-black tracking-tighter italic">₹19,999</span>
+                            <span class="text-gray-500 text-[10px] font-bold uppercase tracking-widest ml-2">/ month</span>
+                        </div>
+                        <ul class="space-y-4 mb-12">
+                            <li class="flex items-center space-x-3 text-[11px] font-bold uppercase tracking-widest text-gray-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="text-brand-blue"><path d="M20 6L9 17l-5-5"/></svg>
+                                <span>Master Coaching x4</span>
+                            </li>
+                            <li class="flex items-center space-x-3 text-[11px] font-bold uppercase tracking-widest text-gray-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="text-brand-blue"><path d="M20 6L9 17l-5-5"/></svg>
+                                <span>Full Medical Recovery</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <button class="w-full py-5 bg-white text-black font-black uppercase tracking-[0.2em] text-[10px] hover:bg-brand-blue hover:text-white transition-all transform active:scale-95 shadow-xl">Pro Access</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-24 bg-brand-gray px-6 md:px-12 overflow-hidden border-b border-white/5">
+        <div class="container mx-auto">
+            <div class="flex flex-col lg:flex-row items-center gap-16">
+                <div class="w-full lg:w-1/2 flex flex-col space-y-8 reveal reveal-up">
+                    <span class="text-brand-blue font-black uppercase tracking-[0.4em] text-[10px] italic">Athlete Feedback</span>
+                    <h2 class="font-display font-black text-5xl md:text-8xl tracking-tighter uppercase italic leading-none">Proven <br> <span class="text-white/20">Impact.</span></h2>
+                    <p class="text-xl text-gray-400 font-light max-w-full md:max-w-sm">Quantifiable progress from our high-performance community.</p>
+                </div>
+                <div class="w-full lg:w-1/2 space-y-1">
+                    <div class="bg-brand-charcoal p-12 border border-white/5 reveal reveal-up active">
+                        <div class="text-brand-blue text-4xl font-display font-black mb-8 italic">"THE ONLY FACILITY THAT ACTUALLY TREATS PERFORMANCE AS A SCIENCE."</div>
+                        <div class="flex items-center space-x-6">
+                            <div class="w-12 h-12 rounded-full overflow-hidden border border-brand-blue">
+                                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200" alt="Athlete" class="w-full h-full object-cover" referrerpolicy="no-referrer">
+                            </div>
+                            <div>
+                                <h4 class="font-black uppercase italic tracking-tighter">Sarah Jenkins</h4>
+                                <span class="text-[10px] text-gray-500 uppercase font-bold tracking-widest">NCAA Track Athlete</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="py-32 bg-brand-dark px-6 md:px-12 text-center overflow-hidden relative">
+        <div class="absolute inset-0 hero-gradient opacity-40"></div>
+        <div class="max-w-4xl mx-auto relative z-10 reveal reveal-up">
+            <span class="text-[10px] font-black uppercase tracking-[0.4em] text-brand-blue mb-8 block">Final Step</span>
+            <h2 class="font-display font-black text-6xl md:text-[120px] tracking-tighter uppercase italic leading-[0.8] mb-16">
+                Redefine <br>Your <span class="text-brand-blue">Peak.</span>
+            </h2>
+            <div class="flex flex-col sm:flex-row justify-center items-stretch gap-6">
+                <a href="#membership" class="px-8 sm:px-12 py-6 bg-white text-black font-black text-[10px] sm:text-sm uppercase tracking-[0.3em] hover:bg-brand-blue hover:text-white transition-all transform active:scale-95 shadow-xl">
+                    Join The Club
+                </a>
+                <a href="#" class="px-8 sm:px-12 py-6 border border-white/20 text-white font-black text-[10px] sm:text-sm uppercase tracking-[0.3em] hover:bg-white hover:text-black transition-all">
+                    Tour Facility
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-brand-dark pt-24 pb-32 px-6 md:px-12 border-t border-white/5">
+        <div class="container mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-16 mb-20">
+                <div class="md:col-span-4 space-y-10">
+                    <div class="flex items-center space-x-3 group cursor-default">
+                        <div class="w-12 h-12 flex items-center justify-center text-3xl group-hover:scale-110 transition-all duration-500">
+                            🏋️
+                        </div>
+                        <span class="font-display font-black text-2xl tracking-tighter uppercase italic leading-none">Zen<span class="text-brand-blue">Fitness</span></span>
+                    </div>
+                    <p class="text-gray-500 font-light leading-relaxed text-sm">
+                        Redefining human performance through scientific training protocols, advanced bio-tracking, and elite athletic engineering.
+                    </p>
+                    <div class="flex space-x-6">
+                        <a href="#" class="w-10 h-10 border border-white/5 flex items-center justify-center text-gray-500 hover:text-brand-blue hover:border-brand-blue transition-all"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg></a>
+                        <a href="#" class="w-10 h-10 border border-white/5 flex items-center justify-center text-gray-500 hover:text-brand-blue hover:border-brand-blue transition-all"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg></a>
+                        <a href="#" class="w-10 h-10 border border-white/5 flex items-center justify-center text-gray-500 hover:text-brand-blue hover:border-brand-blue transition-all"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+                    </div>
+                </div>
+                
+                <div class="md:col-span-2">
+                    <h4 class="font-display font-black uppercase text-[10px] tracking-[0.3em] mb-10 text-white">Facility</h4>
+                    <ul class="space-y-4 text-[11px] text-gray-500 font-black uppercase tracking-widest italic">
+                        <li><a href="#" class="hover:text-brand-blue transition-colors">Elite Floor</a></li>
+                        <li><a href="#" class="hover:text-brand-blue transition-colors">Recovery Lab</a></li>
+                        <li><a href="#" class="hover:text-brand-blue transition-colors">Zen Fuel</a></li>
+                        <li><a href="#" class="hover:text-brand-blue transition-colors">Gear Store</a></li>
+                    </ul>
+                </div>
+                
+                <div class="md:col-span-3">
+                    <h4 class="font-display font-black uppercase text-[10px] tracking-[0.3em] mb-10 text-white">Location</h4>
+                    <p class="text-sm text-gray-500 font-light mb-4">42 Performance Plaza<br>Bandra West, Mumbai 400050</p>
+                    <p class="text-sm font-black italic text-white uppercase tracking-tighter">24/7 BIOMETRIC ACCESS</p>
+                </div>
+
+                 <div class="md:col-span-3">
+                    <h4 class="font-display font-black uppercase text-[10px] tracking-[0.3em] mb-10 text-white">Contact</h4>
+                    <p class="text-xl font-black italic text-brand-blue uppercase tracking-tighter mb-4">+91 98888-ZENFIT</p>
+                    <p class="text-sm text-gray-500 font-light">info@zenfitness.com</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Legal Footer -->
+    <div class="bg-black py-12 px-6 md:px-12 border-t border-white/5">
+        <div class="container mx-auto flex flex-col items-center text-center text-[10px] text-gray-700 font-black tracking-[0.3em] uppercase gap-8">
+            <p class="max-w-3xl leading-loose">
+                &copy; 2026 <a href="https://growziq.in" target="_blank" class="text-brand-blue hover:underline transition-all">Growziq</a>™ | All rights reserved. 
+                All designs, layouts, and code are intellectual property of <a href="https://growziq.in" target="_blank" class="text-brand-blue hover:underline transition-all">Growziq</a> and protected under applicable laws.
+            </p>
+            <div class="flex space-x-10">
+                <a href="#" class="hover:text-brand-blue transition-colors">Privacy Protocol</a>
+                <a href="#" class="hover:text-brand-blue transition-colors">Terms</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Growziq Badge -->
+    <a href="https://growziq.in" target="_blank" class="fixed bottom-6 right-6 z-[60] bg-brand-blue text-white font-black uppercase italic tracking-widest text-[10px] px-5 py-3 flex items-center gap-2 shadow-[0_0_30px_rgba(37,99,235,0.3)] border border-brand-blue/20 hover:scale-110 hover:bg-black hover:text-brand-blue hover:border-brand-blue transition-all duration-300 transform active:scale-95 group">
+        <span>Built by Growziq</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-0.5 transition-transform"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+    </a>
+
+    <script>
+        // Scroll Progress
+        window.onscroll = function() {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            let scrolled = (winScroll / height) * 100;
+            const progress = document.getElementById("scroll-progress");
+            if (progress) progress.style.width = scrolled + "%";
+        };
+
+        // Advanced Reveal System
+        const revealOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    // Once revealed, no need to observe again unless you want repeat animations
+                    // revealObserver.unobserve(entry.target); 
+                }
+            });
+        }, revealOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+        // Stats Counter Animation
+        const startCounters = (container) => {
+             const counters = container.querySelectorAll('.counter');
+             counters.forEach(counter => {
+                const target = parseInt(counter.dataset.target);
+                let count = 0;
+                const duration = 2000; // 2 seconds
+                const frameDuration = 1000 / 60;
+                const totalFrames = Math.round(duration / frameDuration);
+                const increment = target / totalFrames;
+                
+                let frame = 0;
+                const animate = () => {
+                    frame++;
+                    count = increment * frame;
+                    if (frame < totalFrames) {
+                        counter.innerText = Math.ceil(count);
+                        requestAnimationFrame(animate);
+                    } else {
+                        counter.innerText = target + "+";
+                    }
+                };
+                animate();
+            });
+        };
+
+        const statsSection = document.querySelector('.counter')?.closest('div.grid');
+        if (statsSection) {
+            const statsObserver = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting) {
+                    startCounters(entries[0].target);
+                    statsObserver.unobserve(entries[0].target);
+                }
+            }, { threshold: 0.5 });
+            statsObserver.observe(statsSection);
+        }
+
+        // Mobile Menu Toggle Logic
+        const menuToggle = document.getElementById('mobile-menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        const body = document.body;
+        const toggleSpans = menuToggle?.querySelectorAll('span');
+
+        let isMenuOpen = false;
+
+        const toggleMenu = () => {
+            isMenuOpen = !isMenuOpen;
+            
+            if (isMenuOpen) {
+                mobileMenu.classList.remove('translate-x-full');
+                if (toggleSpans) {
+                    toggleSpans[0].classList.add('rotate-45', 'translate-y-2.5', 'translate-x-1');
+                    toggleSpans[1].classList.add('opacity-0', 'scale-x-0');
+                    toggleSpans[2].classList.add('-rotate-45', '-translate-y-2.5', 'translate-x-1');
+                }
+                body.classList.add('overflow-hidden');
+            } else {
+                mobileMenu.classList.add('translate-x-full');
+                if (toggleSpans) {
+                    toggleSpans[0].classList.remove('rotate-45', 'translate-y-2.5', 'translate-x-1');
+                    toggleSpans[1].classList.remove('opacity-0', 'scale-x-0');
+                    toggleSpans[2].classList.remove('-rotate-45', '-translate-y-2.5', 'translate-x-1');
+                }
+                body.classList.remove('overflow-hidden');
+            }
+        };
+
+        if (menuToggle) menuToggle.addEventListener('click', toggleMenu);
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if(isMenuOpen) toggleMenu();
+            });
+        });
+
+        // Add magnetic feeling to buttons (small scale on hover)
+        document.querySelectorAll('a, button').forEach(el => {
+            if (el.classList.contains('px-10') || el.classList.contains('py-5')) {
+                el.classList.add('transition-all', 'duration-300', 'hover:scale-105', 'active:scale-95');
+            }
+        });
+
+        // Subtle Parallax Handler
+        window.addEventListener('scroll', () => {
+            const parallaxElements = document.querySelectorAll('.parallax-bg');
+            const scrolled = window.pageYOffset;
+            
+            parallaxElements.forEach(el => {
+                const limit = el.offsetTop + el.offsetHeight;
+                if (scrolled > el.offsetTop - window.innerHeight && scrolled < limit) {
+                    const speed = 0.4;
+                    const yPos = (scrolled - el.offsetTop) * speed;
+                    el.style.backgroundPositionY = `${yPos}px`;
+                }
+            });
+        });
+
+    </script>
 </body>
 </html>
