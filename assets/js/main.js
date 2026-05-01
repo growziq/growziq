@@ -9,11 +9,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ─── Routing Map ─────────────────────────────────────────────────────────
     const routes = {
-        home:      '/index.html',
-        services:  '/services.html',
-        portfolio: '/portfolio.html',
-        about:     '/about.html',
-        contact:   '/contact.html'
+        home:      '/',
+        services:  '/services',
+        portfolio: '/portfolio',
+        about:     '/about',
+        contact:   '/contact'
     };
 
     const pageToView = {
@@ -427,7 +427,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const mockup     = document.querySelector('.browser-mockup');
         if (!urlElement || !mockup) return;
 
-        const text = "yourbusiness.com";
+        const text = "yourbusiness.in";
 
         function runHeroCycle() {
             // Reset state
