@@ -4,6 +4,11 @@ import { resolve } from 'path';
 import { cloudflare } from "@cloudflare/vite-plugin";
 
 export default defineConfig({
+  server: {
+    host: true,
+    port: 5173,
+    allowedHosts: true,
+  },
   plugins: [cloudflare()],
   build: {
     rollupOptions: {
